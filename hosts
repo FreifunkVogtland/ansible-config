@@ -1,0 +1,17 @@
+[gk-vpns]
+vpn01 ansible_host=vpn01.freifunk-vogtland.net
+vpn02 ansible_host=vpn02.freifunk-vogtland.net
+
+[hetzner-vpns]
+vpn03 ansible_host=vpn03.freifunk-vogtland.net
+vpn04 ansible_host=vpn04.freifunk-vogtland.net
+
+[vpns:children]
+gk-vpns
+hetzner-vpns
+
+[gk-firmwares]
+build01 ansible_host=firmware.freifunk-vogtland.net
+
+[firmwares:children]
+gk-firmwares

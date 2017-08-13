@@ -1,0 +1,20 @@
+---
+gateway_if: eth0
+batadv_version: 2017.0.1-7-gdcc08cd
+meshviewer: 0
+
+WANIP: "127.0.0.2"
+WANGW: ""
+WANGW6: "::1"
+OWNASN: "64857"
+ROUTERID: ""
+ROUTERIDV6: ""
+DNSMASQ_RANGE: ""
+BACKBONE_IPV4: ""
+BACKBONE_IPV6: ""
+USE_FASTD: "1"
+USE_BIRD: "1"
+USE_DNSMASQ: "0"
+USE_RADVD: "0"
+SHAPE_LIMIT: ""
+DIRECT: "0"

@@ -1,0 +1,10 @@
+[Unit]
+Description=batadv-vis
+
+[Service]
+ExecStart=/usr/src/alfred/vis/batadv-vis -s
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+---
+- name: install ssh server
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - openssh-server
+
+- name: disable root ssh password login
+  lineinfile:
+    destfile: '/etc/ssh/sshd_config'
+    state: present
+    regexp: '^#?PermitRootLogin\s'
+    line: 'PermitRootLogin prohibit-password'
+  notify: restart sshd
+
+- name: disable ssh password login
+  lineinfile:
+    destfile: '/etc/ssh/sshd_config'
+    state: present
+    regexp: '^#?PasswordAuthentication\s'
+    line: 'PasswordAuthentication no'
+  notify: restart sshd

@@ -1,0 +1,3 @@
+Package: batctl alfred
+Pin: release o=Debian Backports,a=stretch-backports,n=stretch-backports
+Pin-Priority: 900

@@ -1,0 +1,10 @@
+[Unit]
+Description=Server-Scripts-Watchdog Timer
+
+[Timer]
+Unit=server-scripts-watchdog.service
+OnBootSec=0
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=multi-user.target

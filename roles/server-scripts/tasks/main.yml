@@ -1,0 +1,129 @@
+---
+- name: install alfred dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - build-essential
+  - git
+  - pkg-config
+  - libgps-dev
+  - libcap-dev
+  - pkg-config
+  - libnl-3-dev
+  - libnl-genl-3-dev
+
+- name: clone alfred
+  git:
+    repo: https://github.com/FreifunkVogtland/alfred.git
+    dest: /usr/src/alfred
+  register: clone_alfred
+
+- name: clean alfred
+  command: make clean
+  args:
+    chdir: /usr/src/alfred
+  when: clone_alfred.changed
+
+- stat: path=/usr/src/alfred/alfred
+  register: build_alfred
+
+- name: build alfred
+  command: make
+  args:
+    chdir: /usr/src/alfred
+  when: (build_alfred.stat.exists == False)
+
+- name: install alfred service
+  template:
+    src: alfred.service.j2
+    dest: /etc/systemd/system/alfred.service
+  notify: restart alfred
+
+- name: install batadv-vis service
+  copy:
+    src: batadv-vis.service
+    dest: /etc/systemd/system/batadv-vis.service
+  notify: restart batadv-vis
+
+- name: install server-script dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - dnsmasq
+  - radvd
+  - bird
+  - iproute2
+  - batctl
+  - fastd
+  - procps
+  - iptables
+
+- name: stop services conflicting with server-scripts
+  systemd:
+    name: "{{ item }}.service"
+    state: stopped
+    daemon_reload: yes
+    enabled: no
+  with_items:
+  - dnsmasq
+  - bird
+  - bird6
+
+- name: Install server scripts
+  git:
+    repo: 'https://github.com/FreifunkVogtland/server-scripts.git'
+    dest: /opt/freifunk/server-scripts
+
+- name: install server scripts config
+  template:
+    src: general.local.conf.j2
+    dest: /opt/freifunk/server-scripts/conf/general.local.conf
+
+- name: install fastd secret
+  template:
+    src: fastd-secret.local.conf.j2
+    dest: /opt/freifunk/server-scripts/conf/fastd-secret.local.conf
+
+- name: Install dns-static
+  git:
+    repo: 'https://github.com/FreifunkVogtland/dns-static.git'
+    dest: /opt/freifunk/dns
+
+- name: install dns-static ether
+  file:
+    src: /opt/freifunk/dns/ethers
+    dest: /etc/ethers
+    state: link
+
+- name: add iproute freifunk alias
+  lineinfile:
+    destfile: '/etc/iproute2/rt_tables'
+    state: present
+    regexp: '^100\s'
+    line: '100     freifunk'
+
+- name: install server-scripts service
+  copy:
+    src: server-scripts.service
+    dest: /etc/systemd/system/server-scripts.service
+
+- name: enable server-scripts service
+  systemd:
+    name: server-scripts.service
+    daemon_reload: yes
+    enabled: yes
+
+- name: install server-scripts-watchdog systemd unit file
+  copy:
+    src: server-scripts-watchdog.service
+    dest: /etc/systemd/system/server-scripts-watchdog.service
+
+- name: install server-scripts-watchdog systemd timer file
+  copy:
+    src: server-scripts-watchdog.timer
+    dest: /etc/systemd/system/server-scripts-watchdog.timer
+
+- name: start server-scripts-watchdog
+  systemd:
+    name: server-scripts-watchdog.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes

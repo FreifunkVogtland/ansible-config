@@ -1,0 +1,10 @@
+[Unit]
+Description=Server-Statistics Timer
+
+[Timer]
+Unit=server-statistics.service
+OnBootSec=0
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=multi-user.target

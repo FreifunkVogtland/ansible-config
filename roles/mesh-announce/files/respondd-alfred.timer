@@ -1,0 +1,10 @@
+[Unit]
+Description=Respondd-Alfred Timer
+
+[Timer]
+Unit=respondd-alfred.service
+OnBootSec=0
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=multi-user.target

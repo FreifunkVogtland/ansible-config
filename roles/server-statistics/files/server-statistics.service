@@ -1,0 +1,6 @@
+[Unit]
+Description=Server-Statistics
+
+[Service]
+ExecStart=/var/www/vnstat/vnstat.sh
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

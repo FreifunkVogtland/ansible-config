@@ -1,0 +1,33 @@
+---
+- name: install batman-adv dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - build-essential
+  - git
+  - dkms
+  - linux-headers-amd64
+
+- name: install batman-adv sources
+  git:
+    repo: 'https://github.com/FreifunkVogtland/batman-adv.git'
+    dest: /usr/src/batman-adv-{{ batadv_version }}
+    version: v{{ batadv_version }}
+
+- name: install batadv dkms config
+  template:
+    src: dkms.conf.j2
+    dest: /usr/src/batman-adv-{{ batadv_version }}/dkms.conf
+
+- name: check for added batman-adv dkms
+  stat:
+    path: /var/lib/dkms/batman-adv/{{ batadv_version }}/source
+  register: batadv_dkms_added
+
+- name: register batman-adv dkms sources
+  command: dkms add -m batman-adv -v {{ batadv_version }}
+  when: batadv_dkms_added.stat.islnk is not defined
+
+# TODO check whether it is already installed and not whether source link exists
+- name: build batman-adv dkms sources
+  command: dkms autoinstall -m batman-adv -v {{ batadv_version }}
+  when: batadv_dkms_added.stat.islnk is not defined

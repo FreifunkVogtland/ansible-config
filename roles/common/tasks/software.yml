@@ -1,0 +1,19 @@
+---
+- name: configure apt sources and preferences
+  copy: src=etc/apt dest=/etc/apt
+  notify: update apt-cache
+
+- meta: flush_handlers
+
+- name: install common packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - etckeeper
+  - screen
+  - htop
+  - bmon
+  - mtr
+  - iotop
+  - vim
+  - apticron
+  - netcat

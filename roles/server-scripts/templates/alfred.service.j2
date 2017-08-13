@@ -1,0 +1,10 @@
+[Unit]
+Description=alfred
+
+[Service]
+ExecStart=/usr/src/alfred/alfred {% if meshviewer == 1 %}-m{% endif %} -i bat0
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

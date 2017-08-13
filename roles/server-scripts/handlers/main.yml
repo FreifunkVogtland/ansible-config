@@ -1,0 +1,14 @@
+---
+- name: restart alfred
+  systemd:
+    name: alfred.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+- name: restart batadv-vis
+  systemd:
+    name: batadv-vis.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

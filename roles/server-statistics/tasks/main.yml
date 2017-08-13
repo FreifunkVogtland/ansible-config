@@ -1,0 +1,53 @@
+---
+- name: install server-statistics dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - vnstati
+  - libapache2-mod-php7.0
+
+- name: Install server statistics
+  git:
+    repo: 'https://github.com/FreifunkVogtland/ffc-server-statistics.git'
+    dest: /var/www/vnstat
+
+- name: remove old webserver index
+  file:
+    path: /var/www/html/index.html
+    state: absent
+
+- name: install server statistics index
+  file:
+    src: /var/www/vnstat/index.php
+    dest: /var/www/html/index.php
+    state: link
+
+- name: install server statistics config
+  template:
+    src: stats.conf.j2
+    dest: /var/www/vnstat/stats.conf
+
+- name: install server statistics index
+  file:
+    src: /var/www/vnstat/stats.conf
+    dest: /var/www/html/stats.conf
+    state: link
+
+- name: install server-statistics systemd unit file
+  copy:
+    src: server-statistics.service
+    dest: /etc/systemd/system/server-statistics.service
+
+- name: install server-statistics systemd timer file
+  copy:
+    src: server-statistics.timer
+    dest: /etc/systemd/system/server-statistics.timer
+
+- name: start server-statistics
+  systemd:
+    name: server-statistics.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes
+
+    
+# TODO certbot

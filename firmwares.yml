@@ -1,0 +1,14 @@
+---
+- hosts: firmwares
+  become: yes
+  roles:
+    - role: common
+      tags: "common"
+    - role: ssh
+      tags: "ssh"
+    - role: fail2ban
+      tags: "fail2ban"
+    - role: firmwares_motd
+      tags: "firmwares_motd"
+    - role: gluon_dependencies
+      tags: "gluon_dependencies"

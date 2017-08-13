@@ -1,0 +1,5 @@
+---
+- name: install fail2ban
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - fail2ban

@@ -1,0 +1,43 @@
+---
+- name: install mesh-announce dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - lsb-release
+  - ethtool
+  - python3
+  - alfred
+  - batctl
+
+- name: install mesh-announce
+  git:
+    repo: 'https://github.com/FreifunkVogtland/mesh-announce'
+    dest: /opt/freifunk/ffnord-alfred-announce
+
+- name: install respondd systemd unit file
+  copy:
+    src: respondd.service
+    dest: /etc/systemd/system/respondd.service
+
+- name: start respondd
+  systemd:
+    name: respondd.service
+    state: started
+    daemon_reload: yes
+    enabled: yes
+
+- name: install respondd-alfred systemd unit file
+  copy:
+    src: respondd-alfred.service
+    dest: /etc/systemd/system/respondd-alfred.service
+
+- name: install respondd-alfred systemd timer file
+  copy:
+    src: respondd-alfred.timer
+    dest: /etc/systemd/system/respondd-alfred.timer
+
+- name: start respondd-alfred
+  systemd:
+    name: respondd-alfred.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes

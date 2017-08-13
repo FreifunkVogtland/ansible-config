@@ -1,0 +1,12 @@
+---
+- name: set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: define hostname in hosts
+  lineinfile:
+    destfile: '/etc/hosts'
+    state: present
+    regexp: '\s{{ inventory_hostname }}\s'
+    line: '127.0.0.1 {{ inventory_hostname }}.freifunk-vogtland.net {{ inventory_hostname }}.ffv {{ inventory_hostname }}'
+

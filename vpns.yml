@@ -1,0 +1,24 @@
+---
+- hosts: vpns
+  become: yes
+  roles:
+    - role: common
+      tags: "common"
+    - role: ssh
+      tags: "ssh"
+    - role: fail2ban
+      tags: "fail2ban"
+    - role: mesh-announce
+      tags: "mesh-announce"
+    - role: server-statistics
+      tags: "server-statistics"
+    - role: batadv
+      tags: "batadv"
+    - role: server-scripts
+      tags: "server-scripts"
+
+- hosts: vpn01
+  become: yes
+  roles:
+    - role: ffmap-backend
+      tags: "ffmap-backend"
