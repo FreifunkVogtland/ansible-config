@@ -1,0 +1,18 @@
+---
+- name: install radvd
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - radvd
+
+- name: install radvd configuration
+  template:
+    src: radvd.conf.j2
+    dest: /etc/radvd.conf
+  notify:
+  - restart radvd
+
+- name: enable/disable radvd
+  service:
+    name: radvd
+    enabled: "{{ (USE_RADVD == '1') | ternary('yes', 'no') }}"
+    state: "{{ (USE_RADVD == '1') | ternary('started', 'stopped') }}"

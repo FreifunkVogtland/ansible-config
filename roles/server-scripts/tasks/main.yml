@@ -48,7 +48,6 @@
   apt: pkg={{ item }} state=installed
   with_items:
   - dnsmasq
-  - radvd
   - bird
   - iproute2
   - batctl

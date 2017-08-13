@@ -16,6 +16,8 @@
       tags: "batadv"
     - role: server-scripts
       tags: "server-scripts"
+    - role: radvd
+      tags: "radvd"
 
 - hosts: vpn01
   become: yes

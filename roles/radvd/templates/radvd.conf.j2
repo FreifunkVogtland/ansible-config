@@ -1,0 +1,19 @@
+interface bat0 {
+  AdvSendAdvert on;
+  IgnoreIfMissing on;
+
+  AdvManagedFlag off;
+  AdvOtherConfigFlag on;
+  AdvLinkMTU 1280;
+
+  MaxRtrAdvInterval 30;
+
+  prefix 2a03:2260:200f:1337::/64 {
+    AdvOnLink off;
+    AdvAutonomous on;
+    AdvRouterAddr on;
+  };
+
+  RDNSS {{ ROUTERIDV6 }} {
+  };
+};
