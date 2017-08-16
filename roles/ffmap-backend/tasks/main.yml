@@ -13,6 +13,7 @@
   - jq
   - python3-dateutil
   - netcat
+  - pandoc
 
 - name: install ffmap-backend
   git:
