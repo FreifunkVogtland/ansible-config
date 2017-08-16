@@ -14,6 +14,8 @@
   - python3-dateutil
   - netcat
   - pandoc
+  - python3-fastkml
+  - python3-shapely
 
 - name: install ffmap-backend
   git:
