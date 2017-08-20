@@ -4,6 +4,11 @@
   with_items:
   - tinc
   - cron
+  - python3-yaml
+  - python3-requests
+  - python3-prettytable
+  - python3-jinja2
+  - python3-natsort
 
 - name: install icvpn-scripts
   git:
