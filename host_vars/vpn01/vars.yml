@@ -1,6 +1,7 @@
 ---
 gateway_if: eth1
 meshviewer: 1
+icvpn: yes
 
 WANIP: "194.25.105.16"
 WANGW: "194.25.105.1"
@@ -15,3 +16,8 @@ USE_DNSMASQ: "1"
 USE_RADVD: "1"
 SHAPE_LIMIT: ""
 DIRECT: "0"
+
+icvpn_name: vogtland1
+icvpn_ipv4: 10.207.0.29
+icvpn_bcast: 10.207.255
+icvpn_ipv6: fec0::a:cf:0:1d

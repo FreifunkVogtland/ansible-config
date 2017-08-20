@@ -1,6 +1,7 @@
 ---
 gateway_if: eth0
 meshviewer: 0
+icvpn: no
 
 WANIP: "88.99.151.81"
 WANGW: "88.99.151.65"

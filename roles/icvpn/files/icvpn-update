@@ -1,0 +1,16 @@
+#!/bin/sh
+
+DATADIR=/var/lib/icvpn-meta
+
+cd /etc/tinc/icvpn
+git pull -q
+
+cd "$DATADIR"
+git pull -q
+
+/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -4 > /var/tmp/bird-icvpn.conf
+birdc configure > /dev/null
+/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -6 > /var/tmp/bird6-icvpn.conf
+birdc6 configure > /dev/null
+
+/opt/freifunk/icvpn-scripts/mkdns -s "$DATADIR" -x vogtland -f dnsmasq > /var/tmp/dnsmasq-icvpn.conf

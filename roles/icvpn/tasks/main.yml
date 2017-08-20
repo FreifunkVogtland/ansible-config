@@ -1,0 +1,103 @@
+---
+- name: install icvpn dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - tinc
+  - cron
+
+- name: install icvpn-scripts
+  git:
+    repo: 'https://github.com/freifunk/icvpn-scripts'
+    dest: /opt/freifunk/icvpn-scripts/
+
+- name: install icvpn
+  git:
+    repo: 'https://github.com/freifunk/icvpn'
+    dest: /etc/tinc/icvpn/
+
+- name: install icvpn postmerge scripts
+  copy:
+    src: /etc/tinc/icvpn/scripts/post-merge
+    dest: /etc/tinc/icvpn/.git/hooks/post-merge
+    remote_src: true
+    group: root
+    owner: root
+    mode: 0755
+  when: icvpn
+
+- name: install icvpn-meta
+  git:
+    repo: 'https://github.com/freifunk/icvpn-meta'
+    dest: /var/lib/icvpn-meta/
+
+- name: install icvpn key
+  template:
+    src: rsa_key.priv.j2
+    dest: /etc/tinc/icvpn/rsa_key.priv
+    group: root
+    owner: root
+    mode: 0600
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: install icvpn tinc startup
+  copy:
+    src: nets.boot
+    dest: /etc/tinc/nets.boot
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: create icvpn tinc configuration
+  template:
+    src: tinc.conf.j2
+    dest: /etc/tinc/icvpn/tinc.conf
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: recreate icvpn tinc host config
+  command: ./.git/hooks/post-merge
+  args: 
+    chdir: '/etc/tinc/icvpn/'
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: recreate icvpn tinc up script
+  template:
+    src: tinc-up.j2
+    dest: /etc/tinc/icvpn/tinc-up
+    group: root
+    owner: root
+    mode: 0755
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: recreate icvpn tinc down script
+  template:
+    src: tinc-down.j2
+    dest: /etc/tinc/icvpn/tinc-down
+    group: root
+    owner: root
+    mode: 0755
+  notify:
+  - restart tinc
+  when: icvpn
+
+- name: install icvpn-update hourly cron
+  copy:
+    src: icvpn-update
+    group: root
+    owner: root
+    mode: 0755
+    dest: /etc/cron.hourly/icvpn-update
+
+- name: enable/disable tinc
+  systemd:
+    name: tinc@icvpn.service
+    daemon_reload: yes
+    enabled: "{{ icvpn | ternary('yes', 'no') }}"
+    state: "{{ icvpn | ternary('started', 'stopped') }}"

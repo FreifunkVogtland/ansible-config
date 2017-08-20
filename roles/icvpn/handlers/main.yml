@@ -1,0 +1,5 @@
+---
+- name: restart tinc
+  systemd:
+    name: tinc@icvpn.service
+    state: "{{ icvpn | ternary('restarted', 'stopped') }}"

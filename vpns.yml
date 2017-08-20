@@ -18,6 +18,8 @@
       tags: "server-scripts"
     - role: radvd
       tags: "radvd"
+    - role: icvpn
+      tags: "icvpn"
 
 - hosts: vpn01
   become: yes

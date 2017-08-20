@@ -1,0 +1,4 @@
+#!/bin/sh
+/sbin/ip addr del dev $INTERFACE {{ icvpn_ipv4 }}/16 broadcast {{ icvpn_bcast }}
+/sbin/ip -6 addr del dev $INTERFACE {{ icvpn_ipv6 }}/96
+/sbin/ip link set dev $INTERFACE down

@@ -20,6 +20,7 @@ Vagrant.configure(2) do |config|
 
     ansible.playbook = "site.yml"
     ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/env python2" }
+    ansible.skip_tags=["icvpn"]
   end
 
   config.vm.network "private_network", type: "dhcp"
