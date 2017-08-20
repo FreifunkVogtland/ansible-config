@@ -20,6 +20,8 @@
       tags: "radvd"
     - role: icvpn
       tags: "icvpn"
+    - role: dnsmasq
+      tags: "dnsmasq"
 
 - hosts: vpn01
   become: yes

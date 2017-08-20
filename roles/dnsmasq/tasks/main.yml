@@ -1,0 +1,40 @@
+---
+- name: install dnsmasq dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - dnsmasq
+
+- name: Install dns-static
+  git:
+    repo: 'https://github.com/FreifunkVogtland/dns-static.git'
+    dest: /opt/freifunk/dns
+
+- name: install dns-static ether
+  file:
+    src: /opt/freifunk/dns/ethers
+    dest: /etc/ethers
+    state: link
+
+- name: install icvpn dnsmasq config stub
+  copy:
+    content: ""
+    dest: /var/tmp/dnsmasq-icvpn.conf
+    force: no
+    group: root
+    owner: root
+    mode: 0644
+
+- name: install dnsmasq config
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+  notify:
+  - restart dnsmasq
+  when: dnsmasq
+
+- name: enable/disable dnsmasq
+  service:
+    name: dnsmasq
+    daemon_reload: yes
+    enabled: "{{ dnsmasq | ternary('yes', 'no') }}"
+    state: "{{ dnsmasq | ternary('started', 'stopped') }}"

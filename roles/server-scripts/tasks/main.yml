@@ -47,7 +47,6 @@
 - name: install server-script dependencies
   apt: pkg={{ item }} state=installed
   with_items:
-  - dnsmasq
   - bird
   - iproute2
   - batctl
@@ -62,7 +61,6 @@
     daemon_reload: yes
     enabled: no
   with_items:
-  - dnsmasq
   - bird
   - bird6
 
@@ -80,17 +78,6 @@
   template:
     src: fastd-secret.local.conf.j2
     dest: /opt/freifunk/server-scripts/conf/fastd-secret.local.conf
-
-- name: Install dns-static
-  git:
-    repo: 'https://github.com/FreifunkVogtland/dns-static.git'
-    dest: /opt/freifunk/dns
-
-- name: install dns-static ether
-  file:
-    src: /opt/freifunk/dns/ethers
-    dest: /etc/ethers
-    state: link
 
 - name: add iproute freifunk alias
   lineinfile:

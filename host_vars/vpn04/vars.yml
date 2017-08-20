@@ -2,6 +2,7 @@
 gateway_if: eth0
 meshviewer: 0
 icvpn: no
+dnsmasq: yes
 
 WANIP: "88.99.151.81"
 WANGW: "88.99.151.65"
@@ -12,7 +13,6 @@ DNSMASQ_RANGE: "10.204.64.0,10.204.79.255"
 BACKBONE_IPV4: "185.66.194.70/32"
 USE_FASTD: "1"
 USE_BIRD: "1"
-USE_DNSMASQ: "1"
 USE_RADVD: "1"
 SHAPE_LIMIT: ""
 DIRECT: "0"

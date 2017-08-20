@@ -1,0 +1,23 @@
+local=/ffv/
+domain=ffv
+no-ping
+no-hosts
+interface=bat0
+bind-interfaces
+dhcp-authoritative
+dhcp-range={{ DNSMASQ_RANGE }},255.255.0.0,30m
+dhcp-option=3,{{ ROUTERID }}
+dhcp-option=6,{{ ROUTERID }}
+dhcp-option=119,ffv
+dhcp-option=bat0,26,1394
+no-resolv
+server=8.8.4.4
+server=8.8.8.8
+server=2001:4860:4860::8888
+server=2001:4860:4860::8844
+except-interface=lo
+read-ethers
+
+addn-hosts=/opt/freifunk/dns/hosts
+
+conf-file=/var/tmp/dnsmasq-icvpn.conf
