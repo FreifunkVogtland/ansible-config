@@ -19,3 +19,15 @@
     regexp: '^#?PasswordAuthentication\s'
     line: 'PasswordAuthentication no'
   notify: restart sshd
+
+- name: insert/update ssh sftponly chroot
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      Match Group sftponly
+        ChrootDirectory %h
+        ForceCommand internal-sftp
+        AllowTcpForwarding no
+        X11Forwarding no
+        PasswordAuthentication no
+  notify: restart sshd
