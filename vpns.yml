@@ -28,3 +28,5 @@
   roles:
     - role: ffmap-backend
       tags: "ffmap-backend"
+    - role: ffmap-backup
+      tags: "ffmap-backup"

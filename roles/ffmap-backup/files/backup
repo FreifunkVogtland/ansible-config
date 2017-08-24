@@ -1,0 +1,23 @@
+#! /bin/bash
+
+export PASSPHRASE='notsecure'
+export SIGN_PASSPHRASE=''
+export HOME=/root
+
+typeset -A backups
+backups=(
+    [ffmapdata]=/opt/freifunk/meshviewer/data/
+    [graphite]=/var/lib/graphite/
+    [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
+    [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
+)
+
+for backup in "${!backups[@]}"; do
+(
+  set -e
+
+  duplicity incremental --full-if-older-than 6M "${backups[$backup]}" sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
+  duplicity remove-all-but-n-full 2 --force sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
+  duplicity cleanup --force sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
+)
+done

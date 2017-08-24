@@ -1,0 +1,13 @@
+---
+- name: install backup dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - anacron
+  - cron
+  - duplicity
+
+- name: copy backup cron script
+  copy:
+    src: backup
+    dest: /etc/cron.daily/backup
+    mode: 0755
