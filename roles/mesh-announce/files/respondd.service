@@ -1,5 +1,6 @@
 [Unit]
 Description=Respondd
+After=batadv-bat0.service server-scripts.service
 
 [Service]
 ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -i fastd-mesh0 -i fastd-mesh1 -i fastd-mesh2 -i fastd-mesh3 -i dummy0 -i gre-ffv01 -i gre-ffv02 -i gre-ffv03 -i gre-ffv04 -i gre-ffv05 -i gre-ffv06 -i gre-ffv07 -i gre-ffv08 -i gre-ffv09 -i gre-ffv10

@@ -1,5 +1,6 @@
 [Unit]
 Description=server-scripts
+After=batadv-bat0.service
 
 [Service]
 ExecStart=/opt/freifunk/server-scripts/initd-ffc.sh start

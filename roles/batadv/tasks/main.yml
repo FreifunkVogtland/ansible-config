@@ -31,3 +31,45 @@
 - name: build batman-adv dkms sources
   command: dkms autoinstall -m batman-adv -v {{ batadv_version }}
   when: batadv_dkms_added.stat.islnk is not defined
+
+- name: install dummy-bat0
+  template:
+    src: dummy-bat0.netdev.j2
+    dest: /etc/systemd/network/25-dummy-bat0.netdev
+  notify:
+  - restart networkd
+
+- name: install bat0 link
+  template:
+    src: bat0.link.j2
+    dest: /etc/systemd/network/25-bat0.link
+  notify:
+  - restart networkd
+
+- name: install bat0 network
+  template:
+    src: bat0.network.j2
+    dest: /etc/systemd/network/25-bat0.network
+  notify:
+  - restart networkd
+
+- name: start systemd-networkd
+  systemd:
+    name: systemd-networkd.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install batadv-bat0
+  template:
+    src: batadv-bat0.service.j2
+    dest: /etc/systemd/system/batadv-bat0.service
+  notify:
+  - restart batadv-bat0
+
+- name: start batadv-bat0
+  systemd:
+    name: batadv-bat0.service
+    daemon_reload: yes
+    enabled: yes
+    state: started

@@ -17,6 +17,9 @@ USE_RADVD: "1"
 SHAPE_LIMIT: ""
 DIRECT: "0"
 
+batadv_mac: 02:ba:7a:df:01:00
+batadv_primary: 02:62:e7:ab:01:01
+
 icvpn_name: vogtland1
 icvpn_ipv4: 10.207.0.29
 icvpn_bcast: 10.207.255

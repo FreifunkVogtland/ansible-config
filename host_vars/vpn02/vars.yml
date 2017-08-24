@@ -16,3 +16,6 @@ USE_BIRD: "1"
 USE_RADVD: "0"
 SHAPE_LIMIT: "25mbit"
 DIRECT: "1"
+
+batadv_mac: 02:ba:7a:df:02:00
+batadv_primary: 02:62:e7:ab:02:02
