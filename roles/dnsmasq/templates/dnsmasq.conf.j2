@@ -3,7 +3,7 @@ domain=ffv
 no-ping
 no-hosts
 interface=bat0
-bind-interfaces
+bind-dynamic
 dhcp-authoritative
 dhcp-range={{ DNSMASQ_RANGE }},255.255.0.0,30m
 dhcp-option=3,{{ ROUTERID }}
