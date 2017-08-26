@@ -1,0 +1,87 @@
+---
+- name: add apt https support
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - apt-transport-https
+
+- name: enable grafana apt key
+  apt_key:
+    data: "{{ lookup('file', 'grafana.asc') }}"
+    state: present 
+
+- name: add grafana apt sources
+  copy:
+    src: grafana.list
+    dest: /etc/apt/sources.list.d/grafana.list
+  notify: update apt-cache
+
+- name: add grafana apt preferences
+  copy:
+    src: grafana.pref
+    dest: /etc/apt/preferences.d/grafana.pref
+  notify: update apt-cache
+
+- meta: flush_handlers
+
+- name: install grafana dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - apache2
+  - grafana
+  - graphite-web
+  - graphite-carbon
+  - libapache2-mod-wsgi
+
+- name: add grafana configuration
+  copy:
+    src: grafana.ini
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: 0640
+  notify: restart grafana-server
+
+- name: add carbon configurations
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/carbon/{{ item }}"
+  with_items:
+  - aggregation-rules.conf
+  - aggregation-rules.conf
+  - storage-aggregation.conf
+  notify:
+  - restart carbon-cache
+  - restart apache2
+
+- name: enable port 8080 for apache2
+  lineinfile:
+    destfile: '/etc/apache2/ports.conf'
+    state: present
+    regexp: '^Listen\s+8080$'
+    line: 'Listen 8080'
+  notify:
+  - restart apache2
+
+- name: enable apache2 mod_wsgi
+  apache2_module:
+    name: wsgi
+    state: present
+  notify:
+  - restart apache2
+
+- name: add apache2 graphite site
+  copy:
+    src: apache2-graphite.conf
+    dest: /etc/apache2/sites-enabled/apache2-graphite.conf
+  notify:
+  - restart apache2
+
+# TODO run: cd /usr/lib/python2.7/dist-packages/graphite/ && sudo -u _graphite python manage.py syncdb
+
+# TODO create apache2 vhost for stat.freifunk-vogtland.ne with
+# ProxyPreserveHost On
+# ProxyPass /.well-known/acme-challenge/ !
+# ProxyPass / http://0.0.0.0:3000/
+# ProxyPassReverse / http://0.0.0.0:3000/
+# Header set Access-Control-Allow-Origin "*"
+#

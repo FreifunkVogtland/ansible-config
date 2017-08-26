@@ -30,3 +30,5 @@
       tags: "ffmap-backend"
     - role: ffmap-backup
       tags: "ffmap-backup"
+    - role: grafana
+      tags: "grafana"

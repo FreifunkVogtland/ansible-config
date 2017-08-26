@@ -1,0 +1,12 @@
+---
+- name: update apt-cache
+  apt: update_cache=true
+
+- name: restart grafana-server
+  service: name=grafana-server state=restarted
+
+- name: restart carbon-cache
+  service: name=carbon-cache state=restarted
+
+- name: restart apache2
+  service: name=apache2 state=restarted

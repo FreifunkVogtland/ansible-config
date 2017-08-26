@@ -1,0 +1,3 @@
+Package: python-django python-django-common
+Pin: release o=Debian,n=jessie
+Pin-Priority: 1001
