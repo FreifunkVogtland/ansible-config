@@ -1,0 +1,10 @@
+---
+- name: restart fastd
+  systemd:
+    name: "fastd@mesh{{ item }}.service"
+    state: restarted
+  with_items:
+  - 0
+  - 1
+  - 2
+  - 3

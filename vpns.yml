@@ -14,6 +14,8 @@
       tags: "server-statistics"
     - role: batadv
       tags: "batadv"
+    - role: fastd
+      tags: "fastd"
     - role: server-scripts
       tags: "server-scripts"
     - role: radvd

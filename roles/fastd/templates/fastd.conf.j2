@@ -1,0 +1,25 @@
+bind 0.0.0.0:{{ item + 10000 }};
+bind [::]:{{ item + 10000 }};
+interface "fastd-mesh{{ item }}";
+
+log to syslog level warn;
+
+mtu 1426;
+
+method "salsa2012+umac";
+method "null";
+secure handshakes no;
+
+peer limit {{ fastd_peer_limit }};
+
+# Use "fastd --generate-key" to get secret key
+secret "{{ fastd_secret }}";
+
+on verify "true";
+include peers from "/tmp";
+
+on up "
+ip link set address {{ fastd_mac_prefix }}:{{ '%02x' % item }} dev $INTERFACE
+ip link set up dev $INTERFACE
+batctl interface add $INTERFACE
+";

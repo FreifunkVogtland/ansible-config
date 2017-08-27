@@ -11,7 +11,6 @@ ROUTERID: "10.204.64.1"
 ROUTERIDV6: "2a03:2260:200f:1337::4"
 DNSMASQ_RANGE: "10.204.64.0,10.204.79.255"
 BACKBONE_IPV4: "185.66.194.70/32"
-USE_FASTD: "1"
 USE_BIRD: "1"
 USE_RADVD: "1"
 SHAPE_LIMIT: ""
@@ -19,3 +18,6 @@ DIRECT: "0"
 
 batadv_mac: 02:ba:7a:df:04:00
 batadv_primary: 02:62:e7:ab:04:04
+
+fastd_peer_limit: 30
+fastd_mac_prefix: 02:fa:57:04:00

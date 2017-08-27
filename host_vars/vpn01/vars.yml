@@ -11,7 +11,6 @@ ROUTERID: "10.204.16.1"
 ROUTERIDV6: "2a03:2260:200f:1337::1"
 DNSMASQ_RANGE: "10.204.16.0,10.204.31.255"
 BACKBONE_IPV4: "185.66.195.42/32"
-USE_FASTD: "1"
 USE_BIRD: "1"
 USE_RADVD: "1"
 SHAPE_LIMIT: ""
@@ -24,3 +23,6 @@ icvpn_name: vogtland1
 icvpn_ipv4: 10.207.0.29
 icvpn_bcast: 10.207.255
 icvpn_ipv6: fec0::a:cf:0:1d
+
+fastd_peer_limit: 50
+fastd_mac_prefix: 02:fa:57:01:00

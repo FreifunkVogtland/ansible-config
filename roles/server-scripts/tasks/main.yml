@@ -50,7 +50,6 @@
   - bird
   - iproute2
   - batctl
-  - fastd
   - procps
   - iptables
 
@@ -73,11 +72,6 @@
   template:
     src: general.local.conf.j2
     dest: /opt/freifunk/server-scripts/conf/general.local.conf
-
-- name: install fastd secret
-  template:
-    src: fastd-secret.local.conf.j2
-    dest: /opt/freifunk/server-scripts/conf/fastd-secret.local.conf
 
 - name: add iproute freifunk alias
   lineinfile:

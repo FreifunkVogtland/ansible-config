@@ -1,0 +1,61 @@
+---
+- name: install fastd dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - iproute2
+  - batctl
+  - fastd
+
+
+- name: create fastd instance directories
+  file:
+    state: directory
+    path: /etc/fastd/mesh{{ item }}/
+  with_items:
+  - 0
+  - 1
+  - 2
+  - 3
+
+- name: install fastd config
+  template:
+    src: fastd.conf.j2
+    dest: /etc/fastd/mesh{{ item }}/fastd.conf
+  with_items:
+  - 0
+  - 1
+  - 2
+  - 3
+  notify:
+  - restart fastd
+
+- name: disable sysv initscript
+  systemd:
+    name: fastd.service
+    daemon_reload: yes
+    enabled: no
+    state: stopped
+
+- name: create batadv-bat0 override directory
+  file:
+    dest: /etc/systemd/system/fastd@.service.d
+    state: directory
+
+- name: enabled batadv-bat0 dependency for fastd
+  copy:
+    src: override.conf
+    dest: /etc/systemd/system/fastd@.service.d/override.conf
+  notify:
+  - restart fastd
+
+- name: start fastd
+  systemd:
+    name: "fastd@mesh{{ item }}.service"
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  with_items:
+  - 0
+  - 1
+  - 2
+  - 3
