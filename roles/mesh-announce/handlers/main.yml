@@ -1,0 +1,5 @@
+---
+- name: restart respondd
+  systemd:
+    name: respondd.service
+    state: restarted

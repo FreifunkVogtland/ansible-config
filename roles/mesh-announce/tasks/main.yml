@@ -17,6 +17,8 @@
   copy:
     src: respondd.service
     dest: /etc/systemd/system/respondd.service
+  notify:
+  - restart respondd
 
 - name: start respondd
   systemd:
