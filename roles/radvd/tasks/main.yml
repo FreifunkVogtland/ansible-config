@@ -12,7 +12,8 @@
   - restart radvd
 
 - name: enable/disable radvd
-  service:
-    name: radvd
+  systemd:
+    name: radvd.service
+    daemon_reload: yes
     enabled: "{{ (USE_RADVD == '1') | ternary('yes', 'no') }}"
     state: "{{ (USE_RADVD == '1') | ternary('started', 'stopped') }}"

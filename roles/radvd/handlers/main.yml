@@ -1,5 +1,5 @@
 ---
 - name: restart radvd
-  service:
-    name: radvd
+  systemd:
+    name: radvd.service
     state: "{{ (USE_RADVD == '1') | ternary('restarted', 'stopped') }}"
