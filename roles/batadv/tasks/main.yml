@@ -53,6 +53,8 @@
   notify:
   - restart networkd
 
+- meta: flush_handlers
+
 - name: start systemd-networkd
   systemd:
     name: systemd-networkd.service
