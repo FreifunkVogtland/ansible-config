@@ -1,5 +1,5 @@
 ---
 - name: restart dnsmasq
-  service:
-    name: dnsmasq
+  systemd:
+    name: dnsmasq.service
     state: "{{ dnsmasq | ternary('restarted', 'stopped') }}"

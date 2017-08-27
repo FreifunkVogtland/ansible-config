@@ -33,8 +33,8 @@
   when: dnsmasq
 
 - name: enable/disable dnsmasq
-  service:
-    name: dnsmasq
+  systemd:
+    name: dnsmasq.service
     daemon_reload: yes
     enabled: "{{ dnsmasq | ternary('yes', 'no') }}"
     state: "{{ dnsmasq | ternary('started', 'stopped') }}"

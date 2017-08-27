@@ -1,10 +1,10 @@
 ---
 - name: restart bird
-  service:
-    name: bird
+  systemd:
+    name: bird.service
     state: restarted
 
 - name: restart bird6
-  service:
-    name: bird6
+  systemd:
+    name: bird6.service
     state: restarted

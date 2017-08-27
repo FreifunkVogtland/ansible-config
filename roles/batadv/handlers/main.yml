@@ -1,10 +1,10 @@
 ---
 - name: restart networkd
-  service:
-    name: systemd-networkd
+  systemd:
+    name: systemd-networkd.service
     state: "restarted"
 
 - name: restart batadv-bat0
   systemd:
-    name: batadv-bat0
+    name: batadv-bat0.service
     state: "restarted"

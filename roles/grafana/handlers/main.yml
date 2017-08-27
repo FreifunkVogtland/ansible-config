@@ -3,10 +3,16 @@
   apt: update_cache=true
 
 - name: restart grafana-server
-  service: name=grafana-server state=restarted
+  systemd:
+    name: grafana-server.service
+    state: restarted
 
 - name: restart carbon-cache
-  service: name=carbon-cache state=restarted
+  systemd:
+    name: carbon-cache.service
+    state: restarted
 
 - name: restart apache2
-  service: name=apache2 state=restarted
+  systemd:
+    name: apache2.service
+    state: restarted

@@ -30,8 +30,8 @@
   - bird6
 
 - name: enable/disable bird
-  service:
-    name: "{{ item }}"
+  systemd:
+    name: "{{ item }}.service"
     daemon_reload: yes
     enabled: yes
     state: started
