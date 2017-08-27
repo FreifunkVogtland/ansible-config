@@ -25,6 +25,8 @@
       tags: "icvpn"
     - role: dnsmasq
       tags: "dnsmasq"
+    - role: bird
+      tags: "bird"
 
 - hosts: vpn01
   gather_facts: false

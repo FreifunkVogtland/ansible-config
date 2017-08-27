@@ -1,0 +1,40 @@
+---
+- name: install bird dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - bird
+
+- name: install icvpn bird config stubs
+  copy:
+    content: ""
+    dest: "/var/tmp/{{ item }}-icvpn.conf"
+    force: no
+    group: root
+    owner: root
+    mode: 0644
+  with_items:
+  - bird
+  - bird6
+
+- name: install bird config
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/bird/{{ item }}.conf"
+    group: bird
+    owner: bird
+    mode: 0640
+  notify:
+  - "restart {{ item }}"
+  with_items:
+  - bird
+  - bird6
+
+- name: enable/disable bird
+  service:
+    name: "{{ item }}"
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  with_items:
+  - bird
+  - bird6

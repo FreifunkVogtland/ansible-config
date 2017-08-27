@@ -1,0 +1,87 @@
+router id {{ ROUTERID }};
+listen bgp v6only;
+
+protocol direct {
+        interface "*";  # Restrict network interfaces it works with
+}
+
+protocol kernel {
+        device routes;
+        import all;
+        export all;
+        kernel table 100;
+}
+
+protocol device {
+        scan time 10;
+}
+
+function is_default() {
+        return (net ~ [::/0]);
+}
+
+# own networks
+function is_self_net() {
+	return net ~ [ 2a03:2260:200f::/48+ ];
+}
+
+# freifunk ip ranges in general
+function is_freifunk() {
+return net ~ [ fc00::/7{48,64},
+	2001:bf7::/32+];
+}
+
+filter hostroute {
+        if net ~ 2a03:2260:200f::/48 then accept;
+        reject;
+}
+
+# ibgp zwischen den gateways
+template bgp internal {
+        local as {{ OWNASN }};
+        import filter {
+                preference = 99;
+                accept;
+        };
+        export where source = RTS_BGP;
+#        gateway direct;
+        next hop self;
+};
+
+{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+protocol bgp {{ peer }} from internal {
+  neighbor {{ hostvars[peer]['ROUTERIDV6'] }} as {{ OWNASN }};
+}
+{% endfor %}
+
+# Uplink zum FF Rheinland
+template bgp uplink {
+        local as {{ OWNASN }};
+        import where is_default();
+        export filter hostroute;
+        gateway recursive;
+}
+
+# TODO autogenerate
+{% if ffrl_bird is defined %}
+include "/opt/freifunk/server-scripts/ffrl-backbone/bird6.ffrl.conf.{{ ffrl_bird }}";
+{% endif %}
+
+# template for icvpn gateways of other cities
+template bgp icvpn {
+        local as {{ OWNASN }};
+        # ignore routes for our own network
+        import where is_freifunk() && !is_self_net();
+        export where is_freifunk() || (source = RTS_BGP);
+        route limit 10000;
+};
+
+# aus ICVPN Meta erzeugte konfiguration
+include "/var/tmp/bird6-icvpn.conf";
+
+protocol static {
+  import all;
+  export all;
+
+  route 2a03:2260:200f::/48 via "bat0";
+}

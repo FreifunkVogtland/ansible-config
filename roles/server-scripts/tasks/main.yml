@@ -47,21 +47,10 @@
 - name: install server-script dependencies
   apt: pkg={{ item }} state=installed
   with_items:
-  - bird
   - iproute2
   - batctl
   - procps
   - iptables
-
-- name: stop services conflicting with server-scripts
-  systemd:
-    name: "{{ item }}.service"
-    state: stopped
-    daemon_reload: yes
-    enabled: no
-  with_items:
-  - bird
-  - bird6
 
 - name: Install server scripts
   git:
