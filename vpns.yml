@@ -1,5 +1,6 @@
 ---
 - hosts: vpns
+  gather_facts: false
   become: yes
   roles:
     - role: common
@@ -26,6 +27,7 @@
       tags: "dnsmasq"
 
 - hosts: vpn01
+  gather_facts: false
   become: yes
   roles:
     - role: ffmap-backend
