@@ -62,10 +62,12 @@ template bgp uplink {
         gateway recursive;
 }
 
-# TODO autogenerate
-{% if ffrl_bird is defined %}
-include "/opt/freifunk/server-scripts/ffrl-backbone/bird6.ffrl.conf.{{ ffrl_bird }}";
-{% endif %}
+{% for name in (ffrl_bb_links.keys() |sort()) %}
+protocol bgp {{ name }} from uplink {
+    source address {{ ffrl_bb_links[name].ipv6.src }};
+    neighbor {{ ffrl_bb_links[name].ipv6.dst }} as {{ ffrl_bb_asn }};
+};
+{% endfor %}
 
 # template for icvpn gateways of other cities
 template bgp icvpn {

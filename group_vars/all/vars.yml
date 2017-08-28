@@ -13,3 +13,13 @@ BACKBONE_IPV6: ""
 USE_RADVD: "0"
 SHAPE_LIMIT: ""
 DIRECT: "0"
+
+ffrl_bb_asn: 201701
+ffrl_bb_links: {}
+ffrl_bb_servers:
+  bb_a_ak_ber: 185.66.195.0
+  bb_a_fra2_fra: 185.66.194.0
+  bb_a_ix_dus: 185.66.193.0
+  bb_b_ak_ber: 185.66.195.1
+  bb_b_fra2_fra: 185.66.194.1
+  bb_b_ix_dus: 185.66.193.1

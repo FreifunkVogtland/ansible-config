@@ -26,4 +26,46 @@ icvpn_ipv6: fec0::a:cf:0:1d
 fastd_peer_limit: 50
 fastd_mac_prefix: 02:fa:57:01:00
 
-ffrl_bird: ffv01
+ffrl_bb_links:
+  bb_a_ak_ber:
+    ipv4:
+      src: 100.64.7.229
+      dst: 100.64.7.228
+    ipv6:
+      src: 2a03:2260:0:414::2
+      dst: 2a03:2260:0:414::1
+  bb_a_fra2_fra:
+    ipv4:
+      src: 100.64.7.231
+      dst: 100.64.7.230
+    ipv6:
+      src: 2a03:2260:0:415::2
+      dst: 2a03:2260:0:415::1
+  bb_a_ix_dus:
+    ipv4:
+      src: 100.64.7.233
+      dst: 100.64.7.232
+    ipv6:
+      src: 2a03:2260:0:416::2
+      dst: 2a03:2260:0:416::1
+  bb_b_ak_ber:
+    ipv4:
+      src: 100.64.7.235
+      dst: 100.64.7.234
+    ipv6:
+      src: 2a03:2260:0:417::2
+      dst: 2a03:2260:0:417::1
+  bb_b_fra2_fra:
+    ipv4:
+      src: 100.64.7.237
+      dst: 100.64.7.236
+    ipv6:
+      src: 2a03:2260:0:418::2
+      dst: 2a03:2260:0:418::1
+  bb_b_ix_dus:
+    ipv4:
+      src: 100.64.7.239
+      dst: 100.64.7.238
+    ipv6:
+      src: 2a03:2260:0:419::2
+      dst: 2a03:2260:0:419::1

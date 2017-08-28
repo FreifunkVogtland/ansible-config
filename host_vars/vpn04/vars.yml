@@ -21,4 +21,46 @@ batadv_primary: 02:62:e7:ab:04:04
 fastd_peer_limit: 30
 fastd_mac_prefix: 02:fa:57:04:00
 
-ffrl_bird: ffv04
+ffrl_bb_links:
+  bb_a_ak_ber:
+    ipv4:
+      src: 100.64.9.31
+      dst: 100.64.9.30
+    ipv6:
+      src: 2a03:2260:0:4a4::2
+      dst: 2a03:2260:0:4a4::1
+  bb_a_fra2_fra:
+    ipv4:
+      src: 100.64.9.33
+      dst: 100.64.9.32
+    ipv6:
+      src: 2a03:2260:0:4a5::2
+      dst: 2a03:2260:0:4a5::1
+  bb_a_ix_dus:
+    ipv4:
+      src: 100.64.9.35
+      dst: 100.64.9.34
+    ipv6:
+      src: 2a03:2260:0:4a6::2
+      dst: 2a03:2260:0:4a6::1
+  bb_b_ak_ber:
+    ipv4:
+      src: 100.64.9.37
+      dst: 100.64.9.36
+    ipv6:
+      src: 2a03:2260:0:4a7::2
+      dst: 2a03:2260:0:4a7::1
+  bb_b_fra2_fra:
+    ipv4:
+      src: 100.64.9.39
+      dst: 100.64.9.38
+    ipv6:
+      src: 2a03:2260:0:4a8::2
+      dst: 2a03:2260:0:4a8::1
+  bb_b_ix_dus:
+    ipv4:
+      src: 100.64.9.41
+      dst: 100.64.9.40
+    ipv6:
+      src: 2a03:2260:0:4a9::2
+      dst: 2a03:2260:0:4a9::1

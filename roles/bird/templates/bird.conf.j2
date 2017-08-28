@@ -84,10 +84,12 @@ template bgp uplink {
         default bgp_local_pref 200;
 };
 
-# TODO autogenerate
-{% if ffrl_bird is defined %}
-include "/opt/freifunk/server-scripts/ffrl-backbone/bird.ffrl.conf.{{ ffrl_bird }}";
-{% endif %}
+{% for name in (ffrl_bb_links.keys() |sort()) %}
+protocol bgp {{ name }} from uplink {
+    source address {{ ffrl_bb_links[name].ipv4.src }};
+    neighbor {{ ffrl_bb_links[name].ipv4.dst }} as {{ ffrl_bb_asn }};
+};
+{% endfor %}
 
 # template for icvpn gateways of other cities
 template bgp icvpn {
