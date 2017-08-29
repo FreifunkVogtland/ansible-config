@@ -1,0 +1,8 @@
+---
+- name: restart bb-ifupdown
+  command: ifdown -a --allow=bb
+  notify:
+  - start bb-ifupdown
+
+- name: start bb-ifupdown
+  command: ifup -a --allow=bb

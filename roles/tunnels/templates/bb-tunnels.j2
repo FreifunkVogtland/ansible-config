@@ -1,0 +1,18 @@
+{% for name in (ffrl_bb_links.keys() |sort()) %}
+auto {{ name | regex_replace('_', '-') }}
+allow-bb {{ name | regex_replace('_', '-') }}
+
+iface {{ name | regex_replace('_', '-') }} inet tunnel
+	mode gre
+	netmask 255.255.255.255
+	address {{ ffrl_bb_links[name]['ipv4']['src'] }}
+	dstaddr {{ ffrl_bb_links[name]['ipv4']['dst'] }}
+	local {{ WANIP }}
+	endpoint {{ ffrl_bb_servers[name] }}
+	ttl 64
+	mtu 1400
+
+iface {{ name | regex_replace('_', '-') }} inet6 static
+	address {{ ffrl_bb_links[name]['ipv6']['src'] }}/64
+
+{% endfor %}

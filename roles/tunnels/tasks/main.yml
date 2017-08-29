@@ -1,0 +1,21 @@
+---
+- name: install ffrl backend dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - ifupdown
+
+- name: enable port ifupdown interfaces.d
+  lineinfile:
+    destfile: '/etc/network/interfaces'
+    state: present
+    regexp: '^source\s+/etc/network/interfaces.d/\*'
+    line: 'source /etc/network/interfaces.d/*'
+
+- name: ffrl backend gre tunnels
+  template:
+    src: bb-tunnels.j2
+    dest: /etc/network/interfaces.d/bb-tunnels
+  notify:
+  - restart bb-ifupdown
+
+# TODO fine a method to remove old entries from running system
