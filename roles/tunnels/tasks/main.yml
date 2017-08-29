@@ -1,0 +1,32 @@
+---
+- name: ffrl backend gre netdev
+  template:
+    src: bb-gre.netdev.j2
+    dest: /etc/systemd/network/25-{{ item | regex_replace('_', '-') }}.netdev
+  with_items: "{{ ffrl_bb_links }}"
+  notify:
+  - restart networkd
+
+- name: ffrl backend gre network
+  template:
+    src: bb-gre.network.j2
+    dest: /etc/systemd/network/25-{{ item | regex_replace('_', '-') }}.network
+  with_items: "{{ ffrl_bb_links }}"
+  notify:
+  - restart networkd
+
+#- name: main tunnel networkd config
+#  template:
+#    src: tunnel.network.j2
+#    dest: /etc/systemd/network/25-tunnel.network
+#  notify:
+#  - restart networkd
+
+# TODO remove old entries
+
+- name: start systemd-networkd
+  systemd:
+    name: systemd-networkd.service
+    daemon_reload: yes
+    enabled: yes
+    state: started

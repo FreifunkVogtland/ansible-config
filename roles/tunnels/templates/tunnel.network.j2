@@ -1,0 +1,7 @@
+[Match]
+Name={{ gateway_if }}
+
+[Network]
+{% for tunnel in ffrl_bb_links %}
+Tunnel={{ tunnel | regex_replace('_', '-') }}
+{% endfor %}

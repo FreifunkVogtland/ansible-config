@@ -1,0 +1,8 @@
+[NetDev]
+Name={{ item | regex_replace('_', '-') }}
+Kind=gre
+
+[Tunnel]
+Local={{ WANIP }}
+Remote={{ ffrl_bb_servers[item] }}
+TTL=64

@@ -1,0 +1,12 @@
+[Match]
+Name={{ item | regex_replace('_', '-') }}
+
+[Link]
+MTUBytes=1400
+
+[Network]
+Address={{ ffrl_bb_links[item]['ipv6']['src'] }}/64
+
+[Address]
+Address={{ ffrl_bb_links[item]['ipv4']['src'] }}/32
+Peer={{ ffrl_bb_links[item]['ipv4']['dst'] }}/32
