@@ -1,0 +1,126 @@
+---
+- name: load nf_conntrack for sysctl settings
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - nf_conntrack
+  - nf_conntrack_ipv4
+
+- name: load nf_conntrack for sysctl settings on boot
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+  with_items:
+  - nf_conntrack
+  - nf_conntrack_ipv4
+
+- name: switch to fq_codel default qdisc
+  sysctl:
+    name: net.core.default_qdisc
+    value: fq_codel
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: enable tcp ecn
+  sysctl:
+    name: net.ipv4.tcp_ecn
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: disable rp_filter
+  sysctl:
+    name: "{{ item }}"
+    value: 0
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+  with_items:
+  - net.ipv4.conf.default.rp_filter
+  - net.ipv4.conf.all.rp_filter
+
+- name: enable forwarding
+  sysctl:
+    name: "{{ item }}"
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+  with_items:
+  - net.ipv4.ip_forward
+  - net.ipv6.conf.all.forwarding
+  - net.ipv6.conf.default.forwarding
+
+- name: set neighbor gc_threshold
+  sysctl:
+    name: "{{ item }}"
+    value: 32766
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+  with_items:
+  - net.ipv4.neigh.default.gc_thresh1
+  - net.ipv4.neigh.default.gc_thresh2
+  - net.ipv4.neigh.default.gc_thresh3
+
+- name: set conntrack limit
+  sysctl:
+    name: net.nf_conntrack_max
+    value: 256000
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: set conntrack timeout
+  sysctl:
+    name: net.netfilter.nf_conntrack_generic_timeout
+    value: 120
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: set conntrack tcp establish timeout
+  sysctl:
+    name: net.netfilter.nf_conntrack_tcp_timeout_established
+    value: 54000
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: set printk ratelimit
+  sysctl:
+    name: kernel.printk_ratelimit
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: set printk ratelimit burst
+  sysctl:
+    name: kernel.printk_ratelimit_burst
+    value: 1000
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf
+
+- name: enable reboot on panic
+  sysctl:
+    name: kernel.panic
+    value: 5
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/local.conf

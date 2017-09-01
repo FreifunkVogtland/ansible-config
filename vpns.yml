@@ -13,6 +13,8 @@
       tags: "mesh-announce"
     - role: server-statistics
       tags: "server-statistics"
+    - role: sysctl
+      tags: "sysctl"
     - role: batadv
       tags: "batadv"
     - role: fastd
