@@ -17,110 +17,96 @@
 
 - name: switch to fq_codel default qdisc
   sysctl:
-    name: net.core.default_qdisc
-    value: fq_codel
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
+  with_dict:
+    net.core.default_qdisc: fq_codel
 
 - name: enable tcp ecn
   sysctl:
-    name: net.ipv4.tcp_ecn
-    value: 1
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
+  with_dict:
+    net.ipv4.tcp_ecn: 1
 
 - name: disable rp_filter
   sysctl:
-    name: "{{ item }}"
-    value: 0
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
-  with_items:
-  - net.ipv4.conf.default.rp_filter
-  - net.ipv4.conf.all.rp_filter
+  with_dict:
+    net.ipv4.conf.default.rp_filter: 0
+    net.ipv4.conf.all.rp_filter: 0
 
 - name: enable forwarding
   sysctl:
-    name: "{{ item }}"
-    value: 1
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
-  with_items:
-  - net.ipv4.ip_forward
-  - net.ipv6.conf.all.forwarding
-  - net.ipv6.conf.default.forwarding
+  with_dict:
+    net.ipv4.ip_forward: 1
+    net.ipv6.conf.all.forwarding: 1
+    net.ipv6.conf.default.forwarding: 1
 
 - name: set neighbor gc_threshold
   sysctl:
-    name: "{{ item }}"
-    value: 32766
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
-  with_items:
-  - net.ipv4.neigh.default.gc_thresh1
-  - net.ipv4.neigh.default.gc_thresh2
-  - net.ipv4.neigh.default.gc_thresh3
+  with_dict:
+    net.ipv4.neigh.default.gc_thresh1: 32766
+    net.ipv4.neigh.default.gc_thresh2: 32766
+    net.ipv4.neigh.default.gc_thresh3: 32766
 
-- name: set conntrack limit
+- name: set conntrack limits/timeouts
   sysctl:
-    name: net.nf_conntrack_max
-    value: 256000
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
-
-- name: set conntrack timeout
-  sysctl:
-    name: net.netfilter.nf_conntrack_generic_timeout
-    value: 120
-    sysctl_set: yes
-    state: present
-    reload: yes
-    sysctl_file: /etc/sysctl.d/local.conf
-
-- name: set conntrack tcp establish timeout
-  sysctl:
-    name: net.netfilter.nf_conntrack_tcp_timeout_established
-    value: 54000
-    sysctl_set: yes
-    state: present
-    reload: yes
-    sysctl_file: /etc/sysctl.d/local.conf
+  with_dict:
+    net.nf_conntrack_max: 256000
+    net.netfilter.nf_conntrack_generic_timeout: 120
+    net.netfilter.nf_conntrack_tcp_timeout_established: 54000
 
 - name: set printk ratelimit
   sysctl:
-    name: kernel.printk_ratelimit
-    value: 1
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
-
-- name: set printk ratelimit burst
-  sysctl:
-    name: kernel.printk_ratelimit_burst
-    value: 1000
-    sysctl_set: yes
-    state: present
-    reload: yes
-    sysctl_file: /etc/sysctl.d/local.conf
+  with_dict:
+    kernel.printk_ratelimit: 1
+    kernel.printk_ratelimit_burst: 1000
 
 - name: enable reboot on panic
   sysctl:
-    name: kernel.panic
-    value: 5
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     sysctl_set: yes
     state: present
     reload: yes
     sysctl_file: /etc/sysctl.d/local.conf
+  with_dict:
+    kernel.panic: 5
