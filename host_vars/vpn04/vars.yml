@@ -1,7 +1,7 @@
 ---
 gateway_if: eth0
 meshviewer: 0
-icvpn: no
+icvpn: yes
 dnsmasq: yes
 
 WANIP: "88.99.151.81"
@@ -17,6 +17,11 @@ DIRECT: "0"
 
 batadv_mac: 02:ba:7a:df:04:00
 batadv_primary: 02:62:e7:ab:04:04
+
+icvpn_name: vogtland4
+icvpn_ipv4: 10.207.0.93
+icvpn_bcast: 10.207.255
+icvpn_ipv6: fec0::a:cf:0:5d
 
 fastd_peer_limit: 30
 fastd_mac_prefix: 02:fa:57:04:00
