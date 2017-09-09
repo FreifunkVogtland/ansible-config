@@ -50,6 +50,14 @@ filter icvpn_in {
         accept;
 }
 
+filter icvpn_out {
+	if is_self_net() then accept;
+	if source = RTS_BGP then {
+		if is_freifunk() then accept;
+	}
+	reject;
+}
+
 # ibgp zwischen den gateways
 template bgp internal {
         local as {{ OWNASN }};
@@ -88,7 +96,7 @@ template bgp icvpn {
         local as {{ OWNASN }};
         # ignore routes for our own network
         import filter icvpn_in;
-        export where is_freifunk() || (source = RTS_BGP);
+        export filter icvpn_out;
         route limit 10000;
 };
 
