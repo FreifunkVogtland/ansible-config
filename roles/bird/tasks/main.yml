@@ -7,14 +7,16 @@
 - name: install icvpn bird config stubs
   copy:
     content: ""
-    dest: "/var/tmp/{{ item }}-icvpn.conf"
+    dest: "/var/tmp/{{ item }}.conf"
     force: no
     group: root
     owner: root
     mode: 0644
   with_items:
-  - bird
-  - bird6
+  - bird-icvpn
+  - bird6-icvpn
+  - bird-icvpn-roa
+  - bird6-icvpn-roa
 
 - name: install bird config
   template:
