@@ -98,6 +98,7 @@ template bgp icvpn {
         import filter icvpn_in;
         export filter icvpn_out;
         route limit 10000;
+	direct;
 };
 
 # aus ICVPN Meta erzeugte konfiguration
