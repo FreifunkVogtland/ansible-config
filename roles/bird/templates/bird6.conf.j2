@@ -36,6 +36,20 @@ filter hostroute {
         reject;
 }
 
+roa table icvpn_roa {
+	include "/var/tmp/bird6-icvpn-roa.conf";
+}
+
+filter icvpn_in {
+        if !is_freifunk() then reject;
+        if is_self_net() then reject;
+        if roa_check(icvpn_roa, net, bgp_path.last) = ROA_INVALID then {
+                print "ROA check failed for ", net, " ASN ", bgp_path.last;
+                reject;
+        }
+        accept;
+}
+
 # ibgp zwischen den gateways
 template bgp internal {
         local as {{ OWNASN }};
@@ -73,7 +87,7 @@ protocol bgp {{ name }} from uplink {
 template bgp icvpn {
         local as {{ OWNASN }};
         # ignore routes for our own network
-        import where is_freifunk() && !is_self_net();
+        import filter icvpn_in;
         export where is_freifunk() || (source = RTS_BGP);
         route limit 10000;
 };
