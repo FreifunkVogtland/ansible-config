@@ -13,6 +13,8 @@
       tags: "mesh-announce"
     - role: server-statistics
       tags: "server-statistics"
+    - role: logrotate
+      tags: "logrotate"
     - role: sysctl
       tags: "sysctl"
     - role: tunnels

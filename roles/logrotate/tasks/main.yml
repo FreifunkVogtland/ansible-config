@@ -1,0 +1,10 @@
+---
+- name: install logrotate dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - logrotate
+
+- name: install default logrotate config
+  copy:
+    src: rsyslog
+    dest: /etc/logrotate.d/rsyslog
