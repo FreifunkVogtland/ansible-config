@@ -21,6 +21,12 @@ protocol static unreachable_default {
 	route 0.0.0.0/0 reject;
 }
 
+{% if DIRECT == "1" %}
+protocol static direct_default {
+	route 0.0.0.0/0 via {{ WANGW }};
+}
+{% endif %}
+
 function is_default() {
 	return (net ~ [0.0.0.0/0]);
 };
