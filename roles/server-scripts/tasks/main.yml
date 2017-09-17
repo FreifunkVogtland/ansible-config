@@ -50,7 +50,6 @@
   - iproute2
   - batctl
   - procps
-  - iptables
 
 - name: Install server scripts
   git:

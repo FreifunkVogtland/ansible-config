@@ -33,6 +33,8 @@
       tags: "dnsmasq"
     - role: bird
       tags: "bird"
+    - role: firewall
+      tags: "firewall"
 
 - hosts: vpn01
   gather_facts: false

@@ -1,0 +1,15 @@
+*mangle
+:PREROUTING ACCEPT 
+:INPUT ACCEPT 
+:FORWARD ACCEPT 
+:OUTPUT ACCEPT 
+:POSTROUTING ACCEPT 
+-A PREROUTING -i bat+ -j MARK --set-xmark 0x1/0xffffffff
+-A PREROUTING -i icvpn -j MARK --set-xmark 0x1/0xffffffff
+
+{% if ffrl_bb_links %}
+-A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1220 -j TCPMSS --set-mss 1220
+{% endif %}
+
+-A FORWARD -o bat0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1220 -j TCPMSS --set-mss 1220
+COMMIT

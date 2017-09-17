@@ -1,0 +1,10 @@
+---
+- name: restart iptables
+  systemd:
+    name: iptables.service
+    state: "restarted"
+
+- name: restart ip6tables
+  systemd:
+    name: ip6tables.service
+    state: "restarted"

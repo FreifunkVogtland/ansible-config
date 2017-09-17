@@ -1,0 +1,43 @@
+*filter
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+
+{% if inventory_hostname == "vpn01" %}
+-A FORWARD -i {{ gateway_if }} -p tcp -m tcp --dport 873 -m state --state NEW -j ACCEPT
+-A FORWARD -i eth0 -o {{ gateway_if }} -j ACCEPT
+-A FORWARD -i {{ gateway_if }} -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i {{ gateway_if }} -o eth0 -j DROP
+{% endif %}
+COMMIT
+
+*mangle
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+-A PREROUTING -i bat+ -j MARK --set-xmark 0x1/0xffffffff
+-A PREROUTING -i icvpn -j MARK --set-xmark 0x1/0xffffffff
+-A FORWARD -o bat0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
+
+{% if BACKBONE_IPV4 %}
+-A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
+{% endif %}
+COMMIT
+
+*nat
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+-A POSTROUTING -o {{ gateway_if }} -s 10.204.0.0/16 -j MASQUERADE
+
+{% if BACKBONE_IPV4 %}
+-A POSTROUTING -o bb-+ -j SNAT --to-source {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
+{% endif %}
+
+{% if inventory_hostname == "vpn01" %}
+-A PREROUTING -i {{ gateway_if }} -p tcp -m tcp --dport 873 -m state --state NEW -j DNAT --to-destination 10.204.15.200
+{% endif %}
+COMMIT
