@@ -16,6 +16,11 @@ protocol device {
 	scan time 10;
 }
 
+protocol static unreachable_default {
+	preference 0;
+	route ::/0 reject;
+}
+
 function is_default() {
 	return (net ~ [::/0]);
 }
