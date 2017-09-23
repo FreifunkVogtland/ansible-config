@@ -97,7 +97,7 @@ template bgp internal {
 		accept;
 	};
 	export where source = RTS_BGP;
-	# gateway direct;
+	direct;
 	next hop self;
 };
 
