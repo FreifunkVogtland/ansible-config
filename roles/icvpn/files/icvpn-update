@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 DATADIR=/var/lib/icvpn-meta
 
 cd /etc/tinc/icvpn
@@ -8,12 +10,18 @@ git pull -q
 cd "$DATADIR"
 git pull -q
 
-/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -4 > /var/tmp/bird-icvpn.conf
-/opt/freifunk/icvpn-scripts/mkroa -x vogtland -f bird  -s "$DATADIR" -4 > /var/tmp/bird-icvpn-roa.conf
+/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -4 > /var/tmp/bird-icvpn.conf.tmp
+/opt/freifunk/icvpn-scripts/mkroa -x vogtland -f bird  -s "$DATADIR" -4 > /var/tmp/bird-icvpn-roa.conf.tmp
+mv /var/tmp/bird-icvpn.conf.tmp /var/tmp/bird-icvpn.conf
+mv /var/tmp/bird-icvpn-roa.conf.tmp /var/tmp/bird-icvpn-roa.conf
 birdc configure > /dev/null
 
-/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -6 > /var/tmp/bird6-icvpn.conf
-/opt/freifunk/icvpn-scripts/mkroa -x vogtland -f bird  -s "$DATADIR" -6 > /var/tmp/bird6-icvpn-roa.conf
+/opt/freifunk/icvpn-scripts/mkbgp -x vogtland -p icvpn_ -f bird  -d icvpn -s "$DATADIR" -6 > /var/tmp/bird6-icvpn.conf.tmp
+/opt/freifunk/icvpn-scripts/mkroa -x vogtland -f bird  -s "$DATADIR" -6 > /var/tmp/bird6-icvpn-roa.conf.tmp
+mv /var/tmp/bird6-icvpn.conf.tmp /var/tmp/bird6-icvpn.conf
+mv /var/tmp/bird6-icvpn-roa.conf.tmp /var/tmp/bird6-icvpn-roa.conf
 birdc6 configure > /dev/null
 
-/opt/freifunk/icvpn-scripts/mkdns -s "$DATADIR" -x vogtland -f dnsmasq > /var/tmp/dnsmasq-icvpn.conf
+/opt/freifunk/icvpn-scripts/mkdns -s "$DATADIR" -x vogtland -f dnsmasq > /var/tmp/dnsmasq-icvpn.conf.tmp
+mv /var/tmp/dnsmasq-icvpn.conf.tmp /var/tmp/dnsmasq-icvpn.conf
+# TODO reload dnsmasq on changes
