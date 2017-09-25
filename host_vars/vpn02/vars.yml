@@ -3,20 +3,21 @@ gateway_if: eth0
 meshviewer: 0
 icvpn: no
 dnsmasq: yes
+vpnid: 2
 
 WANIP: "77.48.30.102"
 WANGW: "77.48.30.97"
 WANGW6: "::1"
-ROUTERID: "10.204.32.1"
-ROUTERIDV6: "2a03:2260:200f:1337::2"
-DNSMASQ_RANGE: "10.204.32.0,10.204.47.255"
+ROUTERID: "{{ '10.204.%d.1'|format(vpnid * 16|int) }}"
+ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
+DNSMASQ_RANGE: "{{ '10.204.%d.0,10.204.%d.255'|format(vpnid * 16|int, vpnid * 16 + 15|int) }}"
 BACKBONE_IPV4: ""
 USE_RADVD: "0"
 SHAPE_LIMIT: "25mbit"
 DIRECT: "1"
 
-batadv_mac: 02:ba:7a:df:02:00
-batadv_primary: 02:62:e7:ab:02:02
+batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
+batadv_primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, vpnid|int) }}"
 
 fastd_peer_limit: 3
-fastd_mac_prefix: 02:fa:57:02:00
+fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
