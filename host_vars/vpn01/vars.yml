@@ -7,6 +7,7 @@ vpnid: 1
 
 WANIP: "194.25.105.16"
 WANGW: "194.25.105.1"
+WANIP6: "2003:49:a051:9000::1337"
 WANGW6: "::1"
 ROUTERID: "{{ '10.204.%d.1'|format(vpnid * 16|int) }}"
 ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"

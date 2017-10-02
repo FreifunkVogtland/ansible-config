@@ -1,3 +1,19 @@
+*filter
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10004 -j LOG --log-prefix fastdinfastd
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10004 -j DROP
+
+{% for peer in groups['vpns'] %}
+{% if hostvars[peer]['WANIP6'] is defined %}
+-A FORWARD -d {{ hostvars[peer]['WANIP6'] }}/128 -i bat0 -p udp -m udp --match multiport --dports 10000:10004 -j LOG --log-prefix fastdinfastd
+-A FORWARD -d {{ hostvars[peer]['WANIP6'] }}/128 -i bat0 -p udp -m udp --match multiport --dports 10000:10004 -j DROP
+{% endif %}
+{% endfor %}
+COMMIT
+
 *mangle
 :PREROUTING ACCEPT 
 :INPUT ACCEPT 
