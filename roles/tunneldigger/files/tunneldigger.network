@@ -1,0 +1,5 @@
+[Match]
+Name=tunneldigger
+
+[Network]
+IPv6AcceptRA=no

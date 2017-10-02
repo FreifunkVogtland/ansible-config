@@ -1,0 +1,53 @@
+[broker]
+; IP address the broker will listen and accept tunnels on
+address={{ WANIP }}
+; Ports where the broker will listen on
+port=10004
+; Interface with that IP address
+interface={{ gateway_if }}
+; Maximum number of cached cookies, required for establishing a
+; session with the broker
+max_cookies=1024
+; Maximum number of tunnels that will be allowed by the broker
+max_tunnels={{ tunneldigger_peer_limit }}
+; Tunnel port base
+port_base=20000
+; Tunnel id base
+tunnel_id_base=100
+; Tunnel timeout interval in seconds
+tunnel_timeout=60
+; Should PMTU discovery be enabled
+pmtu_discovery=false
+; Namespace (for running multiple brokers); note that you must also
+; configure disjunct ports, and tunnel identifiers in order for
+; namespacing to work
+namespace=experiments
+; check if all kernel module are loaded. Do not check for built-ins.
+check_modules=true
+
+[log]
+; Log filename
+filename=tunneldigger-broker.log
+; Verbosity
+verbosity=DEBUG
+; Should IP addresses be logged or not
+log_ip_addresses=false
+
+[hooks]
+; Arguments to the session.{up,pre-down,down} hooks are as follows:
+;
+;    <tunnel_id> <session_id> <interface> <mtu> <endpoint_ip> <endpoint_port> <local_port>
+;
+; Arguments to the session.mtu-changed hook are as follows:
+;
+;    <tunnel_id> <session_id> <interface> <old_mtu> <new_mtu>
+;
+
+; Called after the tunnel interface goes up
+session.up=/opt/freifunk/tunneldigger/scripts/session-up.sh
+; Called just before the tunnel interface goes down
+session.pre-down=/opt/freifunk/tunneldigger/scripts/session-pre-down.sh
+; Called after the tunnel interface goes down
+session.down=
+; Called after the tunnel MTU gets changed because of PMTU discovery
+session.mtu-changed=

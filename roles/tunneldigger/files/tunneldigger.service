@@ -1,0 +1,13 @@
+[Unit]
+Description = Start tunneldigger L2TPv3 broker
+After = network.target
+Wants=batadv-bat0.service
+BindsTo=sys-subsystem-net-devices-tunneldigger.device
+After=sys-subsystem-net-devices-tunneldigger.device
+After=tunneldigger.service
+
+[Service]
+ExecStart = /opt/freifunk/tunneldigger/start-broker.sh
+
+[Install]
+WantedBy = multi-user.target

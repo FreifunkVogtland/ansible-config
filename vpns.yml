@@ -23,6 +23,8 @@
       tags: "batadv"
     - role: fastd
       tags: "fastd"
+    - role: tunneldigger
+      tags: "tunneldigger"
     - role: server-scripts
       tags: "server-scripts"
     - role: radvd

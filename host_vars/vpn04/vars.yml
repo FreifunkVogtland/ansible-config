@@ -27,6 +27,9 @@ icvpn_ipv6: fec0::a:cf:0:5d
 fastd_peer_limit: 30
 fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
 
+tunneldigger_peer_limit: 120
+tunneldigger_mac: "{{ '02:12:7b:00:%02x:00'|format(vpnid|int) }}"
+
 ffrl_bb_links:
   bb_a_ak_ber:
     ipv4:

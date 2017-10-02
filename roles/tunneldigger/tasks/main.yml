@@ -1,0 +1,142 @@
+---
+- name: load nf_conntrack for tunneldigger
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - nf_conntrack_ipv4
+  - l2tp_core
+  - l2tp_eth
+  - l2tp_netlink
+  - ebtables
+  - nf_conntrack_netlink
+  - nf_conntrack
+  - nfnetlink
+  
+- name: load modules for tunneldigger during boot
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+  with_items:
+  - nf_conntrack_ipv4
+  - l2tp_core
+  - l2tp_eth
+  - l2tp_netlink
+  - ebtables
+  - nf_conntrack_netlink
+  - nf_conntrack
+  - nfnetlink
+
+- name: install tunneldigger dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - iproute2
+  - batctl
+  - bridge-utils
+  - conntrack
+  - libnetfilter-conntrack3
+  - python-dev
+  - libevent-dev
+  - ebtables
+  - python-virtualenv
+
+- name: install tunneldigger netdev
+  template:
+    src: tunneldigger.netdev.j2
+    dest: /etc/systemd/network/25-tunneldigger.netdev
+  notify:
+  - restart networkd
+
+- name: install tunneldigger network
+  copy:
+    src: tunneldigger.network
+    dest: /etc/systemd/network/25-tunneldigger.network
+  notify:
+  - restart networkd
+
+- meta: flush_handlers
+
+- name: start systemd-networkd
+  systemd:
+    name: systemd-networkd.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install tunneldigger bridge service
+  copy:
+    src: bridge-tunneldigger.service
+    dest: /etc/systemd/system/bridge-tunneldigger.service
+  notify:
+  - restart bridge-tunneldigger
+
+- name: start tunneldigger bridge
+  systemd:
+    name: bridge-tunneldigger.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install tunneldigger
+  git:
+    repo: 'https://github.com/FreifunkVogtland/tunneldigger.git'
+    dest: /opt/freifunk/tunneldigger
+    version: ffv-conntrack
+  notify:
+  - restart tunneldigger
+
+- name: install tunneldigger pip dependencies
+  pip:
+    requirements: /opt/freifunk/tunneldigger/broker/requirements.txt
+    virtualenv: /opt/freifunk/tunneldigger
+  notify:
+  - restart tunneldigger
+
+- name: create tunneldigger scripts directory
+  file:
+    dest: /opt/freifunk/tunneldigger/scripts/
+    state: directory
+
+- name: install tunneldigger hook scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/opt/freifunk/tunneldigger/scripts/{{ item }}"
+    group: root
+    owner: root
+    mode: 0755
+  with_items:
+  - session-pre-down.sh
+  - session-up.sh
+  notify:
+  - restart tunneldigger
+
+- name: install broker startup script
+  copy:
+    src: start-broker.sh
+    dest: /opt/freifunk/tunneldigger/start-broker.sh
+    group: root
+    owner: root
+    mode: 0755
+  notify:
+  - restart tunneldigger
+
+- name: create broker configuration
+  template:
+    src: l2tp_broker.cfg.j2
+    dest: /opt/freifunk/tunneldigger/broker/l2tp_broker.cfg
+  notify:
+  - restart tunneldigger
+
+- name: install tunneldigger service
+  copy:
+    src: tunneldigger.service
+    dest: /etc/systemd/system/tunneldigger.service
+  notify:
+  - restart tunneldigger
+
+- name: start tunneldigger
+  systemd:
+    name: tunneldigger.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
