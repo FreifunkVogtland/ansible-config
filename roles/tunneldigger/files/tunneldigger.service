@@ -4,7 +4,9 @@ After = network.target
 Wants=batadv-bat0.service
 BindsTo=sys-subsystem-net-devices-tunneldigger.device
 After=sys-subsystem-net-devices-tunneldigger.device
-After=tunneldigger.service
+After=bridge-tunneldigger.service
+After=iptables.service
+PartOf=iptables.service
 
 [Service]
 ExecStart = /opt/freifunk/tunneldigger/start-broker.sh
