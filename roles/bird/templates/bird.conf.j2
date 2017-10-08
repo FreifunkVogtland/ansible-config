@@ -44,6 +44,13 @@ function is_freifunk() {
 	];
 }
 
+# transition networks
+function is_transition() {
+	return (net ~ [
+		10.207.0.0/16+
+	]);
+}
+
 protocol kernel {
 	table kernelcopy;
 	device routes;
@@ -91,8 +98,14 @@ filter icvpn_out {
 
 protocol ospf o_mesh {
 	preference 90;
-	import where is_default() || is_self_net();
+	import where is_default() || is_self_net() || is_transition();
+	export where is_self_net() || is_transition();
 	area 0 {
+{% if icvpn %}
+		networks {
+			10.207.0.0/16;
+		};
+{% endif %}
 		interface "bat0" {
 			authentication cryptographic;
 			password "{{ ospf_password }}";
