@@ -65,6 +65,21 @@ filter icvpn_out {
 	reject;
 }
 
+protocol ospf o_mesh {
+	preference 90;
+	import where is_default() || is_self_net();
+	area 0 {
+		interface "bat0" {
+			type nonbroadcast;
+			neighbors {
+{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+				{{ hostvars[peer]['ROUTERIDV6'] }} eligible;
+{% endfor %}
+			};
+		};
+	};
+};
+
 # ibgp zwischen den gateways
 template bgp internal {
 	local as {{ OWNASN }};
