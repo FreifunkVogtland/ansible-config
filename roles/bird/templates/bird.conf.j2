@@ -115,7 +115,6 @@ template bgp internal {
 	};
 	export where source = RTS_BGP;
 	direct;
-	next hop self;
 };
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
