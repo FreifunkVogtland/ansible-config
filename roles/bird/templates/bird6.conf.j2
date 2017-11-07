@@ -135,8 +135,10 @@ template bgp icvpn {
 	direct;
 };
 
+{% if icvpn %}
 # aus ICVPN Meta erzeugte konfiguration
 include "/var/tmp/bird6-icvpn.conf";
+{% endif %}
 
 protocol static {
 	import all;

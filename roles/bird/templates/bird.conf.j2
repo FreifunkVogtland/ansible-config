@@ -163,7 +163,9 @@ template bgp icvpn {
 	direct;
 };
 
+{% if icvpn %}
 include "/var/tmp/bird-icvpn.conf";
+{% endif %}
 
 protocol static {
 	import all;
