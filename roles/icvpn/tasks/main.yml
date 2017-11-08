@@ -93,8 +93,8 @@
   when: icvpn
 
 - name: install icvpn-update hourly cron
-  copy:
-    src: icvpn-update
+  template:
+    src: icvpn-update.j2
     group: root
     owner: root
     mode: 0755
