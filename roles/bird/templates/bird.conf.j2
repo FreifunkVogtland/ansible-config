@@ -75,7 +75,9 @@ filter hostroute {
 };
 
 roa table icvpn_roa {
+{% if icvpn %}
 	include "/var/tmp/bird-icvpn-roa.conf";
+{% endif %}
 }
 
 filter icvpn_in {
