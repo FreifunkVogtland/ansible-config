@@ -81,7 +81,7 @@
   git:
     repo: 'https://github.com/FreifunkVogtland/tunneldigger.git'
     dest: /opt/freifunk/tunneldigger
-    version: ffv-conntrack
+    version: master
   notify:
   - restart tunneldigger
 
