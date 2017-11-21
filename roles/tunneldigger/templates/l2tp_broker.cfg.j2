@@ -5,29 +5,24 @@ address={{ WANIP }}
 port=10004
 ; Interface with that IP address
 interface={{ gateway_if }}
-; Maximum number of cached cookies, required for establishing a
-; session with the broker
-max_cookies=1024
 ; Maximum number of tunnels that will be allowed by the broker
 max_tunnels={{ tunneldigger_peer_limit }}
 ; Tunnel port base
 port_base=20000
 ; Tunnel id base
 tunnel_id_base=100
-; Tunnel timeout interval in seconds
-tunnel_timeout=60
-; Should PMTU discovery be enabled
-pmtu_discovery=false
 ; Namespace (for running multiple brokers); note that you must also
 ; configure disjunct ports, and tunnel identifiers in order for
 ; namespacing to work
 namespace=experiments
-; check if all kernel module are loaded. Do not check for built-ins.
-check_modules=true
+; Reject connections if there are less than N seconds since the last connection
+connection_rate_limit=10
+; Set PMTU to a fixed value.  Use 0 for automatic PMTU discovery.  A non-0 value also disables
+; PMTU discovery on the client side, by having the server not respond to client-side PMTU
+; discovery probes.
+pmtu=1426
 
 [log]
-; Log filename
-filename=tunneldigger-broker.log
 ; Verbosity
 verbosity=DEBUG
 ; Should IP addresses be logged or not

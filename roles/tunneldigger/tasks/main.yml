@@ -39,6 +39,8 @@
   - libevent-dev
   - ebtables
   - python-virtualenv
+  - libnfnetlink-dev
+  - libnetfilter-conntrack-dev
 
 - name: install tunneldigger netdev
   template:
@@ -85,12 +87,25 @@
   notify:
   - restart tunneldigger
 
+- name: install tunneldigger requirements.txt
+  copy:
+    src: requirements.txt
+    dest: "/opt/freifunk/tunneldigger/broker/requirements.txt"
+    group: root
+    owner: root
+    mode: 0644
+
 - name: install tunneldigger pip dependencies
   pip:
     requirements: /opt/freifunk/tunneldigger/broker/requirements.txt
     virtualenv: /opt/freifunk/tunneldigger
   notify:
   - restart tunneldigger
+
+- name: setup tunneldigger
+  shell: /opt/freifunk/tunneldigger/bin/python /opt/freifunk/tunneldigger/broker/setup.py install
+  args:
+    chdir: /opt/freifunk/tunneldigger/broker/
 
 - name: create tunneldigger scripts directory
   file:
