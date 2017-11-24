@@ -1,5 +1,6 @@
 router id {{ ROUTERID }};
 table kernelcopy;
+table igp_t;
 
 protocol direct {
 	interface "*";
@@ -99,6 +100,7 @@ filter icvpn_out {
 }
 
 protocol ospf o_mesh {
+	table igp_t;
 	preference 90;
 	import where is_default() || is_self_net() || is_transition();
 	export where is_self_net() || is_transition();
@@ -123,6 +125,7 @@ protocol ospf o_mesh {
 
 # ibgp zwischen den gateways
 template bgp internal {
+	igp table igp_t;
 	local as {{ OWNASN }};
 	import filter {
 		preference = 99;
