@@ -8,12 +8,12 @@ interface bat0 {
 
   MaxRtrAdvInterval 30;
 
-  prefix 2a03:2260:200f:1337::/64 {
+  prefix {{ ROUTERRANGEV6 }}/64 {
     AdvOnLink off;
     AdvAutonomous on;
     AdvRouterAddr on;
   };
 
-  RDNSS {{ ROUTERIDV6 }} {
+  RDNSS {{ ROUTERIPV6 }} {
   };
 };
