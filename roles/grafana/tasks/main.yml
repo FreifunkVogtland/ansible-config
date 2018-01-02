@@ -47,7 +47,7 @@
     dest: "/etc/carbon/{{ item }}"
   with_items:
   - aggregation-rules.conf
-  - aggregation-rules.conf
+  - storage-schemas.conf
   - storage-aggregation.conf
   notify:
   - restart carbon-cache
