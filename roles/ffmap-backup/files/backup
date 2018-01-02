@@ -10,6 +10,7 @@ backups=(
     [graphite]=/var/lib/graphite/
     [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
     [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
+    [yanic]=/var/lib/yanic/
 )
 
 for backup in "${!backups[@]}"; do
