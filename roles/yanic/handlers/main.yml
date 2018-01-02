@@ -1,0 +1,5 @@
+---
+- name: restart yanic
+  systemd:
+    name: yanic.service
+    state: "restarted"

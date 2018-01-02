@@ -1,0 +1,45 @@
+---
+- name: install yanic dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - build-essential
+  - golang-go
+
+- name: create yanic user
+  user: name=yanic
+
+- name: create yanic output directory
+  file:
+    path: /var/www/meshviewer/ffv/yanic
+    state: directory
+    owner: yanic
+
+- name: create yanic db directory
+  file:
+    path: /var/lib/yanic
+    state: directory
+    owner: yanic
+
+# TODO this is really bad for versioning - we have to find a better way
+#- name: install yanic
+#  command: go get -t github.com/FreifunkBremen/yanic/...
+#  environment:
+#    GOPATH: /usr/src/yanic
+
+- name: configure yanic
+  copy:
+    src: config.toml
+    dest: /etc/yanic.conf
+  notify:
+  - restart yanic
+
+- name: install yanic service
+  copy:
+    src: yanic.service
+    dest: /etc/systemd/system/yanic.service
+
+- name: enable yanic service
+  systemd:
+    name: yanic.service
+    daemon_reload: yes
+    enabled: yes

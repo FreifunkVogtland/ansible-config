@@ -42,6 +42,8 @@
   gather_facts: false
   become: yes
   roles:
+    - role: yanic
+      tags: "yanic"
     - role: ffmap-backend
       tags: "ffmap-backend"
     - role: ffmap-backup
