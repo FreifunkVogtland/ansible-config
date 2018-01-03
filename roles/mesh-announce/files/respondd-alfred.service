@@ -1,6 +1,0 @@
-[Unit]
-Description=Respondd-Alfred
-
-[Service]
-ExecStart=/opt/freifunk/ffnord-alfred-announce/announce.sh
-Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
