@@ -16,6 +16,7 @@
   - pandoc
   - python3-fastkml
   - python3-shapely
+  - python3-tz
 
 - name: install ffmap-backend
   git:
