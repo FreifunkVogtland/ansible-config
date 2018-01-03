@@ -1,34 +1,17 @@
 ---
-- include: alfred-json.yml
-
 - name: install ffmap-backend dependencies
   apt: pkg={{ item }} state=installed
   with_items:
   - build-essential
-  - alfred
   - batctl
   - python3
   - python3-networkx
-  - rrdtool
-  - jq
   - python3-dateutil
   - netcat
   - pandoc
   - python3-fastkml
   - python3-shapely
   - python3-tz
-
-- name: install ffmap-backend
-  git:
-    repo: 'https://github.com/FreifunkVogtland/ffmap-backend.git'
-    dest: /opt/freifunk/meshviewer/ffmap-backend
-    version: ffv
-
-- name: copy ffmap-backend alias.json
-  copy: src=alias.json dest=/opt/freifunk/meshviewer/ffmap-backend/alias.json
-
-- name: create ffmap-backend data directory
-  file: state=directory path=/opt/freifunk/meshviewer/data
 
 - name: create meshviewer webserver data directory
   file: state=directory path=/var/www/meshviewer/ffv/
