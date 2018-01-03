@@ -43,3 +43,58 @@
     name: yanic.service
     daemon_reload: yes
     enabled: yes
+
+- name: install meshviewer-yanic helper dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - build-essential
+  - batctl
+  - python3
+  - python3-networkx
+  - python3-dateutil
+  - netcat
+  - pandoc
+  - python3-fastkml
+  - python3-shapely
+  - python3-tz
+
+- name: create meshviewer webserver data directory
+  file: state=directory path=/var/www/meshviewer/ffv/
+
+- name: Install meshviewer-filter
+  git:
+    repo: 'https://github.com/FreifunkVogtland/ffv-meshviewer-filter.git'
+    dest: /opt/freifunk/meshviewer/ffv-meshviewer-filter
+
+- name: Install api-generator
+  git:
+    repo: 'https://github.com/FreifunkVogtland/ffv-api-generator.git'
+    dest: /opt/freifunk/ffv-api-generator
+
+# TODO install dependencies python3-xe and python3-feed
+- name: Install nodes2eventlog
+  git:
+    repo: 'https://github.com/FreifunkVogtland/nodes2eventlog.git'
+    dest: /opt/freifunk/meshviewer/ffv-nodes2eventlog
+
+- name: create nodes2eventlog instant database
+  file: state=directory path=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
+
+- name: create nodes2eventlog 60min delay database
+  file: state=directory path=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
+
+- name: Install nodelist2kml
+  git:
+    repo: 'https://github.com/FreifunkVogtland/nodelist2kml.git'
+    dest: /opt/freifunk/meshviewer/nodelist2kml
+
+## TODO carbone + grafana installation
+- name: Install grafana-config
+  git:
+    repo: 'https://github.com/FreifunkVogtland/ffv-grafana-config.git'
+    dest: /opt/freifunk/ffv-grafana-config
+
+- name: create grafana dynamic folder
+  file: state=directory path=/opt/freifunk/ffv-grafana-config/dashboard/dynamic
+
+# TODO create systemd timer and unit for ffc mapviewer -> first extract it from normal watchdog
