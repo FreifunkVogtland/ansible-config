@@ -10,7 +10,7 @@
 
 - name: create yanic output directory
   file:
-    path: /var/www/meshviewer/ffv/yanic
+    path: /opt/freifunk/meshviewer/data
     state: directory
     owner: yanic
 
@@ -59,7 +59,7 @@
   - python3-tz
 
 - name: create meshviewer webserver data directory
-  file: state=directory path=/var/www/meshviewer/ffv/
+  file: state=directory path=/opt/freifunk/meshviewer/data/
 
 - name: Install meshviewer-filter
   git:

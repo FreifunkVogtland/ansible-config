@@ -67,7 +67,7 @@ offline_after = "10m"
 # definition for the new more compressed meshviewer.json
 [[nodes.output.meshviewer-ffrgb]]
 enable   = true
-path = "/var/www/meshviewer/ffv/yanic/meshviewer.json"
+path = "/opt/freifunk/meshviewer/data/meshviewer.json"
 
 [nodes.output.meshviewer-ffrgb.filter]
 no_owner = true
@@ -92,9 +92,9 @@ enable = true
 #        https://github.com/ffrgb/meshviewer/tree/develop
 version    = 2
 # path where to store nodes.json
-nodes_path = "/var/www/meshviewer/ffv/yanic/nodes.json"
+nodes_path = "/opt/freifunk/meshviewer/data/nodes.json"
 # path where to store graph.json
-graph_path = "/var/www/meshviewer/ffv/yanic/graph.json"
+graph_path = "/opt/freifunk/meshviewer/data/graph.json"
 
 [nodes.output.meshviewer.filter]
 no_owner = false
@@ -103,7 +103,7 @@ no_owner = false
 # definition for nodelist.json
 [[nodes.output.nodelist]]
 enable   = true
-path = "/var/www/meshviewer/ffv/yanic/nodelist.json"
+path = "/opt/freifunk/meshviewer/data/nodelist.json"
 
 [nodes.output.nodelist.filter]
 no_owner = false
