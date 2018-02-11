@@ -1,7 +1,8 @@
 [Unit]
 Description=bridge tunneldigger setup
 Wants=network.target
-Wants=batadv-bat0.service
+BindsTo=batadv-bat0.service
+After=batadv-bat0.service
 BindsTo=sys-subsystem-net-devices-tunneldigger.device
 After=sys-subsystem-net-devices-tunneldigger.device
 
