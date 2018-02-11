@@ -1,4 +1,4 @@
 ---
-- include: hostname.yml
-- include: software.yml
-- include: users.yml
+- import_tasks: hostname.yml
+- import_tasks: software.yml
+- import_tasks: users.yml
