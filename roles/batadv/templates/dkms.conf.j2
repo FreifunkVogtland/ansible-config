@@ -1,10 +1,10 @@
-PACKAGE_NAME=batman-adv
-PACKAGE_VERSION={{ batadv_version }}
+PACKAGE_NAME='batman-adv'
+PACKAGE_VERSION="{{ batadv_version }}"
 
-DEST_MODULE_LOCATION=/extra
-BUILT_MODULE_NAME=batman-adv
-BUILT_MODULE_LOCATION=build/net/batman-adv
+BUILT_MODULE_NAME[0]="batman-adv"
+BUILT_MODULE_LOCATION[0]="build/net/batman-adv/"
+DEST_MODULE_LOCATION[0]="/kernel/net/batman-adv/"
+AUTOINSTALL=yes
 
-MAKE="'make' all KERNELPATH=/lib/modules/${kernelver}/build"
-CLEAN="'make' clean KERNELPATH=/lib/modules/${kernelver}/build"
-AUTOINSTALL="yes"
+MAKE[0]="make KERNELPATH=${kernel_source_dir}"
+CLEAN="make KERNELPATH=${kernel_source_dir} clean"
