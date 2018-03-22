@@ -85,3 +85,9 @@
 # ProxyPassReverse / http://0.0.0.0:3000/
 # Header set Access-Control-Allow-Origin "*"
 #
+
+- name: install grafana db history workaround
+  copy:
+    src: dashboard_history_drop.sh
+    dest: /etc/cron.daily/dashboard_history_drop.sh
+    mode: 0755
