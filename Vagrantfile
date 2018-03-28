@@ -13,7 +13,8 @@ Vagrant.configure(2) do |config|
     ansible.groups = {
       "gk-vpns" => ["vpn01", "vpn02"],
       "hetzner-vpns" => ["vpn03", "vpn04"],
-      "vpns:children" => ["gk-vpns", "hetzner-vpns"],
+      "linevast-vpns" => ["vpn05"],
+      "vpns:children" => ["gk-vpns", "hetzner-vpns", "linevast-vpns"],
       "gk-firmwares" => ["build01"],
       "firmwares:children" => ["gk-firmwares"]
     }
@@ -38,6 +39,10 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "vpn04" do |config|
+    config.vm.box = "debian/stretch64"
+  end
+
+  config.vm.define "vpn05" do |config|
     config.vm.box = "debian/stretch64"
   end
 

@@ -6,9 +6,13 @@ vpn02 ansible_host=vpn02.freifunk-vogtland.net
 vpn03 ansible_host=vpn03.freifunk-vogtland.net
 vpn04 ansible_host=vpn04.freifunk-vogtland.net
 
+[linevast-vpns]
+vpn05 ansible_host=vpn05.freifunk-vogtland.net
+
 [vpns:children]
 gk-vpns
 hetzner-vpns
+linevast-vpns
 
 [gk-firmwares]
 build01 ansible_host=firmware.freifunk-vogtland.net
