@@ -1,6 +1,5 @@
 [gk-vpns]
 vpn01 ansible_host=vpn01.freifunk-vogtland.net
-vpn02 ansible_host=vpn02.freifunk-vogtland.net
 
 [hetzner-vpns]
 vpn03 ansible_host=vpn03.freifunk-vogtland.net
