@@ -48,3 +48,5 @@
       tags: "ffmap-backup"
     - role: grafana
       tags: "grafana"
+    - role: mapdata
+      tags: "mapdata"
