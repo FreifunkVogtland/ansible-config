@@ -78,13 +78,13 @@
 
 # TODO run: cd /usr/lib/python2.7/dist-packages/graphite/ && sudo -u _graphite python manage.py syncdb
 
-# TODO create apache2 vhost for stat.freifunk-vogtland.ne with
-# ProxyPreserveHost On
-# ProxyPass /.well-known/acme-challenge/ !
-# ProxyPass / http://0.0.0.0:3000/
-# ProxyPassReverse / http://0.0.0.0:3000/
-# Header set Access-Control-Allow-Origin "*"
-#
+
+- name: add apache2 stats site
+  copy:
+    src: apache2-stats.conf
+    dest: /etc/apache2/sites-enabled/apache2-stats.conf
+  notify:
+  - restart apache2
 
 - name: install grafana db history workaround
   copy:
