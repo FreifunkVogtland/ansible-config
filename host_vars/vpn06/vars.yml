@@ -1,0 +1,29 @@
+---
+gateway_if: ens192
+meshviewer: 0
+icvpn: no
+dnsmasq: yes
+vpnid: 6
+
+WANIP: "178.63.227.200"
+WANGW: "178.63.227.192"
+WANIP6: "2a01:4f8:110:6ffe::6666"
+WANGW6: "2a01:4f8:110:6ffe::1"
+ROUTERID: "{{ '10.204.%d.1'|format(vpnid * 16|int) }}"
+ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
+ROUTERIPV6: "{{ '2a03:2260:200f:%x00::1'|format(vpnid|int) }}"
+ROUTERRANGEV6: "{{ '2a03:2260:200f:%x00::'|format(vpnid|int) }}"
+DNSMASQ_RANGE: "{{ '10.204.%d.0,10.204.%d.255'|format(vpnid * 16|int, vpnid * 16 + 15|int) }}"
+BACKBONE_IPV4: ""
+USE_RADVD: "0"
+SHAPE_LIMIT: ""
+DIRECT: "0"
+
+batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
+batadv_primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, vpnid|int) }}"
+
+fastd_peer_limit: 30
+fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
+
+tunneldigger_peer_limit: 120
+tunneldigger_mac: "{{ '02:12:7b:00:%02x:00'|format(vpnid|int) }}"
