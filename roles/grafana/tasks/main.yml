@@ -1,6 +1,6 @@
 ---
 - name: add apt https support
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - apt-transport-https
 
@@ -24,7 +24,7 @@
 - meta: flush_handlers
 
 - name: install grafana dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - apache2
   - grafana

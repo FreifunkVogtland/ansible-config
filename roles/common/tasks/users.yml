@@ -1,13 +1,13 @@
 ---
 - name: Install sudo
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - sudo
 
 - name: Install passwordless sudo
   copy: src=etc/sudoers.d/sudo dest=/etc/sudoers.d/sudo
 
-- apt: pkg=zsh state=installed
+- apt: pkg=zsh state=present
 - name: Add user ecsv
   user:
     name: ecsv

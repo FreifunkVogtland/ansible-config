@@ -28,7 +28,7 @@
   - nfnetlink
 
 - name: install tunneldigger dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - iproute2
   - batctl

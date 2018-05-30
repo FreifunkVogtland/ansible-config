@@ -1,6 +1,6 @@
 ---
 - name: install batman-adv dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - build-essential
   - git

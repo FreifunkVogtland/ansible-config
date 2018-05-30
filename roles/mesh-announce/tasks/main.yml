@@ -1,6 +1,6 @@
 ---
 - name: install mesh-announce dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - lsb-release
   - ethtool

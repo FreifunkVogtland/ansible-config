@@ -1,6 +1,6 @@
 ---
 - name: install gluon dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - git
   - build-essential

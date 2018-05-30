@@ -1,6 +1,6 @@
 ---
 - name: install server-statistics dependencies
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=present
   with_items:
   - vnstati
   - libapache2-mod-php7.0
