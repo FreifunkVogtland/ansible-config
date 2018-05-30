@@ -1,7 +1,7 @@
 ---
 gateway_if: ens192
 meshviewer: 0
-icvpn: no
+icvpn: yes
 dnsmasq: yes
 vpnid: 6
 
@@ -21,6 +21,11 @@ DIRECT: "0"
 
 batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
 batadv_primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, vpnid|int) }}"
+
+icvpn_name: vogtland6
+icvpn_ipv4: 10.207.0.7
+icvpn_bcast: 10.207.255
+icvpn_ipv6: fec0::a:cf:0:7
 
 fastd_peer_limit: 30
 fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
