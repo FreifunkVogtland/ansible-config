@@ -6,6 +6,7 @@
   - git
   - dkms
   - linux-headers-amd64
+  - iproute2
 
 - name: install batman-adv sources
   git:
@@ -72,6 +73,20 @@
 - name: start batadv-bat0
   systemd:
     name: batadv-bat0.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install vxlan0 service
+  template:
+    src: vxlan0.service.j2
+    dest: /etc/systemd/system/vxlan0.service
+  notify:
+  - restart vxlan0
+
+- name: start vxlan0
+  systemd:
+    name: vxlan0.service
     daemon_reload: yes
     enabled: yes
     state: started

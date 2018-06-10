@@ -8,3 +8,8 @@
   systemd:
     name: batadv-bat0.service
     state: "restarted"
+
+- name: restart vxlan0
+  systemd:
+    name: vxlan0.service
+    state: "restarted"
