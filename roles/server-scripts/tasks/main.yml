@@ -33,20 +33,3 @@
     name: server-scripts.service
     daemon_reload: yes
     enabled: yes
-
-- name: install server-scripts-watchdog systemd unit file
-  copy:
-    src: server-scripts-watchdog.service
-    dest: /etc/systemd/system/server-scripts-watchdog.service
-
-- name: install server-scripts-watchdog systemd timer file
-  copy:
-    src: server-scripts-watchdog.timer
-    dest: /etc/systemd/system/server-scripts-watchdog.timer
-
-- name: start server-scripts-watchdog
-  systemd:
-    name: server-scripts-watchdog.timer
-    state: started
-    daemon_reload: yes
-    enabled: yes
