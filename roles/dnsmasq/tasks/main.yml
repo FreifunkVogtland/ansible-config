@@ -38,3 +38,34 @@
     daemon_reload: yes
     enabled: "{{ dnsmasq | ternary('yes', 'no') }}"
     state: "{{ dnsmasq | ternary('started', 'stopped') }}"
+
+- name: create dnsmasq-cron script directory
+  file:
+    path: /opt/freifunk/server-scripts/
+    state: directory
+    owner: root
+
+- name: install dnsmasq-cron scripts
+  copy:
+    src: dnsmasq-cron.sh
+    dest: /opt/freifunk/server-scripts/dnsmasq-cron.sh
+    group: root
+    owner: root
+    mode: 0755
+
+- name: install dnsmasq-cron systemd unit file
+  copy:
+    src: dnsmasq-cron.service
+    dest: /etc/systemd/system/dnsmasq-cron.service
+
+- name: install dnsmasq-cron systemd timer file
+  copy:
+    src: dnsmasq-cron.timer
+    dest: /etc/systemd/system/dnsmasq-cron.timer
+
+- name: start meshviewer
+  systemd:
+    name: dnsmasq-cron.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes

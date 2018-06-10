@@ -1,0 +1,10 @@
+[Unit]
+Description=dnsmasq cron Timer
+
+[Timer]
+Unit=dnsmasq-cron.service
+OnBootSec=0
+OnUnitActiveSec=60
+
+[Install]
+WantedBy=multi-user.target
