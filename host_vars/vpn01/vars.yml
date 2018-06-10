@@ -16,7 +16,6 @@ ROUTERRANGEV6: "{{ '2a03:2260:200f:%x00::'|format(vpnid|int) }}"
 DNSMASQ_RANGE: "{{ '10.204.%d.0,10.204.%d.255'|format(vpnid * 16|int, vpnid * 16 + 15|int) }}"
 BACKBONE_IPV4: "185.66.195.42/32"
 USE_RADVD: "1"
-SHAPE_LIMIT: ""
 DIRECT: "0"
 
 batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
