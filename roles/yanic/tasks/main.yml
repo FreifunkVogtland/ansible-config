@@ -97,4 +97,33 @@
 - name: create grafana dynamic folder
   file: state=directory path=/opt/freifunk/ffv-grafana-config/dashboard/dynamic
 
-# TODO create systemd timer and unit for ffc mapviewer -> first extract it from normal watchdog
+- name: create meshviewer script directory
+  file:
+    path: /opt/freifunk/server-scripts/
+    state: directory
+    owner: root
+
+- name: install meshviewer-cron scripts
+  copy:
+    src: meshviewer-cron.sh
+    dest: /opt/freifunk/server-scripts/meshviewer-cron.sh
+    group: root
+    owner: root
+    mode: 0755
+
+- name: install meshviewer systemd unit file
+  copy:
+    src: meshviewer.service
+    dest: /etc/systemd/system/meshviewer.service
+
+- name: install meshviewer systemd timer file
+  copy:
+    src: meshviewer.timer
+    dest: /etc/systemd/system/meshviewer.timer
+
+- name: start meshviewer
+  systemd:
+    name: meshviewer.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes

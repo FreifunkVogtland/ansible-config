@@ -4,7 +4,7 @@ Description=Server-Scripts-Watchdog Timer
 [Timer]
 Unit=server-scripts-watchdog.service
 OnBootSec=0
-OnUnitActiveSec=30
+OnUnitActiveSec=300
 
 [Install]
 WantedBy=multi-user.target

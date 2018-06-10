@@ -1,0 +1,10 @@
+[Unit]
+Description=Meshviewer cron Timer
+
+[Timer]
+Unit=meshviewer.service
+OnBootSec=0
+OnUnitActiveSec=30
+
+[Install]
+WantedBy=multi-user.target

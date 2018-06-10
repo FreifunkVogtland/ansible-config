@@ -1,0 +1,5 @@
+[Unit]
+Description=Meshviewer cron
+
+[Service]
+ExecStart=/opt/freifunk/server-scripts/meshviewer-cron.sh
