@@ -27,29 +27,45 @@ Vagrant.configure(2) do |config|
     ansible.skip_tags=["icvpn", "ffmap-backup"]
   end
 
-  config.vm.network "private_network", type: "dhcp"
-
   config.vm.define "vpn01" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:01"
+    end
   end
 
   config.vm.define "vpn03" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:03"
+    end
   end
 
   config.vm.define "vpn04" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:04"
+    end
   end
 
   config.vm.define "vpn05" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:05"
+    end
   end
 
   config.vm.define "vpn06" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:06"
+    end
   end
 
   config.vm.define "build01" do |machine|
     machine.vm.box = "debian/stretch64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:01:00"
+    end
   end
 end
