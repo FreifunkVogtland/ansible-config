@@ -29,27 +29,27 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "private_network", type: "dhcp"
 
-  config.vm.define "vpn01" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "vpn01" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 
-  config.vm.define "vpn03" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "vpn03" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 
-  config.vm.define "vpn04" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "vpn04" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 
-  config.vm.define "vpn05" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "vpn05" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 
-  config.vm.define "vpn06" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "vpn06" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 
-  config.vm.define "build01" do |config|
-    config.vm.box = "debian/stretch64"
+  config.vm.define "build01" do |machine|
+    machine.vm.box = "debian/stretch64"
   end
 end
