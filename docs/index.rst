@@ -4,5 +4,9 @@
 Freifunk Vogtland Server Infrastructure
 =======================================
 
+.. toctree::
+   :caption: Internet Access
+   :maxdepth: 2
 
+   internetaccess/ffrl_backbone
 
