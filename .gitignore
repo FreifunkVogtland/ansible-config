@@ -2,3 +2,4 @@
 /.vagrant/machines/
 /docs/_build/
 /*.retry
+*.pyc
