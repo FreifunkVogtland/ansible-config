@@ -3,6 +3,7 @@
   apt: pkg={{ item }} state=present
   with_items:
   - bird
+  - iproute2
 
 - name: install icvpn bird config stubs
   copy:
@@ -40,3 +41,17 @@
   with_items:
   - bird
   - bird6
+
+- name: install bb_ipv4 service
+  template:
+    src: bb_ipv4.service.j2
+    dest: /etc/systemd/system/bb_ipv4.service
+  notify:
+  - restart bb_ipv4
+
+- name: start bb_ipv4
+  systemd:
+    name: bb_ipv4.service
+    daemon_reload: yes
+    enabled: yes
+    state: started

@@ -8,3 +8,8 @@
   systemd:
     name: bird6.service
     state: restarted
+
+- name: restart bb_ipv4
+  systemd:
+    name: bb_ipv4.service
+    state: restarted
