@@ -5,6 +5,13 @@
   - bird
   - iproute2
 
+- name: add iproute freifunk alias
+  lineinfile:
+    destfile: '/etc/iproute2/rt_tables'
+    state: present
+    regexp: '^100\s'
+    line: '100     freifunk'
+
 - name: install icvpn bird config stubs
   copy:
     content: ""
