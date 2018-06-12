@@ -52,7 +52,7 @@ COMMIT
 -A FORWARD -o bat0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
 -A POSTROUTING -o bat+ -j MARK --set-xmark 0x0/0xffffffff
 
-{% if BACKBONE_IPV4 %}
+{% if BACKBONE_IPV4 is defined %}
 -A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
 {% endif %}
 COMMIT
@@ -64,7 +64,7 @@ COMMIT
 :POSTROUTING ACCEPT
 -A POSTROUTING -o {{ gateway_if }} -s 10.204.0.0/16 -j MASQUERADE
 
-{% if BACKBONE_IPV4 %}
+{% if BACKBONE_IPV4 is defined %}
 -A POSTROUTING -o bb-+ -j SNAT --to-source {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
 {% endif %}
 

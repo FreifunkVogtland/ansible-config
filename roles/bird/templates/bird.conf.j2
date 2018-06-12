@@ -69,7 +69,7 @@ protocol pipe {
 }
 
 filter hostroute {
-	{% if BACKBONE_IPV4 != '' %}
+	{% if BACKBONE_IPV4 is defined %}
 	if net ~ {{ BACKBONE_IPV4 }} then accept;
 	{% endif %}
 	reject;

@@ -8,7 +8,7 @@ RemainAfterExit=yes
 ExecStart=/bin/ip link add bb_ipv4 type dummy
 ExecStart=/bin/ip link set up dev bb_ipv4
 
-{% if BACKBONE_IPV4 %}
+{% if BACKBONE_IPV4 is defined %}
 ExecStart=/bin/ip addr add "{{ BACKBONE_IPV4 }}" dev bb_ipv4
 {% endif %}
 
