@@ -13,3 +13,8 @@
   systemd:
     name: bb_ipv4.service
     state: restarted
+
+- name: restart ff_ip_policy
+  systemd:
+    name: ff_ip_policy.service
+    state: restarted
