@@ -13,23 +13,23 @@
 -A vxlan-drop -j LOG --log-prefix invalidvxlan
 -A vxlan-drop -j DROP
 
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10003 -j LOG --log-prefix fastdinfastd
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10003 -j DROP
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j DROP
 
 {% for peer in groups['vpns'] %}
 {% if hostvars[peer]['WANIP'] is defined %}
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10003 -j LOG --log-prefix fastdinfastd
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10003 -j DROP
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j DROP
 {% endif %}
 {% endfor %}
 
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000 -j LOG --log-prefix tdiggerintdigger
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000 -j DROP
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
+-A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j DROP
 
 {% for peer in groups['vpns'] %}
 {% if hostvars[peer]['WANIP'] is defined %}
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000 -j LOG --log-prefix tdiggerintdigger
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000 -j DROP
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j DROP
 {% endif %}
 {% endfor %}
 
