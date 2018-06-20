@@ -1,6 +1,6 @@
-bind 0.0.0.0:{{ item + 10000 }};
-bind [::]:{{ item + 10000 }};
-interface "fastd-mesh{{ item }}";
+bind 0.0.0.0:{{ ffv_domains[item].id + 10000 }};
+bind [::]:{{ ffv_domains[item].id + 10000 }};
+interface "fastd-{{ item }}";
 
 log to syslog level warn;
 
@@ -19,7 +19,7 @@ on verify "true";
 include peers from "/tmp";
 
 on up "
-ip link set address {{ fastd_mac_prefix }}:{{ '%02x' % item }} dev $INTERFACE
+ip link set address {{ fastd_mac_prefix }}:{{ '%02x' % ffv_domains[item].id }} dev $INTERFACE
 ip link set up dev $INTERFACE
 batctl interface add $INTERFACE
 ";
