@@ -21,3 +21,81 @@ ffrl_bb_servers:
   bb_b_ak_ber: 185.66.195.1
   bb_b_fra2_fra: 185.66.194.1
   bb_b_ix_dus: 185.66.193.1
+
+ffv_domains:
+  ffv:
+    id: 0
+  ffv_a:
+    id: 1
+  ffv_ae:
+    id: 2
+  ffv_b:
+    id: 3
+  ffv_bb:
+    id: 4
+  ffv_be:
+    id: 5
+  ffv_boe:
+    id: 6
+  ffv_eic:
+    id: 7
+  ffv_ell:
+    id: 8
+  ffv_els:
+    id: 9
+  ffv_fst:
+    id: 10
+  ffv_gb:
+    id: 11
+  ffv_hdg:
+    id: 12
+  ffv_k:
+    id: 13
+  ffv_l:
+    id: 14
+  ffv_le:
+    id: 15
+  ffv_mh:
+    id: 16
+  ffv_mkn:
+    id: 17
+  ffv_mtl:
+    id: 18
+  ffv_n:
+    id: 19
+  ffv_nmk:
+    id: 20
+  ffv_nst:
+    id: 21
+  ffv_nsz:
+    id: 22
+  ffv_oel:
+    id: 23
+  ffv_pl:
+    id: 24
+  ffv_pmf:
+    id: 25
+  ffv_poe:
+    id: 26
+  ffv_rc:
+    id: 27
+  ffv_rdw:
+    id: 28
+  ffv_s:
+    id: 29
+  ffv_sbg:
+    id: 30
+  ffv_t:
+    id: 31
+  ffv_tdf:
+    id: 32
+  ffv_tr:
+    id: 33
+  ffv_tri:
+    id: 34
+  ffv_wei:
+    id: 35
+  ffv_wer:
+    id: 36
+  fferz:
+    id: 37

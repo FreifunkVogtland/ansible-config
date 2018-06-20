@@ -1,3 +1,7 @@
-interfaces="{{ gateway_if }} fastd-mesh0 fastd-mesh1 fastd-mesh2 fastd-mesh3"
+interfaces="{{ gateway_if }}
+{%- for domain in (ffv_domains.keys() |sort())  %}
+ fastd-{{ domain }}
+{%- endfor %}
+"
 outputs="s h d m t"
 wwwroot="/var/www/html"

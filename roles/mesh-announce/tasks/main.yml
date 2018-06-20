@@ -13,8 +13,8 @@
     dest: /opt/freifunk/ffnord-alfred-announce
 
 - name: install respondd systemd unit file
-  copy:
-    src: respondd.service
+  template:
+    src: respondd.service.j2
     dest: /etc/systemd/system/respondd.service
   notify:
   - restart respondd

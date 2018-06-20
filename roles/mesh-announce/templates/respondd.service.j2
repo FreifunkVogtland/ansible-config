@@ -1,0 +1,15 @@
+[Unit]
+Description=Respondd
+After=batadv-bat0.service server-scripts.service
+
+[Service]
+ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -i bat0 -i dummy0 -i tunneldigger -i vxlan
+{%- for domain in (ffv_domains.keys() |sort())  %}
+ -p fastd-{{ domain }}
+{%- endfor %}
+
+Restart=always
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+[Install]
+WantedBy=multi-user.target

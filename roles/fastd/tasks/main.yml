@@ -10,22 +10,14 @@
 - name: create fastd instance directories
   file:
     state: directory
-    path: /etc/fastd/mesh{{ item }}/
-  with_items:
-  - 0
-  - 1
-  - 2
-  - 3
+    path: /etc/fastd/{{ item }}/
+  with_items: "{{ ffv_domains }}"
 
 - name: install fastd config
   template:
     src: fastd.conf.j2
-    dest: /etc/fastd/mesh{{ item }}/fastd.conf
-  with_items:
-  - 0
-  - 1
-  - 2
-  - 3
+    dest: /etc/fastd/{{ item }}/fastd.conf
+  with_items: "{{ ffv_domains }}"
   notify:
   - restart fastd
 
@@ -50,12 +42,8 @@
 
 - name: start fastd
   systemd:
-    name: "fastd@mesh{{ item }}.service"
+    name: "fastd@{{ item }}.service"
     daemon_reload: yes
     enabled: yes
     state: started
-  with_items:
-  - 0
-  - 1
-  - 2
-  - 3
+  with_items: "{{ ffv_domains }}"
