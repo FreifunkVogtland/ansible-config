@@ -33,8 +33,48 @@ ifname = "bat0"
 ## list of domains on this site to save stats for (empty for global only)
 #domains = []
 ## example
-#[respondd.sites.ffhb]
-#domains            = []
+[respondd.sites.ffv]
+domains = [
+	'ffv',
+	'ffv_a',
+	'ffv_ae',
+	'ffv_b',
+	'ffv_bb',
+	'ffv_be',
+	'ffv_boe',
+	'ffv_eic',
+	'ffv_ell',
+	'ffv_els',
+	'ffv_fst',
+	'ffv_gb',
+	'ffv_hdg',
+	'ffv_k',
+	'ffv_l',
+	'ffv_le',
+	'ffv_mh',
+	'ffv_mkn',
+	'ffv_mtl',
+	'ffv_n',
+	'ffv_nmk',
+	'ffv_nst',
+	'ffv_nsz',
+	'ffv_oel',
+	'ffv_pl',
+	'ffv_pmf',
+	'ffv_poe',
+	'ffv_rbh',
+	'ffv_rc',
+	'ffv_rdw',
+	'ffv_s',
+	'ffv_sbg',
+	'ffv_t',
+	'ffv_tdf',
+	'ffv_tr',
+	'ffv_tri',
+	'ffv_wei',
+	'ffv_wer',
+	'fferz'
+]
 
 # A little build-in webserver, which statically serves a directory.
 # This is useful for testing purposes or for a little standalone installation.
