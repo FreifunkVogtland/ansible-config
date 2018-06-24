@@ -13,23 +13,23 @@
 -A vxlan-drop -j LOG --log-prefix invalidvxlan
 -A vxlan-drop -j DROP
 
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j DROP
+-A INPUT -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
+-A INPUT -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j DROP
 
 {% for peer in groups['vpns'] %}
 {% if hostvars[peer]['WANIP'] is defined %}
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 10000:10099 -j DROP
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j DROP
 {% endif %}
 {% endfor %}
 
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
--A INPUT -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j DROP
+-A INPUT -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
+-A INPUT -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j DROP
 
 {% for peer in groups['vpns'] %}
 {% if hostvars[peer]['WANIP'] is defined %}
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
--A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat0 -p udp -m udp --match multiport --dports 11000:11099 -j DROP
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
+-A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j DROP
 {% endif %}
 {% endfor %}
 
@@ -49,7 +49,7 @@ COMMIT
 :POSTROUTING ACCEPT
 -A PREROUTING -i bat+ -j MARK --set-xmark 0x1/0xffffffff
 -A PREROUTING -i icvpn -j MARK --set-xmark 0x1/0xffffffff
--A FORWARD -o bat0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
+-A FORWARD -o bat+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
 -A POSTROUTING -o bat+ -j MARK --set-xmark 0x0/0xffffffff
 
 {% if BACKBONE_IPV4 is defined %}
