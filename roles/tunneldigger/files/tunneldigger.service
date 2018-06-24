@@ -1,9 +1,9 @@
 [Unit]
 Description = Start tunneldigger L2TPv3 broker
 After = network.target
-BindsTo=sys-subsystem-net-devices-tunneldigger.device
-After=sys-subsystem-net-devices-tunneldigger.device
-After=bridge-tunneldigger.service
+BindsTo=sys-subsystem-net-devices-vpn\x2dffv.device
+After=sys-subsystem-net-devices-vpn\x2dffv.device
+After=bridge-vpn@ffv.service
 After=iptables.service
 PartOf=iptables.service
 

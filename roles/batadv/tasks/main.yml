@@ -1,9 +1,27 @@
 ---
+- name: load modules for vpn bridge
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - ebtables
+  - ebtable_filter
+
+- name: load modules for vpn bridge during boot
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+  with_items:
+  - ebtables
+  - ebtable_filter
+
 - name: install batman-adv dependencies
   apt: pkg={{ item }} state=present
   with_items:
+  - bridge-utils
   - batctl
   - build-essential
+  - ebtables
   - git
   - dkms
   - linux-headers-amd64
@@ -88,6 +106,43 @@
 - name: start vxlan0
   systemd:
     name: vxlan0.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install vpn-ffv netdev
+  template:
+    src: vpn-ffv.netdev.j2
+    dest: /etc/systemd/network/25-vpn-ffv.netdev
+  notify:
+  - restart networkd
+
+- name: install vpn-ffv network
+  copy:
+    src: vpn-ffv.network
+    dest: /etc/systemd/network/25-vpn-ffv.network
+  notify:
+  - restart networkd
+
+- meta: flush_handlers
+
+- name: start systemd-networkd
+  systemd:
+    name: systemd-networkd.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: install vpn-ffv bridge service
+  copy:
+    src: bridge-vpn@.service
+    dest: /etc/systemd/system/bridge-vpn@.service
+  notify:
+  - restart bridge-vpn
+
+- name: start vpn bridge
+  systemd:
+    name: bridge-vpn@ffv.service
     daemon_reload: yes
     enabled: yes
     state: started

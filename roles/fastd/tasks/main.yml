@@ -6,27 +6,6 @@
   - batctl
   - fastd
 
-- name: stop old fastd instance
-  systemd:
-    name: "fastd@mesh{{ item }}.service"
-    enabled: no
-    state: stopped
-  with_items:
-  - 0
-  - 1
-  - 2
-  - 3
-
-- name: delete old fastd instance directories
-  file:
-    state: absent
-    path: /etc/fastd/mesh{{ item }}/
-  with_items:
-  - 0
-  - 1
-  - 2
-  - 3
-
 - name: create fastd instance directories
   file:
     state: directory

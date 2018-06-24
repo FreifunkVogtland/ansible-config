@@ -13,3 +13,10 @@
   systemd:
     name: vxlan0.service
     state: "restarted"
+
+- name: restart bridge-vpn
+  systemd:
+    name: "bridge-vpn@{{ item }}.service"
+    state: restarted
+  with_items:
+  - ffv

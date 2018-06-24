@@ -30,4 +30,3 @@ fastd_peer_limit: 30
 fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
 
 tunneldigger_peer_limit: 120
-tunneldigger_mac: "{{ '02:12:7b:00:%02x:00'|format(vpnid|int) }}"

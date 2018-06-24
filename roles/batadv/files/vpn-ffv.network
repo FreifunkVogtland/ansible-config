@@ -1,5 +1,5 @@
 [Match]
-Name=tunneldigger
+Name=vpn-ffv
 
 [Network]
 IPv6AcceptRA=no
