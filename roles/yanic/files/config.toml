@@ -201,9 +201,9 @@ delete_interval = "1h"
 #   firmware: store the count of nodes tagged with firmware
 #   model: store the count of nodes tagged with hardware model
 [[database.connection.influxdb]]
-enable   = false
+enable   = true
 address  = "http://localhost:8086"
-database = "ffhb"
+database = "ffv"
 username = ""
 password = ""
 

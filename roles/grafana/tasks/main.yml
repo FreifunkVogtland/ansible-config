@@ -31,6 +31,7 @@
   - graphite-web
   - graphite-carbon
   - libapache2-mod-wsgi
+  - influxdb
 
 - name: add grafana configuration
   copy:
@@ -40,6 +41,13 @@
     group: grafana
     mode: 0640
   notify: restart grafana-server
+
+- name: add influxdb config
+  copy:
+    src: influxdb.conf
+    dest: /etc/influxdb/influxdb.conf
+  notify:
+  - restart influxdb
 
 - name: add carbon configurations
   copy:
