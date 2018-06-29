@@ -20,7 +20,7 @@
     line: 'PasswordAuthentication no'
   notify: restart sshd
 
-- name: insert/update ssh sftponly chroot
+- name: insert/update ssh sftponly/borgonly chroot
   blockinfile:
     dest: /etc/ssh/sshd_config
     block: |
@@ -30,4 +30,12 @@
         AllowTcpForwarding no
         X11Forwarding no
         PasswordAuthentication no
+        PermitTunnel no
+      
+      Match Group borgonly
+        ForceCommand borg serve --restrict-to-path $HOME
+        AllowTcpForwarding no
+        X11Forwarding no
+        PasswordAuthentication no
+        PermitTunnel no
   notify: restart sshd

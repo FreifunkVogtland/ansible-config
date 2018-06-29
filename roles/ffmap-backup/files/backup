@@ -1,24 +1,41 @@
 #! /bin/bash
 
-export PASSPHRASE='notsecure'
-export SIGN_PASSPHRASE=''
 export HOME=/root
 
 typeset -A backups
 backups=(
-    [ffmapdata]=/opt/freifunk/meshviewer/data/
-    [graphite]=/var/lib/graphite/
-    [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
-    [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
-    [yanic]=/var/lib/yanic/
+  [ffmapdata]=/opt/freifunk/meshviewer/data/
+  [graphite]=/var/lib/graphite/
+  [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
+  [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
+  [yanic]=/var/lib/yanic/
 )
 
 for backup in "${!backups[@]}"; do
 (
   set -e
 
-  duplicity incremental --full-if-older-than 6M "${backups[$backup]}" sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
-  duplicity remove-all-but-n-full 2 --force sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
-  duplicity cleanup --force sftp://sftpbackup@vpn04.freifunk-vogtland.net/vpn01/"${backup}"/
+  export BORG_REPO=ssh://borgbackup@vpn04.freifunk-vogtland.net/~/"${backup}"
+  export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
+
+  borg create                       \
+    --verbose                       \
+    --filter AME                    \
+    --list                          \
+    --stats                         \
+    --show-rc                       \
+    --compression lz4               \
+                                    \
+    ::'{hostname}-{now}'            \
+    "${backups[$backup]}"           \
+
+  borg prune                        \
+    --list                          \
+    --prefix '{hostname}-'          \
+    --show-rc                       \
+    --keep-daily    7               \
+    --keep-weekly   4               \
+    --keep-monthly  6               \
+
 )
 done

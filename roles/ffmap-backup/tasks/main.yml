@@ -4,7 +4,7 @@
   with_items:
   - anacron
   - cron
-  - duplicity
+  - borgbackup
 
 - name: copy backup cron script
   copy:
