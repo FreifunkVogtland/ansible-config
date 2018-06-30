@@ -63,7 +63,7 @@
     src: dnsmasq-cron.timer
     dest: /etc/systemd/system/dnsmasq-cron.timer
 
-- name: start meshviewer
+- name: start dnsmasq-cron timer
   systemd:
     name: dnsmasq-cron.timer
     state: started
