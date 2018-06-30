@@ -5,6 +5,8 @@ meshviewer: 0
 icvpn: no
 vlan_id: 4184373
 
+vogtland_ipv4 : 10.204.0.0/16
+
 WANIP: "127.0.0.2"
 WANGW: ""
 WANGW6: "::1"

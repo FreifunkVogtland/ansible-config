@@ -34,7 +34,7 @@ function is_default() {
 
 # own network
 function is_self_net() {
-	return (net ~ [ 10.204.0.0/16+ ]);
+	return (net ~ [ {{ vogtland_ipv4 }}+ ]);
 }
 
 # freifunk ip ranges in general

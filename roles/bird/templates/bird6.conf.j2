@@ -28,7 +28,7 @@ function is_default() {
 
 # own networks
 function is_self_net() {
-	return net ~ [ 2a03:2260:200f::/48+ ];
+	return net ~ [ {{ ffrl_ipv6_subnet }}+ ];
 }
 
 # freifunk ip ranges in general
@@ -47,7 +47,7 @@ function is_transition() {
 }
 
 filter hostroute {
-	if net ~ 2a03:2260:200f::/48 then accept;
+	if net ~ {{ ffrl_ipv6_subnet }} then accept;
 	reject;
 }
 
@@ -149,7 +149,7 @@ protocol static {
 	import all;
 	export all;
 
-	route 2a03:2260:200f::/48 via "bat0";
+	route {{ ffrl_ipv6_subnet }} via "bat0";
 	# drop /56 and address translation and let ffrl export handle the /56
 	# "aggregation
 	route {{ ROUTERIPV6SUBNET | ipaddr('network') }}/56 via "bat0";

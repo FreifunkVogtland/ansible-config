@@ -62,7 +62,7 @@ COMMIT
 :INPUT ACCEPT
 :OUTPUT ACCEPT
 :POSTROUTING ACCEPT
--A POSTROUTING -o {{ gateway_if }} -s 10.204.0.0/16 -j MASQUERADE
+-A POSTROUTING -o {{ gateway_if }} -s {{ vogtland_ipv4 }} -j MASQUERADE
 
 {% if BACKBONE_IPV4 is defined %}
 -A POSTROUTING -o bb-+ -j SNAT --to-source {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}

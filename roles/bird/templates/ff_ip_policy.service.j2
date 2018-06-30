@@ -7,25 +7,25 @@ Before=batadv.service
 Type=oneshot
 RemainAfterExit=yes
 
-ExecStart=/bin/ip rule add from 10.204.0.0/16 lookup 100
-ExecStart=/bin/ip rule add to 10.204.0.0/16 lookup 100
+ExecStart=/bin/ip rule add from {{ vogtland_ipv4 }} lookup 100
+ExecStart=/bin/ip rule add to {{ vogtland_ipv4 }} lookup 100
 ExecStart=/bin/ip rule add from 185.66.195.42/31 lookup 100
 ExecStart=/bin/ip rule add from 185.66.194.70/31 lookup 100
 ExecStart=/bin/ip rule add from all fwmark 0x1 table 100
 
-ExecStart=/bin/ip -6 rule add from 2a03:2260:200f::/48 lookup 100
-ExecStart=/bin/ip -6 rule add to 2a03:2260:200f::/48 lookup 100
+ExecStart=/bin/ip -6 rule add from {{ ffrl_ipv6_subnet }} lookup 100
+ExecStart=/bin/ip -6 rule add to {{ ffrl_ipv6_subnet }} lookup 100
 ExecStart=/bin/ip -6 rule add from all fwmark 0x1 lookup 100
 ExecStart=/bin/ip -6 rule add from all lookup 100 priority 32767
 
-ExecStop=/bin/ip rule delete from 10.204.0.0/16 lookup 100
-ExecStop=/bin/ip rule delete to 10.204.0.0/16 lookup 100
+ExecStop=/bin/ip rule delete from {{ vogtland_ipv4 }} lookup 100
+ExecStop=/bin/ip rule delete to {{ vogtland_ipv4 }} lookup 100
 ExecStop=/bin/ip rule delete from 185.66.195.42/31 lookup 100
 ExecStop=/bin/ip rule delete from 185.66.194.70/31 lookup 100
 ExecStop=/bin/ip rule delete from all fwmark 0x1 table 100
 
-ExecStop=/bin/ip -6 rule delete from 2a03:2260:200f::/48 lookup 100
-ExecStop=/bin/ip -6 rule delete to 2a03:2260:200f::/48 lookup 100
+ExecStop=/bin/ip -6 rule delete from {{ ffrl_ipv6_subnet }} lookup 100
+ExecStop=/bin/ip -6 rule delete to {{ ffrl_ipv6_subnet }} lookup 100
 ExecStop=/bin/ip -6 rule delete from all fwmark 0x1 lookup 100
 ExecStop=/bin/ip -6 rule delete from all lookup 100 priority 32767
 
