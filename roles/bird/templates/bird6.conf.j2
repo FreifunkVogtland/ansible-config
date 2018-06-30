@@ -150,5 +150,7 @@ protocol static {
 	export all;
 
 	route 2a03:2260:200f::/48 via "bat0";
-	route {{ ROUTERRANGEV6 }}/56 via "bat0";
+	# drop /56 and address translation and let ffrl export handle the /56
+	# "aggregation
+	route {{ ROUTERIPV6SUBNET | ipaddr('network') }}/56 via "bat0";
 }

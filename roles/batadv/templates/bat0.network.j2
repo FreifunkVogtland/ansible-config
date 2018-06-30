@@ -2,7 +2,9 @@
 Name=bat0
 
 [Network]
-Address={{ ROUTERID }}/16
+Address={{ ROUTERID }}/{{ ffv_ipv4_subnet | ipaddr('prefix') }}
 Address={{ ROUTERIDV6 }}/48
-Address={{ ROUTERIPV6 }}/56
+# drop /56 and address translation and let ffrl export handle the /56
+# "aggregation
+Address={{ ROUTERIPV6 | ipaddr('address') }}/56
 IPv6AcceptRA=no

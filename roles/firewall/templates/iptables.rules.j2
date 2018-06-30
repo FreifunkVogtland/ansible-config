@@ -69,6 +69,7 @@ COMMIT
 {% endif %}
 
 {% if inventory_hostname == "vpn01" %}
--A PREROUTING -i {{ gateway_if }} -p tcp -m tcp --dport 873 -m state --state NEW -j DNAT --to-destination 10.204.15.200
+-A POSTROUTING -s 192.168.248.0/24 -o eth1 -j MASQUERADE
+-A PREROUTING -i {{ gateway_if }} -p tcp -m tcp --dport 873 -m state --state NEW -j DNAT --to-destination 192.168.248.200
 {% endif %}
 COMMIT

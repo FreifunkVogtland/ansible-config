@@ -12,6 +12,15 @@ OWNASN: "64857"
 USE_RADVD: "0"
 DIRECT: "0"
 
+ffv_ipv4_subnet: 10.204.0.0/19
+ffv_ipv4_vpn_start: 2
+ffv_ipv4_client_start: 12
+ffv_ipv4_per_vpn: 818
+
+ffv_ipv6_64_prefix: 0
+
+ffrl_ipv6_subnet: 2a03:2260:200f::/48
+
 ffrl_bb_asn: 201701
 ffrl_bb_links: {}
 ffrl_bb_servers:

@@ -5,7 +5,7 @@ no-hosts
 interface=bat0
 bind-dynamic
 dhcp-authoritative
-dhcp-range={{ DNSMASQ_RANGE }},255.255.0.0,30m
+dhcp-range={{ DNSMASQ_RANGE }},{{ ffv_ipv4_subnet | ipaddr('netmask') }},30m
 dhcp-option=3,{{ ROUTERID }}
 dhcp-option=6,{{ ROUTERID }}
 dhcp-option=119,ffv
