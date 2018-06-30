@@ -9,20 +9,9 @@ WANIP: "194.25.105.16"
 WANGW: "194.25.105.1"
 WANIP6: "2003:49:a051:9000::1337"
 WANGW6: "::1"
-ROUTERID: "{{ ffv_ipv4_subnet | ipaddr(vpnid|int - 1 + ffv_ipv4_vpn_start) | ipaddr('address') }}"
-ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
-ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
-ROUTERIPV6SUBNET: "{{ ROUTERRANGEV6 | ipsubnet(64, ffv_ipv6_64_prefix) }}"
-ROUTERIPV6: "{{ ROUTERIPV6SUBNET | ipaddr(1) }}"
-DNSMASQ_RANGE_START: "{{ ffv_ipv4_subnet | ipaddr((vpnid|int - 1) * ffv_ipv4_per_vpn + ffv_ipv4_client_start) | ipaddr('address') }}"
-DNSMASQ_RANGE_END: "{{ ffv_ipv4_subnet | ipaddr((vpnid|int) * ffv_ipv4_per_vpn - 1 + ffv_ipv4_client_start) | ipaddr('address') }}"
-DNSMASQ_RANGE: "{{ DNSMASQ_RANGE_START}},{{ DNSMASQ_RANGE_END }}"
 BACKBONE_IPV4: "185.66.195.42/32"
 USE_RADVD: "1"
 DIRECT: "0"
-
-batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
-batadv_primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, vpnid|int) }}"
 
 icvpn_name: vogtland1
 icvpn_ipv4: 10.207.0.29
@@ -30,7 +19,6 @@ icvpn_bcast: 10.207.255
 icvpn_ipv6: fec0::a:cf:0:1d
 
 fastd_peer_limit: 50
-fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
 
 tunneldigger_peer_limit: 200
 
