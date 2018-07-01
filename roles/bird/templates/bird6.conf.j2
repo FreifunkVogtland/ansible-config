@@ -86,11 +86,11 @@ protocol ospf o_mesh {
 			fec0::a:cf:0:0/96;
 		};
 {% endif %}
-		interface "bat-ffv" {
+		interface "vxlan0" {
 			type nonbroadcast;
 			neighbors {
 {% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
-				{{ hostvars[peer]['ROUTERIDV6'] }} eligible;
+				{{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} eligible;
 {% endfor %}
 			};
 		};
@@ -111,7 +111,7 @@ template bgp internal {
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
 protocol bgp {{ peer }} from internal {
-	neighbor {{ hostvars[peer]['ROUTERIDV6'] }} as {{ OWNASN }};
+	neighbor {{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} as {{ OWNASN }};
 }
 {% endfor %}
 

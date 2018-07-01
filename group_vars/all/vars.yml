@@ -12,6 +12,9 @@ OWNASN: "64857"
 USE_RADVD: "0"
 DIRECT: "0"
 
+bgp_vxlanid: 15066820
+bgp_ipv4: "{{ '169.254.0.0/16' | ipaddr(vpnid|int) }}"
+bgp_ipv6: "{{ 'fd00::/8' | ipsubnet(16, 1) | ipaddr(vpnid|int) }}"
 
 ffrl_ipv6_subnet: 2a03:2260:200f::/48
 

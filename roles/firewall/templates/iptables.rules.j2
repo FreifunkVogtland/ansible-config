@@ -51,6 +51,7 @@ COMMIT
 -A PREROUTING -i icvpn -j MARK --set-xmark 0x1/0xffffffff
 -A FORWARD -o bat+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240
 -A POSTROUTING -o bat+ -j MARK --set-xmark 0x0/0xffffffff
+-A POSTROUTING -o vxlan0 -j MARK --set-xmark 0x0/0xffffffff
 
 {% if BACKBONE_IPV4 is defined %}
 -A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1240 -j TCPMSS --set-mss 1240

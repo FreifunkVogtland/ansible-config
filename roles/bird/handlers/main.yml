@@ -1,4 +1,9 @@
 ---
+- name: restart vxlan0
+  systemd:
+    name: vxlan0.service
+    state: restarted
+
 - name: restart bird
   systemd:
     name: bird.service
