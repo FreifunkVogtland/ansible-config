@@ -5,11 +5,11 @@ no-hosts
 interface=bat0
 bind-dynamic
 dhcp-authoritative
-dhcp-range={{ DNSMASQ_RANGE }},{{ ffv_ipv4_subnet | ipaddr('netmask') }},30m
-dhcp-option=3,{{ ROUTERID }}
-dhcp-option=6,{{ ROUTERID }}
+dhcp-range=bat0,{{ DNSMASQ_RANGE }},{{ ffv_ipv4_subnet | ipaddr('netmask') }},30m
+dhcp-option=bat0,3,{{ ROUTERID }}
+dhcp-option=bat0,6,{{ ROUTERID }}
 dhcp-option=119,ffv
-dhcp-option=bat0,26,1394
+dhcp-option=26,1394
 no-resolv
 server=8.8.4.4
 server=8.8.8.8
