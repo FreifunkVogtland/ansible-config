@@ -25,6 +25,48 @@
         name: batadv
       vars:
         mesh_name: ffv
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: pl
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: tr
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: rc
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: s
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: oel
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: poe
+    - role: batadv
+      tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: mtl
     - role: fastd
       tags: "fastd"
     - role: tunneldigger
