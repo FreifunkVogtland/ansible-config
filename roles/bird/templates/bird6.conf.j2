@@ -47,6 +47,7 @@ function is_transition() {
 }
 
 filter hostroute {
+	if net.len > 56 then reject;
 	if net ~ {{ ffrl_ipv6_subnet }} then accept;
 	reject;
 }
@@ -150,9 +151,8 @@ protocol static {
 	export all;
 
 {% for mesh_name in (mesh.keys() |sort()) %}
-	route {{ ffrl_ipv6_subnet }} via "bat-{{ mesh_name }}";
-	# drop /56 and address translation and let ffrl export handle the /56
-	# "aggregation
-	route {{ mesh[mesh_name]['ipv6']['subnet'] | ipaddr('network') }}/56 via "bat-{{ mesh_name }}";
+	route {{ mesh[mesh_name]['ipv6']['subnet'] }} via "bat-{{ mesh_name }}";
 {% endfor %}
+	route {{ OLDRANGEV6 }} via "bat-ffv";
+	route {{ ROUTERRANGEV6 }} via "bb_ipv4";
 }

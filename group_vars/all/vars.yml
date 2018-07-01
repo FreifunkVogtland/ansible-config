@@ -21,7 +21,10 @@ ffrl_ipv6_subnet: 2a03:2260:200f::/48
 BGPID: "{{ WANIP }}"
 ROUTERID: "{{ vogtland_ipv4 | ipaddr(vpnid|int - 1 + 2) | ipaddr('address') }}"
 ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
-ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
+
+# FFV legacy 2a03:2260:200f:1337:: ranges
+OLDRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, 19) }}"
+ROUTERIDV6: "{{ OLDRANGEV6|ipsubnet(64, 55) | ipaddr(vpnid|int) }}"
 
 mesh_meta:
   ffv:
