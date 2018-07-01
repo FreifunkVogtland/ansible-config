@@ -6,7 +6,6 @@ icvpn: no
 
 vogtland_ipv4 : 10.204.0.0/16
 
-WANIP: "127.0.0.2"
 WANGW: ""
 WANGW6: "::1"
 OWNASN: "64857"
@@ -16,7 +15,7 @@ DIRECT: "0"
 
 ffrl_ipv6_subnet: 2a03:2260:200f::/48
 
-# TODO use better ids
+BGPID: "{{ WANIP }}"
 ROUTERID: "{{ vogtland_ipv4 | ipaddr(vpnid|int - 1 + 2) | ipaddr('address') }}"
 ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
 ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
