@@ -1,8 +1,8 @@
 [Unit]
 Description=bridge vpn-%i setup
 Wants=network.target
-BindsTo=batadv-bat0.service
-After=batadv-bat0.service
+BindsTo=batadv-bat-%i.service
+After=batadv-bat-%i.service
 BindsTo=sys-subsystem-net-devices-vpn\x2d%i.device
 After=sys-subsystem-net-devices-vpn\x2d%i.device
 
@@ -11,7 +11,7 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/ip link set vpn-%i promisc on
 ExecStart=/sbin/ebtables -A FORWARD --logical-in vpn-%i -j DROP
-ExecStart=/bin/ip link set dev "vpn-%i" master bat0
+ExecStart=/bin/ip link set dev "vpn-%i" master bat-%i
 ExecStop=/bin/ip link set dev "vpn-%i" nomaster
 ExecStop=/sbin/ebtables -D FORWARD --logical-in vpn-%i -j DROP
 

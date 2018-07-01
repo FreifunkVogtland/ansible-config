@@ -110,7 +110,7 @@ protocol ospf o_mesh {
 			10.207.0.0/16;
 		};
 {% endif %}
-		interface "bat0" {
+		interface "bat-ffv" {
 			authentication cryptographic;
 			password "{{ ospf_password }}";
 			type nonbroadcast;

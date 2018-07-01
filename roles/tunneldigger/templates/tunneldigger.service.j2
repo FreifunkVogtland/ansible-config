@@ -1,9 +1,13 @@
 [Unit]
 Description = Start tunneldigger L2TPv3 broker
 After = network.target
-BindsTo=sys-subsystem-net-devices-vpn\x2dffv.device
-After=sys-subsystem-net-devices-vpn\x2dffv.device
-After=bridge-vpn@ffv.service
+
+{% for mesh_name in (mesh.keys() |sort()) %}
+BindsTo=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+After=bridge-vpn@{{ mesh_name }}.service
+{% endfor %}
+
 After=iptables.service
 PartOf=iptables.service
 

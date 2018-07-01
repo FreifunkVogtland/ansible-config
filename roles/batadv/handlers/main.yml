@@ -4,19 +4,18 @@
     name: systemd-networkd.service
     state: "restarted"
 
-- name: restart batadv-bat0
+- name: restart batadv-bat-{{ mesh_name }}
   systemd:
-    name: batadv-bat0.service
+    name: batadv-bat-{{ mesh_name }}.service
     state: "restarted"
 
-- name: restart vxlan0
+- name: restart vxlan-{{ mesh_name }}
   systemd:
-    name: vxlan0.service
+    name: vxlan-{{ mesh_name }}.service
     state: "restarted"
 
 - name: restart bridge-vpn
   systemd:
     name: "bridge-vpn@{{ item }}.service"
     state: restarted
-  with_items:
-  - ffv
+  with_items: "{{ mesh }}"

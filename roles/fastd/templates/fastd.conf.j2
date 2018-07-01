@@ -20,5 +20,5 @@ include peers from "/tmp";
 
 on up "
 ip link set address {{ fastd_mac_prefix }}:{{ '%02x' % ffv_domains[item].id }} dev $INTERFACE
-ip link set up mtu 1426 master vpn-ffv dev $INTERFACE
+ip link set up mtu 1426 master vpn-{{ ffv_domains[item].mesh }} dev $INTERFACE
 ";

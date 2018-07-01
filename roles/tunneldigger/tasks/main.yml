@@ -103,8 +103,8 @@
   - restart tunneldigger
 
 - name: install tunneldigger service
-  copy:
-    src: tunneldigger.service
+  template:
+    src: tunneldigger.service.j2
     dest: /etc/systemd/system/tunneldigger.service
   notify:
   - restart tunneldigger

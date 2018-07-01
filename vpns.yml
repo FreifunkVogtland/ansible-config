@@ -21,6 +21,10 @@
       tags: "tunnels"
     - role: batadv
       tags: "batadv"
+      include_role:
+        name: batadv
+      vars:
+        mesh_name: ffv
     - role: fastd
       tags: "fastd"
     - role: tunneldigger

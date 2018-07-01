@@ -10,11 +10,12 @@ synchronize      = "1m"
 # how often request per multicast
 collect_interval = "30s"
 
+{% for mesh_name in (mesh.keys() |sort()) %}
 
 # interface that has an IP in your mesh network
 [[respondd.interfaces]]
 # name of interface on which this collector is running
-ifname = "bat0"
+ifname = "bat-{{ mesh_name }}"
 # ip address which is used for sending
 # (optional - without definition used a address of ifname)
 #ip_address = "fd2f:5119:f2d::5"
@@ -27,6 +28,8 @@ ifname = "bat0"
 # define a port to listen
 # if not set or set to 0 the kernel will use a random free port at its own
 #port = 10001
+
+{% endfor %}
 
 # table of a site to save stats for (not exists for global only)
 #[respondd.sites.example]

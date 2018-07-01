@@ -86,7 +86,7 @@ protocol ospf o_mesh {
 			fec0::a:cf:0:0/96;
 		};
 {% endif %}
-		interface "bat0" {
+		interface "bat-ffv" {
 			type nonbroadcast;
 			neighbors {
 {% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
@@ -149,8 +149,10 @@ protocol static {
 	import all;
 	export all;
 
-	route {{ ffrl_ipv6_subnet }} via "bat0";
+{% for mesh_name in (mesh.keys() |sort()) %}
+	route {{ ffrl_ipv6_subnet }} via "bat-{{ mesh_name }}";
 	# drop /56 and address translation and let ffrl export handle the /56
 	# "aggregation
-	route {{ ROUTERIPV6SUBNET | ipaddr('network') }}/56 via "bat0";
+	route {{ mesh[mesh_name]['ipv6']['subnet'] | ipaddr('network') }}/56 via "bat-{{ mesh_name }}";
+{% endfor %}
 }

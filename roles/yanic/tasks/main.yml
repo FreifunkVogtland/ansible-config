@@ -27,8 +27,8 @@
 #    GOPATH: /usr/src/yanic
 
 - name: configure yanic
-  copy:
-    src: config.toml
+  template:
+    src: config.toml.j2
     dest: /etc/yanic.conf
   notify:
   - restart yanic

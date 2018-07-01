@@ -1,0 +1,5 @@
+[NetDev]
+Name=vpn-{{ mesh_name }}
+Kind=bridge
+MACAddress={{ '02:12:7b:00:%02x:%02x'|format(vpnid|int, mesh[mesh_name]['id']|int) }}
+MTUBytes=1426

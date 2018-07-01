@@ -1,10 +1,16 @@
 [Unit]
 Description=Respondd
-After=batadv-bat0.service
-After=sys-subsystem-net-devices-vpn\x2dffv.device
+
+{% for mesh_name in (mesh.keys() |sort()) %}
+After=batadv-bat-{{ mesh_name }}.service
+After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+{% endfor %}
 
 [Service]
-ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -i bat0 -i dummy0 -i vxlan0 -i vpn-ffv
+ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -b bat-ffv
+{%- for domain in (mesh.keys() |sort())  %}
+ -i bat-{{ domain }} -i vxlan-{{ domain }} -i vpn-{{ domain }}
+{%- endfor %}
 
 Restart=always
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

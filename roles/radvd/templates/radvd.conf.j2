@@ -1,4 +1,6 @@
-interface bat0 {
+{% for mesh_name in (mesh.keys() |sort()) %}
+
+interface bat-{{ mesh_name }} {
   AdvSendAdvert on;
   IgnoreIfMissing on;
 
@@ -8,12 +10,14 @@ interface bat0 {
 
   MaxRtrAdvInterval 30;
 
-  prefix {{ ROUTERIPV6SUBNET }} {
+  prefix {{ mesh[mesh_name]['ipv6']['subnet'] }} {
     AdvOnLink on;
     AdvAutonomous on;
     AdvRouterAddr on;
   };
 
-  RDNSS {{ ROUTERIPV6 | ipaddr('address') }} {
+  RDNSS {{ mesh[mesh_name]['ipv6']['ip'] | ipaddr('address') }} {
   };
 };
+
+{% endfor %}

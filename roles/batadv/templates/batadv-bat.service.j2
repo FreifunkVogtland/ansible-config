@@ -1,0 +1,20 @@
+[Unit]
+Description=bat-{{ mesh_name }} setup
+Wants=network.target
+BindsTo=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device
+After=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/ip link set up dummy-bat-{{ mesh_name }}
+ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} if add dummy-bat-{{ mesh_name }}
+ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} gw {{ dnsmasq | ternary('server', 'off') }}
+ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bonding 1
+ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bridge_loop_avoidance 1
+ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} orig_interval 5000
+ExecStart=/bin/sh -c '/bin/echo 60 > /sys/devices/virtual/net/bat-{{ mesh_name }}/mesh/hop_penalty'
+ExecStart=-/usr/sbin/batctl -m bat-{{ mesh_name }} nc disable
+
+[Install]
+WantedBy=multi-user.target

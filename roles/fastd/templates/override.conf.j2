@@ -1,0 +1,9 @@
+[Unit]
+After = network.target
+
+{% for mesh_name in (mesh.keys() |sort()) %}
+Wants=batadv-bat{{ mesh_name }}.service
+BindsTo=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+{% endfor %}
+

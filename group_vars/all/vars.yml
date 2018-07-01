@@ -3,7 +3,6 @@ gateway_if: eth0
 batadv_version: 2018.1-10-gd36739f0
 meshviewer: 0
 icvpn: no
-vlan_id: 4184373
 
 vogtland_ipv4 : 10.204.0.0/16
 
@@ -14,27 +13,48 @@ OWNASN: "64857"
 USE_RADVD: "0"
 DIRECT: "0"
 
-ffv_ipv4_subnet: 10.204.0.0/19
-ffv_ipv4_vpn_start: 2
-ffv_ipv4_client_start: 12
-ffv_ipv4_per_vpn: 818
-
-ffv_ipv6_64_prefix: 0
 
 ffrl_ipv6_subnet: 2a03:2260:200f::/48
 
-
-batadv_mac: "{{ '02:ba:7a:df:%02x:00'|format(vpnid|int) }}"
-batadv_primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, vpnid|int) }}"
-
-ROUTERID: "{{ ffv_ipv4_subnet | ipaddr(vpnid|int - 1 + ffv_ipv4_vpn_start) | ipaddr('address') }}"
-ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
+# TODO use better ids
+ROUTERID: "{{ vogtland_ipv4 | ipaddr(vpnid|int - 1 + 2) | ipaddr('address') }}"
 ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
-ROUTERIPV6SUBNET: "{{ ROUTERRANGEV6 | ipsubnet(64, ffv_ipv6_64_prefix) }}"
-ROUTERIPV6: "{{ ROUTERIPV6SUBNET | ipaddr(1) }}"
-DNSMASQ_RANGE_START: "{{ ffv_ipv4_subnet | ipaddr((vpnid|int - 1) * ffv_ipv4_per_vpn + ffv_ipv4_client_start) | ipaddr('address') }}"
-DNSMASQ_RANGE_END: "{{ ffv_ipv4_subnet | ipaddr((vpnid|int) * ffv_ipv4_per_vpn - 1 + ffv_ipv4_client_start) | ipaddr('address') }}"
-DNSMASQ_RANGE: "{{ DNSMASQ_RANGE_START}},{{ DNSMASQ_RANGE_END }}"
+ROUTERIDV6: "{{ '2a03:2260:200f:1337::%x'|format(vpnid|int) }}"
+
+mesh_meta:
+  ffv:
+    id: 0
+    vxlan:
+      id: 4184373
+    ipv4:
+      subnet: 10.204.0.0/19
+      vpn_start: 2
+      client_start: 12
+      per_vpn: 818
+    ipv6:
+      prefix_64: 0
+
+mesh:
+  ffv:
+    id: 0
+    vxlan:
+      id: "{{ mesh_meta['ffv']['vxlan']['id'] }}"
+    batadv:
+      mac: "{{ '02:ba:7a:df:%02x:%02x'|format(vpnid|int, mesh_meta['ffv']['id']|int) }}"
+      primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, mesh_meta['ffv']['id']|int) }}"
+    ipv4:
+      subnet: "{{ mesh_meta['ffv']['ipv4']['subnet'] }}"
+      vpn_start: "{{ mesh_meta['ffv']['ipv4']['vpn_start'] }}"
+      client_start: "{{ mesh_meta['ffv']['ipv4']['client_start'] }}"
+      per_vpn: "{{ mesh_meta['ffv']['ipv4']['per_vpn'] }}"
+      ip: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr(vpnid|int - 1 + mesh_meta['ffv']['ipv4']['vpn_start']) | ipaddr('address') }}"
+    ipv6:
+      prefix_64: "{{ mesh_meta['ffv']['ipv6']['prefix_64'] }}"
+      subnet: "{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ffv']['ipv6']['prefix_64']) }}"
+      ip: "{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ffv']['ipv6']['prefix_64']) | ipaddr(1) }}"
+    dnsmasq:
+      start: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr((vpnid|int - 1) * mesh_meta['ffv']['ipv4']['per_vpn'] + mesh_meta['ffv']['ipv4']['client_start']) | ipaddr('address') }}"
+      end: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr((vpnid|int) * mesh_meta['ffv']['ipv4']['per_vpn'] - 1 + mesh_meta['ffv']['ipv4']['client_start']) | ipaddr('address') }}"
 
 fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
 
@@ -51,79 +71,118 @@ ffrl_bb_servers:
 ffv_domains:
   ffv:
     id: 0
+    mesh: ffv
   ffv_a:
     id: 1
+    mesh: ffv
   ffv_ae:
     id: 2
+    mesh: ffv
   ffv_b:
     id: 3
+    mesh: ffv
   ffv_bb:
     id: 4
+    mesh: ffv
   ffv_be:
     id: 5
+    mesh: ffv
   ffv_boe:
     id: 6
+    mesh: ffv
   ffv_eic:
     id: 7
+    mesh: ffv
   ffv_ell:
     id: 8
+    mesh: ffv
   ffv_els:
     id: 9
+    mesh: ffv
   ffv_fst:
     id: 10
+    mesh: ffv
   ffv_gb:
     id: 11
+    mesh: ffv
   ffv_hdg:
     id: 12
+    mesh: ffv
   ffv_k:
     id: 13
+    mesh: ffv
   ffv_l:
     id: 14
+    mesh: ffv
   ffv_le:
     id: 15
+    mesh: ffv
   ffv_mh:
     id: 16
+    mesh: ffv
   ffv_mkn:
     id: 17
+    mesh: ffv
   ffv_mtl:
     id: 18
+    mesh: ffv
   ffv_n:
     id: 19
+    mesh: ffv
   ffv_nmk:
     id: 20
+    mesh: ffv
   ffv_nst:
     id: 21
+    mesh: ffv
   ffv_nsz:
     id: 22
+    mesh: ffv
   ffv_oel:
     id: 23
+    mesh: ffv
   ffv_pl:
     id: 24
+    mesh: ffv
   ffv_pmf:
     id: 25
+    mesh: ffv
   ffv_poe:
     id: 26
+    mesh: ffv
   ffv_rbh:
     id: 27
+    mesh: ffv
   ffv_rc:
     id: 28
+    mesh: ffv
   ffv_rdw:
     id: 29
+    mesh: ffv
   ffv_s:
     id: 30
+    mesh: ffv
   ffv_sbg:
     id: 31
+    mesh: ffv
   ffv_t:
     id: 32
+    mesh: ffv
   ffv_tdf:
     id: 33
+    mesh: ffv
   ffv_tr:
     id: 34
+    mesh: ffv
   ffv_tri:
     id: 35
+    mesh: ffv
   ffv_wei:
     id: 36
+    mesh: ffv
   ffv_wer:
     id: 37
+    mesh: ffv
   fferz:
     id: 38
+    mesh: ffv
