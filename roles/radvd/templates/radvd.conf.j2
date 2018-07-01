@@ -16,8 +16,12 @@ interface bat-{{ mesh_name }} {
     AdvRouterAddr on;
   };
 
+
+{% if mesh_name == 'ffv' %}
   RDNSS {{ mesh[mesh_name]['ipv6']['ip'] | ipaddr('address') }} {
   };
+{% endif %}
+
 };
 
 {% endfor %}
