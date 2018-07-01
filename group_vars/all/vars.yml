@@ -39,27 +39,7 @@ mesh_meta:
     ipv6:
       prefix_64: 0
 
-mesh:
-  ffv:
-    id: 0
-    vxlan:
-      id: "{{ mesh_meta['ffv']['vxlan']['id'] }}"
-    batadv:
-      mac: "{{ '02:ba:7a:df:%02x:%02x'|format(vpnid|int, mesh_meta['ffv']['id']|int) }}"
-      primary: "{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, mesh_meta['ffv']['id']|int) }}"
-    ipv4:
-      subnet: "{{ mesh_meta['ffv']['ipv4']['subnet'] }}"
-      vpn_start: "{{ mesh_meta['ffv']['ipv4']['vpn_start'] }}"
-      client_start: "{{ mesh_meta['ffv']['ipv4']['client_start'] }}"
-      per_vpn: "{{ mesh_meta['ffv']['ipv4']['per_vpn'] }}"
-      ip: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr(vpnid|int - 1 + mesh_meta['ffv']['ipv4']['vpn_start']) | ipaddr('address') }}"
-    ipv6:
-      prefix_64: "{{ mesh_meta['ffv']['ipv6']['prefix_64'] }}"
-      subnet: "{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ffv']['ipv6']['prefix_64']) }}"
-      ip: "{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ffv']['ipv6']['prefix_64']) | ipaddr(1) }}"
-    dnsmasq:
-      start: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr((vpnid|int - 1) * mesh_meta['ffv']['ipv4']['per_vpn'] + mesh_meta['ffv']['ipv4']['client_start']) | ipaddr('address') }}"
-      end: "{{ mesh_meta['ffv']['ipv4']['subnet'] | ipaddr((vpnid|int) * mesh_meta['ffv']['ipv4']['per_vpn'] - 1 + mesh_meta['ffv']['ipv4']['client_start']) | ipaddr('address') }}"
+mesh: "{{ mesh_meta | mesh_fill(vpnid|int, ROUTERRANGEV6) }}"
 
 fastd_mac_prefix: "{{ '02:fa:57:%02x:00'|format(vpnid|int) }}"
 
