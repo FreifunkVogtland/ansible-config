@@ -10,10 +10,10 @@ After=sys-subsystem-net-devices-vpn\x2d%i.device
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/ip link set vpn-%i promisc on
-ExecStart=/sbin/ebtables -A FORWARD --logical-in vpn-%i -j DROP
+ExecStart=/sbin/ebtables --concurrent -A FORWARD --logical-in vpn-%i -j DROP
 ExecStart=/bin/ip link set dev "vpn-%i" master bat-%i
 ExecStop=/bin/ip link set dev "vpn-%i" nomaster
-ExecStop=/sbin/ebtables -D FORWARD --logical-in vpn-%i -j DROP
+ExecStop=/sbin/ebtables --concurrent -D FORWARD --logical-in vpn-%i -j DROP
 
 [Install]
 WantedBy=multi-user.target
