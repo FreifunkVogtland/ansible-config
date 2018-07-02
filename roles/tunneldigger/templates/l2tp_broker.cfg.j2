@@ -2,7 +2,7 @@
 ; IP address the broker will listen and accept tunnels on
 address={{ WANIP }}
 ; Ports where the broker will listen on
-port=11000
+port={{ ffv_domains.values() | map(attribute='id') | int_add(11000) | sort | join(',') }}
 ; Interface with that IP address
 interface={{ gateway_if }}
 ; Maximum number of tunnels that will be allowed by the broker

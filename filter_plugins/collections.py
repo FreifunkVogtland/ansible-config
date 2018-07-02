@@ -43,8 +43,14 @@ def mesh_fill(env, collection, vpnid, ROUTERRANGEV6):
 
     return meshes
 
+
+def int_add(collection, val):
+    return map(lambda x: x + val, collection)
+
+
 class FilterModule(object):
     def filters(self):
         return {
-            'mesh_fill': mesh_fill
+            'mesh_fill': mesh_fill,
+            'int_add': int_add,
         }

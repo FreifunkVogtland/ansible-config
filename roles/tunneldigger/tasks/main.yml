@@ -43,7 +43,7 @@
   git:
     repo: 'https://github.com/FreifunkVogtland/tunneldigger.git'
     dest: /opt/freifunk/tunneldigger
-    version: master
+    version: 05cdd3588952ef0623579dd3867f97f965b14917
   notify:
   - restart tunneldigger
 
@@ -81,6 +81,17 @@
     mode: 0755
   with_items:
   - session-pre-down.sh
+  notify:
+  - restart tunneldigger
+
+- name: generate tunneldigger hook scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: "/opt/freifunk/tunneldigger/scripts/{{ item }}"
+    group: root
+    owner: root
+    mode: 0755
+  with_items:
   - session-up.sh
   notify:
   - restart tunneldigger

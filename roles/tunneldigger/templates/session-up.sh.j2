@@ -1,0 +1,17 @@
+#!/bin/bash
+
+INTERFACE="$3"
+LOCALPORT="$9"
+
+case "${LOCALPORT}" in
+{% for domain in (ffv_domains.keys() |sort()) %}
+{{ ffv_domains[domain]['id'] + 11000 }})
+    mesh="{{ ffv_domains[domain]['mesh'] }}"
+    ;;
+{% endfor %}
+*)
+    exit 1
+    ;;
+esac
+
+ip link set dev "$INTERFACE" up mtu 1426 master vpn-"${mesh}"
