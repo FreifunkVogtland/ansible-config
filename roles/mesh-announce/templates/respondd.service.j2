@@ -7,9 +7,9 @@ After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
 {% endfor %}
 
 [Service]
-ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -b bat-ffv
-{%- for domain in (mesh.keys() |sort())  %}
- -i bat-{{ domain }} -i vxlan-{{ domain }} -i vpn-{{ domain }}
+ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/
+{%- for mesh_name in (mesh.keys() |sort())  %}
+ -b bat-{{ mesh_name }} -i bat-{{ mesh_name }} -i vxlan-{{ mesh_name }} -i vpn-{{ mesh_name }}
 {%- endfor %}
 
 Restart=always

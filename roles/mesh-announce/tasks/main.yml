@@ -11,6 +11,7 @@
   git:
     repo: 'https://github.com/FreifunkVogtland/mesh-announce'
     dest: /opt/freifunk/ffnord-alfred-announce
+    version: 5fe8f33514dbcf3e6efca5de060407d99283a8a2
 
 - name: install respondd systemd unit file
   template:
