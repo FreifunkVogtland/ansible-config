@@ -9,6 +9,7 @@ backups=(
   [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
   [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
   [yanic]=/var/lib/yanic/
+  [influxdb]=/var/lib/influxdb/
 )
 
 for backup in "${!backups[@]}"; do
