@@ -82,7 +82,7 @@
     - role: firewall
       tags: "firewall"
 
-- hosts: vpn01
+- hosts: vpn04
   gather_facts: false
   become: yes
   roles:

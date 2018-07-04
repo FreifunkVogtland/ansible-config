@@ -32,6 +32,14 @@
   - graphite-carbon
   - libapache2-mod-wsgi
   - influxdb
+  - sqlite3
+
+# TODO switch back to http://snapshot.debian.org/package/graphite-web/0.9.15%2Bdebian-2/
+# TODO update influxdb to 1.5.3-2
+
+# TODO sudo a2enmod rewrite
+# TODO sudo a2enmod proxy
+# TODO sudo a2enmod proxy_http
 
 - name: add grafana configuration
   copy:
