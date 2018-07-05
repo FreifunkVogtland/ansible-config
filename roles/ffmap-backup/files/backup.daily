@@ -4,12 +4,8 @@ export HOME=/root
 
 typeset -A backups
 backups=(
-  [ffmapdata]=/opt/freifunk/meshviewer/data/
-  [graphite]=/var/lib/graphite/
-  [eventlogdb]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db
-  [eventlogdb60]=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
-  [yanic]=/var/lib/yanic/
   [influxdb]=/var/lib/influxdb/
+  [graphite]=/var/lib/graphite/
 )
 
 for backup in "${!backups[@]}"; do

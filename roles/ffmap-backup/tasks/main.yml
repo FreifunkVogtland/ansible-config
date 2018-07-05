@@ -6,8 +6,14 @@
   - cron
   - borgbackup
 
-- name: copy backup cron script
+- name: copy backup.daily cron script
   copy:
-    src: backup
+    src: backup.daily
     dest: /etc/cron.daily/backup
+    mode: 0755
+
+- name: copy backup.hourly cron script
+  copy:
+    src: backup.hourly
+    dest: /etc/cron.hourly/backup
     mode: 0755
