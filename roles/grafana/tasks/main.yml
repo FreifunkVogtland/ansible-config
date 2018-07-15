@@ -41,6 +41,15 @@
 # TODO sudo a2enmod proxy
 # TODO sudo a2enmod proxy_http
 
+- name: add grafana dashboard provisioning configuration
+  copy:
+    src: ffv.yaml
+    dest: /etc/grafana/provisioning/dashboards/ffv.yaml
+    owner: root
+    group: grafana
+    mode: 0640
+  notify: restart grafana-server
+
 - name: add grafana configuration
   copy:
     src: grafana.ini
