@@ -90,10 +90,10 @@
 - name: create nodes2eventlog 60min delay database
   file: state=directory path=/opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60
 
-- name: Install nodelist2kml
+- name: Install meshviewer2kml
   git:
-    repo: 'https://github.com/FreifunkVogtland/nodelist2kml.git'
-    dest: /opt/freifunk/meshviewer/nodelist2kml
+    repo: 'https://github.com/FreifunkVogtland/meshviewer2kml.git'
+    dest: /opt/freifunk/meshviewer/meshviewer2kml
 
 ## TODO carbone + grafana installation
 - name: Install grafana-config
