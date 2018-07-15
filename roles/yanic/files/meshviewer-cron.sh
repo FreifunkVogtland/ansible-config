@@ -2,11 +2,11 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# send global count to graphite
-/opt/freifunk/ffv-grafana-config/graphite-nodes.py /opt/freifunk/meshviewer/data/meshviewer.json | nc -q0 localhost 2003
-
 # generate new files based on the json data
 /opt/freifunk/meshviewer/ffv-meshviewer-filter/filter.py /opt/freifunk/meshviewer/data/ /var/www/meshviewer/ffv/
+
+# send global count to graphite
+/opt/freifunk/ffv-grafana-config/graphite-nodes.py /var/www/meshviewer/ffv/meshviewer.json | nc -q0 localhost 2003
 
 /opt/freifunk/meshviewer/ffv-nodes2eventlog/nodes2eventlog.py /var/www/meshviewer/ffv/nodes.json /opt/freifunk/meshviewer/ffv-nodes2eventlog/db /var/www/meshviewer/ffv/eventlog.atom
 OFFLINE_THRESHOLD=60 /opt/freifunk/meshviewer/ffv-nodes2eventlog/nodes2eventlog.py /var/www/meshviewer/ffv/nodes.json /opt/freifunk/meshviewer/ffv-nodes2eventlog/db-threshold60 /var/www/meshviewer/ffv/eventlog-threshold60.atom
