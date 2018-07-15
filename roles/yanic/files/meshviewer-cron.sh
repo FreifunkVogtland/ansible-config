@@ -3,7 +3,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # send global count to graphite
-/opt/freifunk/ffv-grafana-config/graphite-nodes.py /opt/freifunk/meshviewer/data/nodes.json | nc -q0 localhost 2003
+/opt/freifunk/ffv-grafana-config/graphite-nodes.py /opt/freifunk/meshviewer/data/meshviewer.json | nc -q0 localhost 2003
 
 # generate new files based on the json data
 /opt/freifunk/meshviewer/ffv-meshviewer-filter/filter.py /opt/freifunk/meshviewer/data/ /var/www/meshviewer/ffv/
@@ -16,4 +16,4 @@ OFFLINE_THRESHOLD=60 /opt/freifunk/meshviewer/ffv-nodes2eventlog/nodes2eventlog.
 /opt/freifunk/ffv-api-generator/api-gen.py /var/www/meshviewer/ffv/nodelist.json /var/www/meshviewer/ffv/
 /opt/freifunk/meshviewer/nodelist2kml/nodelist2kml.py /var/www/meshviewer/ffv/nodelist.json /var/www/meshviewer/ffv/nodelist.kml
 
-/opt/freifunk/ffv-grafana-config/generate-dashboards.py  /var/www/meshviewer/ffv/nodelist.json /opt/freifunk/ffv-grafana-config/dashboard-templates/ /opt/freifunk/ffv-grafana-config/dashboard/dynamic/
+/opt/freifunk/ffv-grafana-config/generate-dashboards.py  /var/www/meshviewer/ffv/meshviewer.json /opt/freifunk/ffv-grafana-config/dashboard-templates/ /opt/freifunk/ffv-grafana-config/dashboard/dynamic/
