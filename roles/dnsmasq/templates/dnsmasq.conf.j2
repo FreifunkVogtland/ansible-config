@@ -15,9 +15,9 @@ dhcp-range=bat-{{ name }},{{ mesh[name]['dnsmasq']['start'] }},{{ mesh[name]['dn
 dhcp-option=bat-{{ name }},3,{{ mesh[name]['ipv4']['ip'] }}
 
 {% if name == 'ffv' %}
-dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['ip'] }}
+dhcp-option=bat-{{ name }},6,8.8.8.8
 {% else %}
-dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['subnet'] | ipaddr(1) | ipaddr('address') }}
+dhcp-option=bat-{{ name }},6,8.8.8.8
 {% endif %}
 
 {% endfor %}
