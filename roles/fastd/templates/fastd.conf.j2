@@ -2,6 +2,8 @@ bind 0.0.0.0:{{ ffv_domains[item].id + 10000 }};
 bind [::]:{{ ffv_domains[item].id + 10000 }};
 interface "fastd-{{ item }}";
 
+status socket "/var/run/fastd-{{ item }}.socket";
+
 log to syslog level warn;
 
 mtu 1426;
