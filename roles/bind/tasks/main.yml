@@ -1,0 +1,22 @@
+---
+- name: install bind dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+  - bind9
+
+- name: install bind named.conf.options
+  copy:
+    src: named.conf.options
+    dest: /etc/bind/named.conf.options
+    group: bind
+    owner: root
+    mode: 0644
+  notify:
+  - restart bind
+
+- name: enable bind
+  systemd:
+    name: bind9.service
+    daemon_reload: yes
+    enabled: "yes"
+    state: "started"

@@ -77,6 +77,8 @@
       tags: "icvpn"
     - role: dnsmasq
       tags: "dnsmasq"
+    - role: bind
+      tags: "bind"
     - role: bird
       tags: "bird"
     - role: firewall
