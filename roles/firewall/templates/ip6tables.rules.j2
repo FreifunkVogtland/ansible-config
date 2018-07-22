@@ -3,18 +3,8 @@
 :INPUT ACCEPT
 :OUTPUT ACCEPT
 :POSTROUTING ACCEPT
--A PREROUTING -d 2a03:2260:200f:1337::1/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::1/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
 -A PREROUTING -d 2a03:2260:200f:1337::2/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
 -A PREROUTING -d 2a03:2260:200f:1337::2/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::3/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::3/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::4/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::4/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::5/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::5/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::6/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
--A PREROUTING -d 2a03:2260:200f:1337::6/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
 -A PREROUTING -d 2a03:2260:200f:1337::7/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
 -A PREROUTING -d 2a03:2260:200f:1337::7/128 -p udp -m udp --dport 53 -j REDIRECT --to-ports 53
 -A PREROUTING -d 2a03:2260:200f:1337::8/128 -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 53
