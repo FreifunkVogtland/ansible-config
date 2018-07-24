@@ -24,15 +24,9 @@ dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['subnet'] | ipaddr(1) | ipadd
 
 dhcp-option=119,ffv
 dhcp-option=26,1394
-no-resolv
-server=8.8.4.4
-server=8.8.8.8
-server=2001:4860:4860::8888
-server=2001:4860:4860::8844
 except-interface=lo
-read-ethers
 
+read-ethers
 addn-hosts=/opt/freifunk/dns/hosts
 
 port=0
-host-record=nextnode,nextnode.ffv,10.204.0.1,2a03:2260:200f:1337::a
