@@ -14,6 +14,34 @@
   notify:
   - restart bind
 
+- name: install icvpn bind config stub
+  copy:
+    content: ""
+    dest: /var/tmp/bind-icvpn.conf
+    force: no
+    group: root
+    owner: root
+    mode: 0644
+
+- name: install bind named.conf.local
+  copy:
+    src: named.conf.local
+    dest: /etc/bind/named.conf.local
+    group: bind
+    owner: root
+    mode: 0644
+  notify:
+  - restart bind
+
+- name: install icvpn dnsmasq config stub
+  copy:
+    content: ""
+    dest: /var/tmp/dnsmasq-icvpn.conf
+    force: no
+    group: root
+    owner: root
+    mode: 0644
+
 - name: enable bind
   systemd:
     name: bind9.service

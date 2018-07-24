@@ -28,6 +28,6 @@ mv /var/tmp/bird6-icvpn.conf.tmp /var/tmp/bird6-icvpn.conf
 mv /var/tmp/bird6-icvpn-roa.conf.tmp /var/tmp/bird6-icvpn-roa.conf
 birdc6 configure > /dev/null
 
-/opt/freifunk/icvpn-scripts/mkdns -s "$DATADIR" -x vogtland -f dnsmasq > /var/tmp/dnsmasq-icvpn.conf.tmp
-mv /var/tmp/dnsmasq-icvpn.conf.tmp /var/tmp/dnsmasq-icvpn.conf
-# TODO reload dnsmasq on changes
+/opt/freifunk/icvpn-scripts/mkdns -s "$DATADIR" -x vogtland -f bind-forward > /var/tmp/bind-icvpn.conf.tmp
+mv /var/tmp/bind-icvpn.conf.tmp /var/tmp/bind-icvpn.conf
+/usr/sbin/rndc reload

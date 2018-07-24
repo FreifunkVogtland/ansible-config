@@ -15,15 +15,6 @@
     dest: /etc/ethers
     state: link
 
-- name: install icvpn dnsmasq config stub
-  copy:
-    content: ""
-    dest: /var/tmp/dnsmasq-icvpn.conf
-    force: no
-    group: root
-    owner: root
-    mode: 0644
-
 - name: install dnsmasq config
   template:
     src: dnsmasq.conf.j2
