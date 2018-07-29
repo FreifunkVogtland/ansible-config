@@ -28,18 +28,12 @@
   with_items:
   - apache2
   - grafana
-  - graphite-web
-  - graphite-carbon
   - libapache2-mod-wsgi
   - influxdb
   - sqlite3
 
-# TODO switch back to http://snapshot.debian.org/package/graphite-web/0.9.15%2Bdebian-2/
 # TODO update influxdb to 1.5.3-2
-
 # TODO sudo a2enmod rewrite
-# TODO sudo a2enmod proxy
-# TODO sudo a2enmod proxy_http
 
 - name: add grafana dashboard provisioning configuration
   copy:
@@ -66,18 +60,6 @@
   notify:
   - restart influxdb
 
-- name: add carbon configurations
-  copy:
-    src: "{{ item }}"
-    dest: "/etc/carbon/{{ item }}"
-  with_items:
-  - aggregation-rules.conf
-  - storage-schemas.conf
-  - storage-aggregation.conf
-  notify:
-  - restart carbon-cache
-  - restart apache2
-
 - name: enable port 8080 for apache2
   lineinfile:
     destfile: '/etc/apache2/ports.conf'
@@ -93,16 +75,6 @@
     state: present
   notify:
   - restart apache2
-
-- name: add apache2 graphite site
-  copy:
-    src: apache2-graphite.conf
-    dest: /etc/apache2/sites-enabled/apache2-graphite.conf
-  notify:
-  - restart apache2
-
-# TODO run: cd /usr/lib/python2.7/dist-packages/graphite/ && sudo -u _graphite python manage.py syncdb
-
 
 - name: add apache2 stats site
   copy:

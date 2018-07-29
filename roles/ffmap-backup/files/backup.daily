@@ -5,7 +5,6 @@ export HOME=/root
 typeset -A backups
 backups=(
   [influxdb]=/var/lib/influxdb/
-  [graphite]=/var/lib/graphite/
 )
 
 for backup in "${!backups[@]}"; do

@@ -95,7 +95,6 @@
     repo: 'https://github.com/FreifunkVogtland/meshviewer2kml.git'
     dest: /opt/freifunk/meshviewer/meshviewer2kml
 
-## TODO carbone + grafana installation
 - name: Install grafana-config
   git:
     repo: 'https://github.com/FreifunkVogtland/ffv-grafana-config.git'

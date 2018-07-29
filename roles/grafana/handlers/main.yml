@@ -7,11 +7,6 @@
     name: grafana-server.service
     state: restarted
 
-- name: restart carbon-cache
-  systemd:
-    name: carbon-cache.service
-    state: restarted
-
 - name: restart apache2
   systemd:
     name: apache2.service
