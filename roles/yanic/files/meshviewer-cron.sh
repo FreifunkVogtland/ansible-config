@@ -12,5 +12,3 @@ OFFLINE_THRESHOLD=60 /opt/freifunk/meshviewer/ffv-nodes2eventlog/nodes2eventlog.
 
 /opt/freifunk/ffv-api-generator/api-gen.py /var/www/meshviewer/ffv/meshviewer.json /var/www/meshviewer/ffv/
 /opt/freifunk/meshviewer/meshviewer2kml/meshviewer2kml.py /var/www/meshviewer/ffv/meshviewer.json /var/www/meshviewer/ffv/nodelist.kml
-
-/opt/freifunk/ffv-grafana-config/generate-dashboards.py  /var/www/meshviewer/ffv/meshviewer.json /opt/freifunk/ffv-grafana-config/dashboard-templates/ /opt/freifunk/ffv-grafana-config/dashboard/dynamic/

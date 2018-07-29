@@ -82,9 +82,3 @@
     dest: /etc/apache2/sites-enabled/apache2-stats.conf
   notify:
   - restart apache2
-
-- name: install grafana db history workaround
-  copy:
-    src: dashboard_history_drop.sh
-    dest: /etc/cron.daily/dashboard_history_drop.sh
-    mode: 0755
