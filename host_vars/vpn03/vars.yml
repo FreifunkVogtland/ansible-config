@@ -18,7 +18,7 @@ icvpn_ipv4: 10.207.0.37
 icvpn_bcast: 10.207.255
 icvpn_ipv6: fec0::a:cf:0:25
 
-fastd_peer_limit: 6
+fastd_peer_limit: 4
 
 tunneldigger_peer_limit: 25
 
