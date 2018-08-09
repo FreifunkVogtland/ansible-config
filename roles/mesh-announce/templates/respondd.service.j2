@@ -4,6 +4,7 @@ Description=Respondd
 {% for mesh_name in (mesh.keys() |sort()) %}
 After=batadv-bat-{{ mesh_name }}.service
 After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+After=sys-subsystem-net-devices-vxlan\x2d{{ mesh_name }}.device
 {% endfor %}
 
 [Service]
