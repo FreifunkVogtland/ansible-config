@@ -17,7 +17,7 @@ peer limit {{ fastd_peer_limit }};
 # Use "fastd --generate-key" to get secret key
 secret "{{ fastd_secret }}";
 
-on verify "true";
+on verify "/opt/freifunk/server-scripts/blacklist_fastd.py {{ item }} $PEER_KEY";
 include peers from "/tmp";
 
 on up "

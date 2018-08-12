@@ -6,6 +6,20 @@
   - batctl
   - fastd
 
+- name: create blacklist_fastd script directory
+  file:
+    path: /opt/freifunk/server-scripts/
+    state: directory
+    owner: root
+
+- name: install blacklist_fastd script
+  copy:
+    src: blacklist_fastd.py
+    dest: /opt/freifunk/server-scripts/blacklist_fastd.py
+    group: root
+    owner: root
+    mode: 0755
+
 - name: create fastd instance directories
   file:
     state: directory
