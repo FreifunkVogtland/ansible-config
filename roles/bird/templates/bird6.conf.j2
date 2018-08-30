@@ -48,6 +48,7 @@ function is_transition() {
 
 filter hostroute {
 	if net.len > 56 then reject;
+	if source = RTS_BGP then reject;
 	if net ~ {{ ffrl_ipv6_subnet }} then accept;
 	reject;
 }
@@ -106,7 +107,11 @@ template bgp internal {
 		preference = 99;
 		accept;
 	};
-	export where source = RTS_BGP;
+	export filter {
+		if source = RTS_BGP then accept;
+		if net ~ {{ ffrl_ipv6_subnet }} then accept;
+		reject;
+	};
 	direct;
 };
 
