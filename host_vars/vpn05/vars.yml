@@ -9,7 +9,7 @@ WANIP: "185.185.26.86"
 WANGW: "185.185.26.1"
 WANIP6: "2a01:4f8:bc:ae6::7286"
 WANGW6: "::1"
-USE_RADVD: "0"
+USE_RADVD: "1"
 DIRECT: "0"
 
 icvpn_name: vogtland5
