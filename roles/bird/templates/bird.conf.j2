@@ -144,7 +144,13 @@ protocol bgp {{ peer }} from internal {
 # Uplink ueber ff Rheinland
 template bgp uplink {
 	local as {{ OWNASN }};
+{% if BACKBONE_IPV4 is defined %}
 	import where is_default();
+{% else %}
+	import filter {
+		reject;
+	};
+{% endif %}
 	export filter hostroute;
 	next hop self;
 	multihop 64;
