@@ -21,3 +21,47 @@ icvpn_ipv6: fec0::a:cf:0:7
 fastd_peer_limit: 30
 
 tunneldigger_peer_limit: 120
+
+ffrl_bb_links:
+  bb_a_ak_ber:
+    ipv4:
+      src: 100.64.9.203
+      dst: 100.64.9.202
+    ipv6:
+      src: 2a03:2260:0:4fa::2
+      dst: 2a03:2260:0:4fa::1
+  bb_a_fra2_fra:
+    ipv4:
+      src: 100.64.9.205
+      dst: 100.64.9.204
+    ipv6:
+      src: 2a03:2260:0:4fb::2
+      dst: 2a03:2260:0:4fb::1
+  bb_a_ix_dus:
+    ipv4:
+      src: 100.64.9.207
+      dst: 100.64.9.206
+    ipv6:
+      src: 2a03:2260:0:4fc::2
+      dst: 2a03:2260:0:4fc::1
+  bb_b_ak_ber:
+    ipv4:
+      src: 100.64.9.209
+      dst: 100.64.9.208
+    ipv6:
+      src: 2a03:2260:0:4fd::2
+      dst: 2a03:2260:0:4fd::1
+  bb_b_fra2_fra:
+    ipv4:
+      src: 100.64.9.211
+      dst: 100.64.9.210
+    ipv6:
+      src: 2a03:2260:0:4fe::2
+      dst: 2a03:2260:0:4fe::1
+  bb_b_ix_dus:
+    ipv4:
+      src: 100.64.9.213
+      dst: 100.64.9.212
+    ipv6:
+      src: 2a03:2260:0:4ff::2
+      dst: 2a03:2260:0:4ff::1
