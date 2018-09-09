@@ -12,9 +12,9 @@ WANGW6: "::1"
 USE_RADVD: "0"
 DIRECT: "0"
 
-fastd_peer_limit: 4
+fastd_peer_limit: 0
 
-tunneldigger_peer_limit: 25
+tunneldigger_peer_limit: 0
 
 ffrl_bb_links:
   bb_a_ak_ber:
