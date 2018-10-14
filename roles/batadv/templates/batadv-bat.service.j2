@@ -3,6 +3,8 @@ Description=bat-{{ mesh_name }} setup
 Wants=network.target
 BindsTo=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device
 After=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device
+Requires=systemd-networkd.service
+After=systemd-networkd.service
 
 [Service]
 Type=oneshot

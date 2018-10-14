@@ -1,6 +1,8 @@
 [Unit]
 Description = Start tunneldigger L2TPv3 broker
 After = network.target
+Requires=systemd-networkd.service
+After=systemd-networkd.service
 
 {% for mesh_name in (mesh.keys() |sort()) %}
 BindsTo=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
