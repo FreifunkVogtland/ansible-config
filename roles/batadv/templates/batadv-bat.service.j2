@@ -22,3 +22,4 @@ ExecStop=/bin/ip link del dev bat-{{ mesh_name }}
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device

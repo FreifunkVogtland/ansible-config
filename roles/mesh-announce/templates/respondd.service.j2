@@ -2,9 +2,12 @@
 Description=Respondd
 
 {% for mesh_name in (mesh.keys() |sort()) %}
-After=batadv-bat-{{ mesh_name }}.service
 After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+BindTo=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
 After=sys-subsystem-net-devices-vxlan\x2d{{ mesh_name }}.device
+BindTo=sys-subsystem-net-devices-vxlan\x2d{{ mesh_name }}.device
+After=sys-subsystem-net-devices-bat\x2d{{ mesh_name }}.device
+BindTo=sys-subsystem-net-devices-bat\x2d{{ mesh_name }}.device
 {% endfor %}
 
 [Service]
@@ -18,3 +21,8 @@ Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 [Install]
 WantedBy=multi-user.target
+{% for mesh_name in (mesh.keys() |sort()) %}
+WantedBy=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+WantedBy=sys-subsystem-net-devices-vxlan\x2d{{ mesh_name }}.device
+WantedBy=sys-subsystem-net-devices-bat\x2d{{ mesh_name }}.device
+{% endfor %}

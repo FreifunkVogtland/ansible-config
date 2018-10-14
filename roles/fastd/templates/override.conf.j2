@@ -9,3 +9,7 @@ BindsTo=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
 After=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
 {% endfor %}
 
+[Install]
+{% for mesh_name in (mesh.keys() |sort()) %}
+WantedBy=sys-subsystem-net-devices-vpn\x2d{{ mesh_name }}.device
+{% endfor %}

@@ -19,3 +19,5 @@ ExecStop=/sbin/ebtables --concurrent -D FORWARD --logical-in vpn-%i -j DROP
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=batadv-bat-%i.service
+WantedBy=sys-subsystem-net-devices-vpn\x2d%i.device

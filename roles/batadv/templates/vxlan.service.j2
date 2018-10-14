@@ -26,4 +26,4 @@ ExecStop=/bin/ip link del dev "vxlan-{{ mesh_name }}"
 
 [Install]
 WantedBy=multi-user.target
-WantedBy=respondd.service
+WantedBy=batadv-bat-{{ mesh_name }}.service
