@@ -8,13 +8,15 @@ After=sys-subsystem-net-devices-dummy\x2dbat\x2d{{ mesh_name }}.device
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/ip link set up dummy-bat-{{ mesh_name }}
-ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} if add dummy-bat-{{ mesh_name }}
+ExecStart=/bin/ip link add dev bat-{{ mesh_name }} type batadv
+ExecStart=/bin/ip link set dev dummy-bat-{{ mesh_name }} master bat-{{ mesh_name }}
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} gw {{ dnsmasq | ternary('server', 'off') }}
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bonding 1
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bridge_loop_avoidance 1
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} orig_interval 5000
 ExecStart=/bin/sh -c '/bin/echo 60 > /sys/devices/virtual/net/bat-{{ mesh_name }}/mesh/hop_penalty'
 ExecStart=-/usr/sbin/batctl -m bat-{{ mesh_name }} nc disable
+ExecStop=/bin/ip link del dev bat-{{ mesh_name }}
 
 [Install]
 WantedBy=multi-user.target
