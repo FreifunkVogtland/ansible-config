@@ -1,0 +1,29 @@
+{
+	"id": "{{ inventory_hostname }}",
+	"listenip": "{{ bgp_ipv4 | ipaddr('address') }}",
+	"listenport": 26725,
+	"client_cost": {{ fastd_client_cost }},
+	"client_limit": {{ fastd_peer_limit }},
+	"domains": [
+{%- for domain in (ffv_domains.keys() |sort())  %}
+		{
+			"id": "{{ domain }}",
+			"path": "/var/run/fastd-{{ domain }}.socket"
+		}
+{% if not loop.last %}
+		,
+{% endif %}
+{%- endfor %}
+	],
+	"peers": [
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
+		{
+			"id": "{{ peer }}",
+			"url": "http://{{ hostvars[peer]['bgp_ipv4'] | ipaddr('address') }}:26725/stats_local"
+		}
+{% if not loop.last %}
+		,
+{% endif %}
+{% endfor %}
+	]
+}

@@ -18,8 +18,6 @@ icvpn_ipv4: 10.207.0.29
 icvpn_bcast: 10.207.255
 icvpn_ipv6: fec0::a:cf:0:1d
 
-fastd_peer_limit: 50
-
 tunneldigger_peer_limit: 200
 
 ffrl_bb_links:

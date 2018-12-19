@@ -4,3 +4,8 @@
     name: "fastd@{{ item }}.service"
     state: restarted
   with_items: "{{ ffv_domains }}"
+
+- name: restart fastd_slow_balancer
+  systemd:
+    name: "fastd_slow_balancer.service"
+    state: restarted

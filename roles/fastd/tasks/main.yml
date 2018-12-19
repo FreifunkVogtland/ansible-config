@@ -60,3 +60,54 @@
     enabled: yes
     state: started
   with_items: "{{ ffv_domains }}"
+
+- name: install fastd_slow_balancer dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+  - curl
+  - python3
+
+- name: create fastd_slow_balancer script directory
+  file:
+    path: /opt/freifunk/server-scripts/
+    state: directory
+    owner: root
+
+- name: install fastd_slow_balancer scripts
+  copy:
+    src: fastd_slow_balancer.py
+    dest: /opt/freifunk/server-scripts/fastd_slow_balancer.py
+    group: root
+    owner: root
+    mode: 0755
+  notify:
+  - restart fastd_slow_balancer
+
+- name: install fastd_slow_balancer scripts
+  template:
+    src: fastd_slow_balancer_check.sh
+    dest: /opt/freifunk/server-scripts/fastd_slow_balancer_check.sh
+    group: root
+    owner: root
+    mode: 0755
+
+- name: install fastd_slow_balancer config
+  template:
+    src: fastd_slow_balancer.json.j2
+    dest: /etc/fastd_slow_balancer.json
+  notify:
+  - restart fastd_slow_balancer
+
+- name: install fastd_slow_balancer service
+  copy:
+    src: fastd_slow_balancer.service
+    dest: /etc/systemd/system/fastd_slow_balancer.service
+  notify:
+  - restart fastd_slow_balancer
+
+- name: start fastd_slow_balancer
+  systemd:
+    name: fastd_slow_balancer.service
+    daemon_reload: yes
+    enabled: yes
+    state: started

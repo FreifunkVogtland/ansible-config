@@ -12,12 +12,14 @@ method "salsa2012+umac";
 method "null";
 secure handshakes no;
 
+{% if fastd_peer_limit != -1 %}
 peer limit {{ fastd_peer_limit }};
+{% endif %}
 
 # Use "fastd --generate-key" to get secret key
 secret "{{ fastd_secret }}";
 
-on verify "/opt/freifunk/server-scripts/blacklist_fastd.py {{ item }} $PEER_KEY";
+on verify "/opt/freifunk/server-scripts/blacklist_fastd.py {{ item }} $PEER_KEY && /opt/freifunk/server-scripts/fastd_slow_balancer_check.sh {{ item }}";
 include peers from "/tmp";
 
 on up "

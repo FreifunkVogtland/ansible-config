@@ -1,0 +1,12 @@
+[Unit]
+Description=fastd_slow_balancer
+Wants=vxlan0.service
+
+[Service]
+Type=simple
+ExecStart=/opt/freifunk/server-scripts/fastd_slow_balancer.py /etc/fastd_slow_balancer.json
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
