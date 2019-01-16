@@ -1,2 +1,1 @@
-deb     http://httpredir.debian.org/debian/ jessie main
-deb https://packagecloud.io/grafana/stable/debian/ jessie main
+deb https://packages.grafana.com/oss/deb stable main
