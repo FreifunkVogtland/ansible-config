@@ -8,6 +8,7 @@
   apt_key:
     data: "{{ lookup('file', 'grafana.asc') }}"
     state: present 
+    keyring: /etc/apt/trusted.gpg.d/grafana.gpg
 
 - name: add grafana apt sources
   copy:
