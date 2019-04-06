@@ -3,7 +3,47 @@
   apt: pkg={{ item }} state=present
   with_items:
   - vnstati
+  - php-fpm
+
+- name: drop libapache2-mod-php
+  apt: pkg={{ item }} state=absent
+  with_items:
   - libapache2-mod-php7.0
+
+- name: enable event mpm
+  apache2_module:
+    name: mpm_event
+    state: present
+  notify:
+  - restart apache2
+
+- name: enable apache2 http2
+  apache2_module:
+    name: http2
+    state: present
+  notify:
+  - restart apache2
+
+- name: enable apache2 http2
+  apache2_module:
+    name: proxy_fcgi
+    state: present
+  notify:
+  - restart apache2
+
+- name: enable apache2 http2
+  apache2_module:
+    name: setenvif
+    state: present
+  notify:
+  - restart apache2
+
+- name: Activate configuration
+  command:
+    a2enconf php7.0-fpm.conf
+    creates=/etc/apache2/conf-enabled/php7.0-fpm.conf
+  sudo: yes
+  notify: apache-reload
 
 - name: Install server statistics
   git:

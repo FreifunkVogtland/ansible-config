@@ -70,6 +70,13 @@
   notify:
   - restart apache2
 
+- name: enable apache2 http2
+  apache2_module:
+    name: http2
+    state: present
+  notify:
+  - restart apache2
+
 - name: enable apache2 mod_wsgi
   apache2_module:
     name: wsgi
