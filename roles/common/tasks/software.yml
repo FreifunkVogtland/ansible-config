@@ -1,4 +1,10 @@
 ---
+- name: install apt dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+  - apt-transport-https
+  notify: update apt-cache
+
 - name: add backports apt sources
   copy:
     src: etc/apt/sources.list.d/backports.list
@@ -9,6 +15,18 @@
   copy:
     src: etc/apt/preferences.d/backports.pref
     dest: /etc/apt/preferences.d/backports.pref
+  notify: update apt-cache
+
+- name: add ffv apt sources
+  copy:
+    src: etc/apt/sources.list.d/ffv.list
+    dest: /etc/apt/sources.list.d/ffv.list
+  notify: update apt-cache
+
+- name: enable ffv apt key
+  copy:
+    src: etc/apt/trusted.gpg.d/ffv.gpg
+    dest: /etc/apt/trusted.gpg.d/ffv.gpg
   notify: update apt-cache
 
 - meta: flush_handlers

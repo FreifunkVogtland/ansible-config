@@ -1,6 +1,5 @@
 ---
 gateway_if: eth0
-batadv_version: 2018.1-43-g9f1db59b
 meshviewer: 0
 icvpn: no
 
