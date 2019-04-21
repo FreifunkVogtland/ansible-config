@@ -17,6 +17,12 @@
     dest: /etc/apt/preferences.d/backports.pref
   notify: update apt-cache
 
+- name: add ffv apt preferences
+  copy:
+    src: etc/apt/preferences.d/ffv.pref
+    dest: /etc/apt/preferences.d/ffv.pref
+  notify: update apt-cache
+
 - name: add ffv apt sources
   copy:
     src: etc/apt/sources.list.d/ffv.list

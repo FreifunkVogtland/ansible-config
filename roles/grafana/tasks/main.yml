@@ -33,8 +33,6 @@
   - influxdb
   - sqlite3
 
-# TODO update influxdb to 1.5.3-2
-
 - name: enable apache rewrite
   apache2_module:
     state: present

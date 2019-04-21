@@ -1,0 +1,3 @@
+Package: influxdb
+Pin: release o=ffv,a=stretch,n=stretch
+Pin-Priority: 900
