@@ -53,6 +53,7 @@
   - python3-shapely
   - python3-tz
   - python-lxml
+  - python3-feed
 
 
 - name: create meshviewer webserver export directory
@@ -73,7 +74,6 @@
     repo: 'https://github.com/FreifunkVogtland/ffv-api-generator.git'
     dest: /opt/freifunk/ffv-api-generator
 
-# TODO install dependencies python3-xe and python3-feed
 - name: Install nodes2eventlog
   git:
     repo: 'https://github.com/FreifunkVogtland/nodes2eventlog.git'
