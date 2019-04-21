@@ -1,9 +1,8 @@
 ---
-- name: install yanic dependencies
+- name: install yanic
   apt: pkg={{ item }} state=present
   with_items:
-  - build-essential
-  - golang-go
+  - yanic
 
 - name: create yanic user
   user: name=yanic
@@ -19,12 +18,6 @@
     path: /var/lib/yanic
     state: directory
     owner: yanic
-
-# TODO this is really bad for versioning - we have to find a better way
-#- name: install yanic
-#  command: go get -v -u github.com/FreifunkVogtland/yanic
-#  environment:
-#    GOPATH: /usr/src/yanic
 
 - name: configure yanic
   template:
