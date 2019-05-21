@@ -7,3 +7,8 @@
 //include "/etc/bind/zones.rfc1918";
 include "/var/tmp/bind-icvpn.conf";
 
+zone "ffv" {
+    type forward;
+    forwarders { 127.0.0.1 port 5300; };
+    forward only;
+};
