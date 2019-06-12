@@ -45,7 +45,7 @@
   - screen
   - htop
   - bmon
-  - mtr
+  - mtr-tiny
   - iotop
   - vim
   - apticron
