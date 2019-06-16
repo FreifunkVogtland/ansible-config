@@ -1,9 +1,10 @@
 ---
 - name: install bird dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - bird
-  - iproute2
+  apt:
+    pkg:
+    - bird
+    - iproute2
+    state: present
 
 - name: add iproute freifunk alias
   lineinfile:

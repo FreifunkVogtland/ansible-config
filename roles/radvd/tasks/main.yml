@@ -1,8 +1,9 @@
 ---
 - name: install radvd
-  apt: pkg={{ item }} state=present
-  with_items:
-  - radvd
+  apt:
+    pkg:
+    - radvd
+    state: present
 
 - name: install radvd configuration
   template:

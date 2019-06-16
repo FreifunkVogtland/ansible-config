@@ -1,8 +1,9 @@
 ---
 - name: install ssh server
-  apt: pkg={{ item }} state=present
-  with_items:
-  - openssh-server
+  apt:
+    pkg:
+    - openssh-server
+    state: present
 
 - name: disable root ssh password login
   lineinfile:

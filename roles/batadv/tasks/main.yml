@@ -16,17 +16,18 @@
   - ebtable_filter
 
 - name: install batman-adv dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - bridge-utils
-  - batctl
-  - build-essential
-  - ebtables
-  - git
-  - dkms
-  - linux-headers-amd64
-  - iproute2
-  - batman-adv-dkms
+  apt:
+    pkg:
+    - bridge-utils
+    - batctl
+    - build-essential
+    - ebtables
+    - git
+    - dkms
+    - linux-headers-amd64
+    - iproute2
+    - batman-adv-dkms
+    state: present
 
 - name: install dummy-bat-{{ mesh_name }}
   template:

@@ -1,14 +1,15 @@
 ---
 - name: install icvpn dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - tinc
-  - cron
-  - python3-yaml
-  - python3-requests
-  - python3-prettytable
-  - python3-jinja2
-  - python3-natsort
+  apt:
+    pkg:
+    - tinc
+    - cron
+    - python3-yaml
+    - python3-requests
+    - python3-prettytable
+    - python3-jinja2
+    - python3-natsort
+    state: present
 
 - name: install icvpn-scripts
   git:

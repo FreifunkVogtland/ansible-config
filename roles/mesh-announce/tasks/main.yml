@@ -1,11 +1,12 @@
 ---
 - name: install mesh-announce dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - lsb-release
-  - ethtool
-  - python3
-  - batctl
+  apt:
+    pkg:
+    - lsb-release
+    - ethtool
+    - python3
+    - batctl
+    state: present
 
 - name: install mesh-announce
   git:

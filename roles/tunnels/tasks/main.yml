@@ -1,8 +1,9 @@
 ---
 - name: install ffrl backend dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - ifupdown
+  apt:
+    pkg:
+    - ifupdown
+    state: present
 
 - name: enable port ifupdown interfaces.d
   lineinfile:

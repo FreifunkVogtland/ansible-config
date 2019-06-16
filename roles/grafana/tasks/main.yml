@@ -1,8 +1,9 @@
 ---
 - name: add apt https support
-  apt: pkg={{ item }} state=present
-  with_items:
-  - apt-transport-https
+  apt:
+    pkg:
+    - apt-transport-https
+    state: present
 
 - name: enable grafana apt key
   apt_key:
@@ -25,13 +26,14 @@
 - meta: flush_handlers
 
 - name: install grafana dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - apache2
-  - grafana
-  - libapache2-mod-wsgi
-  - influxdb
-  - sqlite3
+  apt:
+    pkg:
+    - apache2
+    - grafana
+    - libapache2-mod-wsgi
+    - influxdb
+    - sqlite3
+    state: present
 
 - name: enable apache rewrite
   apache2_module:

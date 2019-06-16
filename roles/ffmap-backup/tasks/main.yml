@@ -1,10 +1,11 @@
 ---
 - name: install backup dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - anacron
-  - cron
-  - borgbackup
+  apt:
+    pkg:
+    - anacron
+    - cron
+    - borgbackup
+    state: present
 
 - name: copy backup.daily cron script
   copy:

@@ -1,8 +1,9 @@
 ---
 - name: install apt dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - apt-transport-https
+  apt:
+    pkg:
+    - apt-transport-https
+    state: present
   notify: update apt-cache
 
 - name: add backports apt sources
@@ -38,16 +39,17 @@
 - meta: flush_handlers
 
 - name: install common packages
-  apt: pkg={{ item }} state=present
-  with_items:
-  - borgbackup
-  - etckeeper
-  - screen
-  - htop
-  - bmon
-  - mtr-tiny
-  - iotop
-  - vim
-  - apticron
-  - netcat
-  - ntp
+  apt:
+    pkg:
+    - borgbackup
+    - etckeeper
+    - screen
+    - htop
+    - bmon
+    - mtr-tiny
+    - iotop
+    - vim
+    - apticron
+    - netcat
+    - ntp
+    state: present

@@ -1,8 +1,9 @@
 ---
 - name: install bind dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - bind9
+  apt:
+    pkg:
+    - bind9
+    state: present
 
 - name: install bind named.conf.options
   copy:

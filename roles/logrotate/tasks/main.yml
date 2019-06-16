@@ -1,8 +1,9 @@
 ---
 - name: install logrotate dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - logrotate
+  apt:
+    pkg:
+    - logrotate
+    state: present
 
 - name: install default logrotate config
   copy:

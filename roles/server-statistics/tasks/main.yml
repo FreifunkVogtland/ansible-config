@@ -1,14 +1,16 @@
 ---
 - name: install server-statistics dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - vnstati
-  - php-fpm
+  apt:
+    pkg:
+    - vnstati
+    - php-fpm
+    state: present
 
 - name: drop libapache2-mod-php
-  apt: pkg={{ item }} state=absent
-  with_items:
-  - libapache2-mod-php7.0
+  apt:
+    pkg:
+    - libapache2-mod-php7.0
+    state: absent
 
 - name: enable event mpm
   apache2_module:

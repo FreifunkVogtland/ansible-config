@@ -1,10 +1,11 @@
 ---
 - name: install fastd dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - iproute2
-  - batctl
-  - fastd
+  apt:
+    pkg:
+    - iproute2
+    - batctl
+    - fastd
+    state: present
 
 - name: create blacklist_fastd script directory
   file:
@@ -62,10 +63,11 @@
   with_items: "{{ ffv_domains }}"
 
 - name: install fastd_slow_balancer dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - curl
-  - python3
+  apt:
+    pkg:
+    - curl
+    - python3
+    state: present
 
 - name: create fastd_slow_balancer script directory
   file:

@@ -1,8 +1,9 @@
 ---
 - name: install yanic
-  apt: pkg={{ item }} state=present
-  with_items:
-  - yanic
+  apt:
+    pkg:
+    - yanic
+    state: present
 
 - name: create yanic user
   user: name=yanic
@@ -40,20 +41,21 @@
     enabled: yes
 
 - name: install meshviewer-yanic helper dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - build-essential
-  - batctl
-  - python3
-  - python3-networkx
-  - python3-dateutil
-  - netcat
-  - pandoc
-  - python3-fastkml
-  - python3-shapely
-  - python3-tz
-  - python-lxml
-  - python3-feed
+  apt:
+    pkg:
+    - build-essential
+    - batctl
+    - python3
+    - python3-networkx
+    - python3-dateutil
+    - netcat
+    - pandoc
+    - python3-fastkml
+    - python3-shapely
+    - python3-tz
+    - python-lxml
+    - python3-feed
+    state: present
 
 
 - name: create meshviewer webserver export directory

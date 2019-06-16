@@ -1,11 +1,12 @@
 ---
 - name: install gluon dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - git
-  - build-essential
-  - gawk
-  - unzip
-  - zlib1g-dev
-  - libncurses5-dev
-  - wget
+  apt:
+    pkg:
+    - git
+    - build-essential
+    - gawk
+    - unzip
+    - zlib1g-dev
+    - libncurses5-dev
+    - wget
+    state: present

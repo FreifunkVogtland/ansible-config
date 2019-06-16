@@ -1,8 +1,9 @@
 ---
 - name: install firewall dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - iptables
+  apt:
+    pkg:
+    - iptables
+    state: present
 
 - name: add iptables config folder
   file:

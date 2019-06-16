@@ -26,18 +26,19 @@
   - nfnetlink
 
 - name: install tunneldigger dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-  - iproute2
-  - batctl
-  - bridge-utils
-  - conntrack
-  - libnetfilter-conntrack3
-  - python-dev
-  - libevent-dev
-  - python-virtualenv
-  - libnfnetlink-dev
-  - libnetfilter-conntrack-dev
+  apt:
+    pkg:
+    - iproute2
+    - batctl
+    - bridge-utils
+    - conntrack
+    - libnetfilter-conntrack3
+    - python-dev
+    - libevent-dev
+    - python-virtualenv
+    - libnfnetlink-dev
+    - libnetfilter-conntrack-dev
+    state: present
 
 - name: install tunneldigger
   git:
