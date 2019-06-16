@@ -42,7 +42,6 @@
   command:
     a2enconf php7.0-fpm.conf
     creates=/etc/apache2/conf-enabled/php7.0-fpm.conf
-  sudo: yes
   notify: apache-reload
 
 - name: Install server statistics
