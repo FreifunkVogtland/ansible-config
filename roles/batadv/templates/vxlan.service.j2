@@ -11,7 +11,7 @@ ExecStart=/bin/ip link add vxlan-{{ mesh_name }} type vxlan id "{{ mesh[mesh_nam
 ExecStart=/bin/ip link set dev vxlan-{{ mesh_name }} address {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }}
 ExecStart=/bin/ip link set mtu 1426 up dev vxlan-{{ mesh_name }}
 
-{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
 ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP'] }} dev vxlan-{{ mesh_name }}
 ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(hostvars[peer]['vpnid']|int, mesh_meta[mesh_name]['id']|int) }} dst {{ hostvars[peer]['WANIP'] }} dev vxlan-{{ mesh_name }}

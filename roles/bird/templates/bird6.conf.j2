@@ -91,7 +91,7 @@ protocol ospf o_mesh {
 		interface "vxlan0" {
 			type nonbroadcast;
 			neighbors {
-{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 				{{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} eligible;
 {% endfor %}
 			};
@@ -115,7 +115,7 @@ template bgp internal {
 	direct;
 };
 
-{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 protocol bgp {{ peer }} from internal {
 	neighbor {{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} as {{ OWNASN }};
 }

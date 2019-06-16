@@ -11,7 +11,7 @@ ExecStart=/bin/ip link set up dev vxlan0
 ExecStart=/bin/ip addr add {{ bgp_ipv4 }} dev vxlan0
 ExecStart=/bin/ip addr add {{ bgp_ipv6 }} dev vxlan0
 
-{% for peer in (groups['vpns'] | difference([inventory_hostname])) %}
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
 ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP'] }} dev vxlan0
 ExecStart=/sbin/bridge fdb append to {{ '02:47:89:01:%02x:00'|format(hostvars[peer]['vpnid']|int) }} dst {{ hostvars[peer]['WANIP'] }} dev vxlan0

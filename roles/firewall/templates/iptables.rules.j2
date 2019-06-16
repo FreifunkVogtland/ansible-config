@@ -5,7 +5,7 @@
 :vxlan-drop -
 
 -A INPUT -p udp -m udp --dport 4789 -j vxlan-drop
-{% for peer in groups['vpns'] %}
+{% for peer in (groups['vpns'] | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
 -A vxlan-drop -d {{ hostvars[peer]['WANIP'] }}/32 -j RETURN
 {% endif %}
@@ -16,7 +16,7 @@
 -A INPUT -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
 -A INPUT -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j DROP
 
-{% for peer in groups['vpns'] %}
+{% for peer in (groups['vpns'] | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
 -A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j LOG --log-prefix fastdinfastd
 -A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 10000:10099 -j DROP
@@ -26,7 +26,7 @@
 -A INPUT -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
 -A INPUT -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j DROP
 
-{% for peer in groups['vpns'] %}
+{% for peer in (groups['vpns'] | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
 -A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j LOG --log-prefix tdiggerintdigger
 -A FORWARD -d {{ hostvars[peer]['WANIP'] }}/32 -i bat+ -p udp -m udp --match multiport --dports 11000:11099 -j DROP
