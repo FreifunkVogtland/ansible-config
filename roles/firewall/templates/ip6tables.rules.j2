@@ -62,8 +62,8 @@ COMMIT
 -A POSTROUTING -o bat+ -j MARK --set-xmark 0x0/0xffffffff
 
 {% if ffrl_bb_links %}
--A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1220 -j TCPMSS --set-mss 1220
+-A FORWARD -o bb-+ -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1220
 {% endif %}
 
--A FORWARD -o bat+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:1220 -j TCPMSS --set-mss 1220
+-A FORWARD -o bat+ -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1220
 COMMIT
