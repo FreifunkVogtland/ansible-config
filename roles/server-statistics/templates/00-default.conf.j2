@@ -4,7 +4,6 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
 	ServerAdmin info@freifunk-vogtland.net
 	DocumentRoot /var/www/html
-	Protocols h2c http/1.1
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -14,7 +13,6 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
 	ServerAdmin info@freifunk-vogtland.net
 	DocumentRoot /var/www/html
-	Protocols h2 http/1.1
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 	CustomLog ${APACHE_LOG_DIR}/access.log combined

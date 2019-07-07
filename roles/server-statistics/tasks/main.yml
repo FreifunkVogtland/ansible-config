@@ -14,7 +14,7 @@
 - name: drop libapache2-mod-php
   apt:
     pkg:
-    - libapache2-mod-php7.0
+    - libapache2-mod-php7.3
     state: absent
 
 - name: enable event mpm
@@ -39,8 +39,8 @@
 
 - name: Activate configuration
   command:
-    a2enconf php7.0-fpm.conf
-    creates=/etc/apache2/conf-enabled/php7.0-fpm.conf
+    a2enconf php7.3-fpm.conf
+    creates=/etc/apache2/conf-enabled/php7.3-fpm.conf
   notify:
   - restart apache2
 

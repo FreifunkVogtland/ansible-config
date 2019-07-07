@@ -1,1 +1,1 @@
-deb [arch=amd64] https://vogtland.freifunk.net/apt/ stretch main contrib non-free
+deb [arch=amd64] https://vogtland.freifunk.net/apt/ buster main contrib non-free

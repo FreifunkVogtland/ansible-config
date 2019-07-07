@@ -5,6 +5,12 @@
     - bind9
     state: present
 
+- name: remove bind conflicting packages
+  apt:
+    pkg:
+    - apparmor
+    state: absent
+
 - name: install bind named.conf.options
   copy:
     src: named.conf.options
