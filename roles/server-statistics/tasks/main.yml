@@ -41,7 +41,8 @@
   command:
     a2enconf php7.0-fpm.conf
     creates=/etc/apache2/conf-enabled/php7.0-fpm.conf
-  notify: apache-reload
+  notify:
+  - restart apache2
 
 - name: add letsencrypt folder
   file:
