@@ -1,4 +1,9 @@
 ---
+# manual TODO
+# certbot certonly --rsa-key-size 4096 \
+# -a webroot --webroot-path /var/letsencrypt \
+#     -d vpn05.freifunk-vogtland.net
+
 - name: install server-statistics dependencies
   apt:
     pkg:
@@ -81,6 +86,3 @@
     state: started
     daemon_reload: yes
     enabled: yes
-
-    
-# TODO certbot
