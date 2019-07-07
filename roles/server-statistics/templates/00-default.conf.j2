@@ -9,6 +9,7 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 
+<IfFile /etc/letsencrypt/live/{{ inventory_hostname }}.freifunk-vogtland.net/privkey.pem>
 <VirtualHost *:443>
 	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
 	ServerAdmin info@freifunk-vogtland.net
@@ -29,3 +30,4 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 	SSLVerifyClient         optional
 	SSLVerifyDepth          2
 </VirtualHost>
+</IfFile>
