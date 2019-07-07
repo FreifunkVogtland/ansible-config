@@ -1,0 +1,33 @@
+SSLStaplingCache shmcb:/var/run/ocsp(128000)
+
+<VirtualHost *:80>
+	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
+	ServerAdmin info@freifunk-vogtland.net
+	DocumentRoot /var/www/html
+	Protocols h2c http/1.1
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:443>
+	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
+	ServerAdmin info@freifunk-vogtland.net
+	DocumentRoot /var/www/html
+	Protocols h2 http/1.1
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	SSLEngine on
+	SSLCertificateFile    /etc/letsencrypt/live/{{ inventory_hostname }}.freifunk-vogtland.net/fullchain.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ inventory_hostname }}.freifunk-vogtland.net/privkey.pem
+	SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
+
+	Include /etc/letsencrypt/options-ssl.conf
+	Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
+
+	#SSLCARevocationCheck chain no_crl_for_cert_ok
+	SSLVerifyClient         optional
+	SSLVerifyDepth          2
+</VirtualHost>

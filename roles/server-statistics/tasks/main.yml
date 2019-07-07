@@ -87,6 +87,21 @@
     dest: /etc/apache2/conf-enabled/letsencrypt.conf
   notify: restart apache2
 
+- name: disable default site
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: restart apache2
+
+- name: add default site
+  template:
+    src: 00-default.conf.j2
+    dest: /etc/apache2/sites-enabled/00-default.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2
+
 - name: Install server statistics
   git:
     repo: 'https://github.com/FreifunkVogtland/ffc-server-statistics.git'
