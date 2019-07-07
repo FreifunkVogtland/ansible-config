@@ -46,6 +46,7 @@
     - screen
     - htop
     - bmon
+    - haveged
     - mtr-tiny
     - iotop
     - vim
