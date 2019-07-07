@@ -43,6 +43,50 @@
     creates=/etc/apache2/conf-enabled/php7.0-fpm.conf
   notify: apache-reload
 
+- name: add letsencrypt folder
+  file:
+    path: "/var/letsencrypt/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: add letsencrypt .well-known folder
+  file:
+    path: "/var/letsencrypt/.well-known"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: add letsencrypt etc folder
+  file:
+    path: "/etc/letsencrypt/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: add letsencrypt cron
+  copy:
+    src: cron-letsencrypt
+    dest: /etc/cron.weekly/letsencrypt
+    owner: root
+    group: root
+    mode: 0755
+
+- name: add letsencrypt http ssl default options
+  copy:
+    src: options-ssl.conf
+    dest: /etc/letsencrypt/options-ssl.conf
+  notify: restart apache2
+
+- name: add letsencrypt well-known
+  copy:
+    src: letsencrypt.conf
+    dest: /etc/apache2/conf-enabled/letsencrypt.conf
+  notify: restart apache2
+
 - name: Install server statistics
   git:
     repo: 'https://github.com/FreifunkVogtland/ffc-server-statistics.git'
