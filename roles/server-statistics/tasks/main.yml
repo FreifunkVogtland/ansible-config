@@ -19,24 +19,14 @@
   notify:
   - restart apache2
 
-- name: enable apache2 http2
+- name: enable apache2 modules
   apache2_module:
-    name: http2
+    name: "{{ item }}"
     state: present
-  notify:
-  - restart apache2
-
-- name: enable apache2 http2
-  apache2_module:
-    name: proxy_fcgi
-    state: present
-  notify:
-  - restart apache2
-
-- name: enable apache2 http2
-  apache2_module:
-    name: setenvif
-    state: present
+  with_items:
+  - http2
+  - setenvif
+  - proxy_fcgi
   notify:
   - restart apache2
 
