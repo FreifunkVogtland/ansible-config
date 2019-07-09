@@ -12,7 +12,8 @@ WANGW6: "::1"
 USE_RADVD: "0"
 DIRECT: "0"
 
-fastd_peer_limit: 0
+fastd_peer_limit: 1
+fastd_client_cost: 5
 
 tunneldigger_peer_limit: 0
 
