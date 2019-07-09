@@ -121,7 +121,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
-    pass
+    daemon_threads = True
 
 
 def read_fastd_stats(path):
