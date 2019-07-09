@@ -5,8 +5,7 @@ import json
 import socket
 import sys
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from socketserver import ThreadingMixIn
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import requests
 import threading
 import time
@@ -118,10 +117,6 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
     def log_message(self, format, *args):
         return
-
-
-class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
-    daemon_threads = True
 
 
 def read_fastd_stats(path):
