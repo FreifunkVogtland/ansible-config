@@ -46,7 +46,7 @@
     - screen
     - htop
     - bmon
-    - haveged
+    - jitterentropy-rngd
     - mtr-tiny
     - iotop
     - vim
@@ -54,3 +54,9 @@
     - netcat
     - ntp
     state: present
+
+- name: remove legacy packages
+  apt:
+    pkg:
+    - haveged
+    state: absent
