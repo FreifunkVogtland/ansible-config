@@ -12,7 +12,7 @@
   git:
     repo: 'https://github.com/FreifunkVogtland/mesh-announce'
     dest: /opt/freifunk/ffnord-alfred-announce
-    version: d4b9a33dd8432eeb3b3d1b36e3666930f47f0f6f
+    version: 699bf05b8fdaf6754d80a113731c4200f5bf0aff
   notify:
   - restart respondd
 
