@@ -6,6 +6,12 @@
     state: present
   notify: update apt-cache
 
+- name: add default apt sources
+  copy:
+    src: etc/apt/sources.list
+    dest: /etc/apt/sources.list
+  notify: update apt-cache
+
 - name: add stretch apt sources
   copy:
     src: etc/apt/sources.list.d/stretch.list
