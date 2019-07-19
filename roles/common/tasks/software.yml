@@ -6,6 +6,18 @@
     state: present
   notify: update apt-cache
 
+- name: add stretch apt sources
+  copy:
+    src: etc/apt/sources.list.d/stretch.list
+    dest: /etc/apt/sources.list.d/stretch.list
+  notify: update apt-cache
+
+- name: add stretch apt preferences
+  copy:
+    src: etc/apt/preferences.d/stretch.pref
+    dest: /etc/apt/preferences.d/stretch.pref
+  notify: update apt-cache
+
 - name: add backports apt sources
   copy:
     src: etc/apt/sources.list.d/backports.list

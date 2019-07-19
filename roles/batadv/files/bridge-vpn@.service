@@ -12,10 +12,10 @@ After=systemd-networkd.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/ip link set vpn-%i promisc on
-ExecStart=/sbin/ebtables --concurrent -A FORWARD --logical-in vpn-%i -j DROP
+ExecStart=/usr/sbin/ebtables-legacy --concurrent -A FORWARD --logical-in vpn-%i -j DROP
 ExecStart=/bin/ip link set dev "vpn-%i" master bat-%i
 ExecStop=/bin/ip link set dev "vpn-%i" nomaster
-ExecStop=/sbin/ebtables --concurrent -D FORWARD --logical-in vpn-%i -j DROP
+ExecStop=/usr/sbin/ebtables-legacy --concurrent -D FORWARD --logical-in vpn-%i -j DROP
 
 [Install]
 WantedBy=multi-user.target
