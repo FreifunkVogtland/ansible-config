@@ -21,6 +21,13 @@
     owner: root
     mode: 0755
 
+- name: install fastd-whitelisted
+  git:
+    repo: 'https://github.com/FreifunkVogtland/fastd-whitelisted.git'
+    dest: /opt/freifunk/fastd-whitelisted
+  notify:
+  - reload fastd peers
+
 - name: create fastd instance directories
   file:
     state: directory

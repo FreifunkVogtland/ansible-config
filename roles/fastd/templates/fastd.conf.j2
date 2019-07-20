@@ -20,7 +20,8 @@ peer limit {{ fastd_peer_limit }};
 secret "{{ fastd_secret }}";
 
 on verify "/opt/freifunk/server-scripts/blacklist_fastd.py {{ item }} $PEER_KEY && /opt/freifunk/server-scripts/fastd_slow_balancer_check.sh {{ item }}";
-include peers from "/tmp";
+include peers from "/opt/freifunk/fastd-whitelisted/all";
+include peers from "/opt/freifunk/fastd-whitelisted/{{inventory_hostname}}";
 
 on up "
 ip link set address {{ fastd_mac_prefix }}:{{ '%02x' % ffv_domains[item].id }} dev $INTERFACE

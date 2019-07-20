@@ -9,3 +9,6 @@
   systemd:
     name: "fastd_slow_balancer.service"
     state: restarted
+
+- name: reload fastd peers
+  shell: killall -SIGHUP fastd || true
