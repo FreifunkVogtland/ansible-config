@@ -128,12 +128,22 @@ def read_fastd_stats(path):
         return {}
 
 
+def active_peer_connection(peer):
+    if 'connection' not in peer:
+        return False
+
+    if peer['connection'] is None:
+        return False
+
+    return True
+
+
 def read_fastd_peer_num(path):
     stats = read_fastd_stats(path)
     if 'peers' not in stats:
         return 0
 
-    return len(stats['peers'])
+    return sum(active_peer_connection(peer) for (peerid, peer) in stats['peers'].items())
 
 
 def recalculate_buffer_limits():
