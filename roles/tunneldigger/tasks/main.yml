@@ -4,7 +4,6 @@
     name: "{{ item }}"
     state: present
   with_items:
-  - nf_conntrack_ipv4
   - l2tp_core
   - l2tp_eth
   - l2tp_netlink
@@ -17,7 +16,6 @@
     dest: /etc/modules
     line: "{{ item }}"
   with_items:
-  - nf_conntrack_ipv4
   - l2tp_core
   - l2tp_eth
   - l2tp_netlink
