@@ -69,8 +69,6 @@
         mesh_name: mtl
     - role: fastd
       tags: "fastd"
-    - role: tunneldigger
-      tags: "tunneldigger"
     - role: radvd
       tags: "radvd"
     - role: icvpn
