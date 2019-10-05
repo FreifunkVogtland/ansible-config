@@ -29,6 +29,11 @@ ifname = "bat-{{ mesh_name }}"
 # if not set or set to 0 the kernel will use a random free port at its own
 #port = 10001
 
+[[respondd.interfaces]]
+ifname = "bat-{{ mesh_name }}"
+multicast_address = "ff05::2:1001"
+ip_address = "{{ mesh[mesh_name]['batadv']['lladdr'] }}"
+
 {% endfor %}
 
 # table of a site to save stats for (not exists for global only)
