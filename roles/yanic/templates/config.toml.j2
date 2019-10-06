@@ -1,6 +1,6 @@
 # This is the config file for Yanic written in "Tom's Obvious, Minimal Language."
 # syntax: https://github.com/toml-lang/toml
-# (if you need somethink multiple times, checkout out the [[array of table]] section)
+# (if you need something multiple times, checkout out the [[array of table]] section)
 
 # Send respondd request to update information
 [respondd]
@@ -10,27 +10,6 @@ synchronize      = "1m"
 # how often request per multicast
 collect_interval = "1m"
 
-{% for mesh_name in (mesh.keys() |sort()) %}
-
-# interface that has an IP in your mesh network
-[[respondd.interfaces]]
-# name of interface on which this collector is running
-ifname = "bat-{{ mesh_name }}"
-# ip address which is used for sending
-# (optional - without definition used a address of ifname)
-ip_address = "{{ mesh[mesh_name]['batadv']['lladdr'] }}"
-# disable sending multicast respondd request
-# (for receiving only respondd packages e.g. database respondd)
-#send_no_request = false
-# multicast address to destination of respondd
-# (optional - without definition used batman default ff02::2:1001)
-multicast_address = "ff05::2:1001"
-# define a port to listen
-# if not set or set to 0 the kernel will use a random free port at its own
-#port = 10001
-
-{% endfor %}
-
 # table of a site to save stats for (not exists for global only)
 #[respondd.sites.example]
 ## list of domains on this site to save stats for (empty for global only)
@@ -38,46 +17,29 @@ multicast_address = "ff05::2:1001"
 ## example
 [respondd.sites.ffv]
 domains = [
-	'ffv',
-	'ffv_a',
-	'ffv_ae',
-	'ffv_b',
-	'ffv_bb',
-	'ffv_be',
-	'ffv_boe',
-	'ffv_eic',
-	'ffv_ell',
-	'ffv_els',
-	'ffv_fst',
-	'ffv_gb',
-	'ffv_hdg',
-	'ffv_k',
-	'ffv_l',
-	'ffv_le',
-	'ffv_mh',
-	'ffv_mkn',
-	'ffv_mtl',
-	'ffv_n',
-	'ffv_nmk',
-	'ffv_nst',
-	'ffv_nsz',
-	'ffv_oel',
-	'ffv_pl',
-	'ffv_pmf',
-	'ffv_poe',
-	'ffv_rbh',
-	'ffv_rc',
-	'ffv_rdw',
-	'ffv_s',
-	'ffv_sbg',
-	'ffv_t',
-	'ffv_tdf',
-	'ffv_tr',
-	'ffv_tri',
-	'ffv_wei',
-	'ffv_wer',
-	'fferz'
+{% for domain in (ffv_domains.keys() | sort()) %}
+	'{{ domain }}',
+{% endfor %}
 ]
+
+{% for mesh_name in (mesh.keys() |sort()) %}
+# interface that has an IP in your mesh network
+[[respondd.interfaces]]
+# name of interface on which this collector is running
+ifname = "bat-{{ mesh_name }}"
+# ip address which is used for sending
+# (optional - without definition used a address of ifname - prefered link local)
+# ip_address = "fd2f:5119:f2d::5"
+# disable sending multicast respondd request
+# (for receiving only respondd packages e.g. database respondd)
+#send_no_request = false
+# multicast address to destination of respondd
+# (optional - without definition used default ff05::2:1001)
+#multicast_address = "ff02::2:1001"
+# define a port to listen
+# if not set or set to 0 the kernel will use a random free port at its own
+#port = 10001
+{% endfor %}
 
 # A little build-in webserver, which statically serves a directory.
 # This is useful for testing purposes or for a little standalone installation.
@@ -107,7 +69,8 @@ offline_after = "10m"
 # For each output format there can be set different filters
 #[nodes.output.example.filter]
 #
-# Set to false, if you want the json files to contain the owner information
+# WARNING: if it is not set, it will publish contact information of other persons
+# Set to true, if you did not want the json files to contain the owner information
 #no_owner = true
 #
 # List of nodeids of nodes that should be filtered out, so they won't appear in output
@@ -136,14 +99,19 @@ offline_after = "10m"
 #longitude_max = 39.72
 
 
+# outputs all nodes as points into nodes.geojson
+[[nodes.output.geojson]]
+enable   = false
+path = "/var/www/html/meshviewer/data/nodes.geojson"
+
 # definition for the new more compressed meshviewer.json
 [[nodes.output.meshviewer-ffrgb]]
 enable   = true
 path = "/opt/freifunk/meshviewer/data/meshviewer.json"
 
 [nodes.output.meshviewer-ffrgb.filter]
+# WARNING: if it is not set, it will publish contact information of other persons
 no_owner = true
-#domain_as_site = true
 #blacklist = ["00112233445566", "1337f0badead"]
 #sites = ["ffhb"]
 #has_location = true
@@ -171,6 +139,7 @@ nodes_path = "/opt/freifunk/meshviewer/data/nodes.json"
 graph_path = "/opt/freifunk/meshviewer/data/graph.json"
 
 [nodes.output.meshviewer.filter]
+# WARNING: if it is not set, it will publish contact information of other persons
 no_owner = true
 domain_as_site = true
 
@@ -181,6 +150,7 @@ enable   = true
 path = "/opt/freifunk/meshviewer/data/nodelist.json"
 
 [nodes.output.nodelist.filter]
+# WARNING: if it is not set, it will publish contact information of other persons
 no_owner = true
 domain_as_site = true
 
