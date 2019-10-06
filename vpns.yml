@@ -7,8 +7,6 @@
       tags: "common"
     - role: ssh
       tags: "ssh"
-    - role: fail2ban
-      tags: "fail2ban"
     - role: mesh-announce
       tags: "mesh-announce"
     - role: server-statistics
