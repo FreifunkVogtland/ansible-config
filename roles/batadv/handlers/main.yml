@@ -16,6 +16,5 @@
 
 - name: restart bridge-vpn
   systemd:
-    name: "bridge-vpn@{{ item }}.service"
+    name: "bridge-vpn@{{ mesh_name }}.service"
     state: restarted
-  with_items: "{{ mesh }}"
