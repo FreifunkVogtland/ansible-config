@@ -1,27 +1,10 @@
 ---
-- name: load modules for vpn bridge
-  modprobe:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - ebtables
-  - ebtable_filter
-
-- name: load modules for vpn bridge during boot
-  lineinfile:
-    dest: /etc/modules
-    line: "{{ item }}"
-  with_items:
-  - ebtables
-  - ebtable_filter
-
 - name: install batman-adv dependencies
   apt:
     pkg:
     - bridge-utils
     - batctl
     - build-essential
-    - ebtables
     - git
     - dkms
     - linux-headers-amd64

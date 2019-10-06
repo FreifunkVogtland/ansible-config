@@ -2,55 +2,20 @@
 - name: install firewall dependencies
   apt:
     pkg:
-    - iptables
+    - nftables
     state: present
 
-- name: add iptables config folder
-  file:
-    state: directory
-    path: /etc/iptables
-    group: root
-    owner: root
+- name: install nftables rules
+  template:
+    src: nftables.conf.j2
+    dest: /etc/nftables.conf
     mode: 0755
-
-- name: install iptables rules
-  template:
-    src: iptables.rules.j2
-    dest: /etc/iptables/iptables.rules
   notify:
-  - restart iptables
+  - restart nftables
 
-- name: install ip6tables rules
-  template:
-    src: ip6tables.rules.j2
-    dest: /etc/iptables/ip6tables.rules
-  notify:
-  - restart ip6tables
-
-- name: install iptables systemd unit file
-  copy:
-    src: iptables.service
-    dest: /etc/systemd/system/iptables.service
-  notify:
-  - restart iptables
-
-- name: enable ipv4 firewall
+- name: enable nftables
   systemd:
-    name: iptables.service
-    daemon_reload: yes
-    enabled: "yes"
-    state: "started"
-
-- name: install ip6tables systemd unit file
-  copy:
-    src: ip6tables.service
-    dest: /etc/systemd/system/ip6tables.service
-  notify:
-  - restart ip6tables
-
-- name: enable ipv6 firewall
-  systemd:
-    name: ip6tables.service
+    name: nftables.service
     daemon_reload: yes
     enabled: "yes"
     state: "started"
