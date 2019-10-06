@@ -5,26 +5,26 @@ flush ruleset
 table ip filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
-		udp dport 4789 counter packets 0 bytes 0 jump vxlan-drop
-		iifname "bat*" udp dport 10000-10099 counter packets 0 bytes 0 log prefix "fastdinfastd"
-		iifname "bat*" udp dport 10000-10099 counter packets 0 bytes 0 drop
+		udp dport 4789 jump vxlan-drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd"
+		iifname "bat*" udp dport 10000-10099 drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP'] is defined %}
-		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 counter packets 0 bytes 0 log prefix "fastdinfastd"
-		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 counter packets 0 bytes 0 drop
+		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 log prefix "fastdinfastd"
+		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 drop
 		{% endif %}
 		{% endfor %}
 
 		{% if inventory_hostname == "vpn01" %}
-		iifname "{{ gateway_if }}" tcp dport rsync ct state new counter packets 0 bytes 0 accept
-		iifname "{{ gateway_if }}" tcp dport ssh ct state new counter packets 0 bytes 0 accept
-		iifname "eth0" oifname "{{ gateway_if }}" counter packets 0 bytes 0 accept
-		iifname "{{ gateway_if }}" oifname "eth0" ct state established,related counter packets 0 bytes 0 accept
-		iifname "{{ gateway_if }}" oifname "eth0" counter packets 0 bytes 0 drop
+		iifname "{{ gateway_if }}" tcp dport rsync ct state new accept
+		iifname "{{ gateway_if }}" tcp dport ssh ct state new accept
+		iifname "eth0" oifname "{{ gateway_if }}" accept
+		iifname "{{ gateway_if }}" oifname "eth0" ct state established,related accept
+		iifname "{{ gateway_if }}" oifname "eth0" drop
 		{% endif %}
 	}
 
@@ -35,18 +35,18 @@ table ip filter {
 	chain vxlan-drop {
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP'] is defined %}
-		ip daddr {{ hostvars[peer]['WANIP'] }} counter packets 0 bytes 0 return
+		ip daddr {{ hostvars[peer]['WANIP'] }} return
 		{% endif %}
 		{% endfor %}
-		counter packets 0 bytes 0 log prefix "invalidvxlan"
-		counter packets 0 bytes 0 drop
+		log prefix "invalidvxlan"
+		drop
 	}
 }
 table ip mangle {
 	chain PREROUTING {
 		type filter hook prerouting priority -150; policy accept;
-		iifname "bat*" counter packets 0 bytes 0 mark set 0x00000001
-		iifname "icvpn" counter packets 0 bytes 0 mark set 0x00000001
+		iifname "bat*" mark set 0x00000001
+		iifname "icvpn" mark set 0x00000001
 	}
 
 	chain INPUT {
@@ -55,9 +55,9 @@ table ip mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "bat*" tcp flags & (syn | rst) == syn counter packets 0 bytes 0 tcp option maxseg size set 1240
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
 		{% if BACKBONE_IPV4 is defined %}
-		oifname "bb-*" tcp flags & (syn | rst) == syn counter packets 0 bytes 0 tcp option maxseg size set 1240
+		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
 		{% endif %}
 	}
 
@@ -67,16 +67,16 @@ table ip mangle {
 
 	chain POSTROUTING {
 		type filter hook postrouting priority -150; policy accept;
-		oifname "bat*" counter packets 0 bytes 0 mark set 0x00000000
-		oifname "vxlan0" counter packets 0 bytes 0 mark set 0x00000000
+		oifname "bat*" mark set 0x00000000
+		oifname "vxlan0" mark set 0x00000000
 	}
 }
 table ip nat {
 	chain PREROUTING {
 		type nat hook prerouting priority -100; policy accept;
 		{% if inventory_hostname == "vpn01" %}
-		iifname "{{ gateway_if }}" tcp dport rsync ct state new counter packets 0 bytes 0 dnat to 192.168.248.200
-		iifname "{{ gateway_if }}" tcp dport 2222 ct state new counter packets 0 bytes 0 dnat to 192.168.248.200:ssh
+		iifname "{{ gateway_if }}" tcp dport rsync ct state new dnat to 192.168.248.200
+		iifname "{{ gateway_if }}" tcp dport 2222 ct state new dnat to 192.168.248.200:ssh
 		{% endif %}
 	}
 
@@ -86,12 +86,12 @@ table ip nat {
 
 	chain POSTROUTING {
 		type nat hook postrouting priority 100; policy accept;
-		oifname "{{ gateway_if }}" ip saddr {{ vogtland_ipv4 }} counter packets 0 bytes 0 masquerade
+		oifname "{{ gateway_if }}" ip saddr {{ vogtland_ipv4 }} masquerade
 		{% if BACKBONE_IPV4 is defined %}
-		oifname "bb-*" counter packets 0 bytes 0 snat to {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
+		oifname "bb-*" snat to {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
 		{% endif %}
 		{% if inventory_hostname == "vpn01" %}
-		oifname "{{ gateway_if }}" ip saddr 192.168.248.0/24 counter packets 0 bytes 0 masquerade
+		oifname "{{ gateway_if }}" ip saddr 192.168.248.0/24 masquerade
 		{% endif %}
 	}
 
@@ -102,16 +102,16 @@ table ip nat {
 table ip6 nat {
 	chain PREROUTING {
 		type nat hook prerouting priority -100; policy accept;
-		ip6 daddr 2a03:2260:200f:1337::2 tcp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::2 udp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::7 tcp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::7 udp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::8 tcp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::8 udp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::9 tcp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::9 udp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::a tcp dport domain counter packets 0 bytes 0 redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::a udp dport domain counter packets 0 bytes 0 redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::2 tcp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::2 udp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::7 tcp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::7 udp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::8 tcp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::8 udp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::9 tcp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::9 udp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::a tcp dport domain redirect to :domain
+		ip6 daddr 2a03:2260:200f:1337::a udp dport domain redirect to :domain
 	}
 
 	chain INPUT {
@@ -129,17 +129,17 @@ table ip6 nat {
 table ip6 filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
-		udp dport 4789 counter packets 0 bytes 0 jump vxlan-drop
-		iifname "bat*" udp dport 10000-10099 counter packets 0 bytes 0 log prefix "fastdinfastd"
-		iifname "bat*" udp dport 10000-10099 counter packets 0 bytes 0 drop
+		udp dport 4789 jump vxlan-drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd"
+		iifname "bat*" udp dport 10000-10099 drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP6'] is defined %}
-		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 counter packets 0 bytes 0 log prefix "fastdinfastd"
-		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 counter packets 0 bytes 0 drop
+		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 log prefix "fastdinfastd"
+		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 drop
 		{% endif %}
 		{% endfor %}
 	}
@@ -151,18 +151,18 @@ table ip6 filter {
 	chain vxlan-drop {
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP'] is defined %}
-		ip6 daddr {{ hostvars[peer]['WANIP6'] }} counter packets 0 bytes 0 return
+		ip6 daddr {{ hostvars[peer]['WANIP6'] }} return
 		{% endif %}
 		{% endfor %}
-		counter packets 0 bytes 0 log prefix "invalidvxlan"
-		counter packets 0 bytes 0 drop
+		log prefix "invalidvxlan"
+		drop
 	}
 }
 table ip6 mangle {
 	chain PREROUTING {
 		type filter hook prerouting priority -150; policy accept;
-		iifname "bat*" counter packets 0 bytes 0 mark set 0x00000001
-		iifname "icvpn" counter packets 0 bytes 0 mark set 0x00000001
+		iifname "bat*" mark set 0x00000001
+		iifname "icvpn" mark set 0x00000001
 	}
 
 	chain INPUT {
@@ -171,9 +171,9 @@ table ip6 mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "bat*" tcp flags & (syn | rst) == syn counter packets 0 bytes 0 tcp option maxseg size set 1220
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
 		{% if ffrl_bb_links %}
-		oifname "bb-*" tcp flags & (syn | rst) == syn counter packets 0 bytes 0 tcp option maxseg size set 1220
+		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
 		{% endif %}
 	}
 
@@ -183,7 +183,7 @@ table ip6 mangle {
 
 	chain POSTROUTING {
 		type filter hook postrouting priority -150; policy accept;
-		oifname "bat*" counter packets 0 bytes 0 mark set 0x00000000
+		oifname "bat*" mark set 0x00000000
 	}
 }
 
@@ -195,7 +195,7 @@ table bridge filter {
 	chain FORWARD {
 		type filter hook forward priority -200; policy accept;
 		{% for mesh_name in (mesh.keys() |sort())  %}
-		meta ibrname "vpn-{{ mesh_name }}" counter packets 0 bytes 0 drop
+		meta ibrname "vpn-{{ mesh_name }}" drop
 		{% endfor %}
 	}
 
