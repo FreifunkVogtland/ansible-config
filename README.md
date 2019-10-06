@@ -5,14 +5,14 @@ Ansible Configuration for Freifunk Vogtland Gateways
 
 ## Requirements on Ansible Host
 
-* Ansible (v2.2+)
+* Ansible (v2.7+)
 
 ## Requirements on Gateway
 
-Debian Stretch, plus:
+Debian Buster, plus:
 
 * openssh-server
-* python
+* python3
 * sudo
 
 ## Starting playbook
