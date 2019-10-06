@@ -7,8 +7,6 @@
       tags: "common"
     - role: ssh
       tags: "ssh"
-    - role: mesh-announce
-      tags: "mesh-announce"
     - role: server-statistics
       tags: "server-statistics"
     - role: logrotate
@@ -79,6 +77,8 @@
       tags: "bird"
     - role: firewall
       tags: "firewall"
+    - role: mesh-announce
+      tags: "mesh-announce"
 
 - hosts: vpn04
   gather_facts: false
