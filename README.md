@@ -31,7 +31,7 @@ The vagrant test environment is build around vagrant-libvirt. It requires
 
 * vagrant-libvirt
 * libvirt-daemon
-* libivirt-daemon-system
+* libvirt-daemon-system
 
 The setup of the boxes are automated using
 
