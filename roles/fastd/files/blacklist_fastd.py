@@ -7,6 +7,8 @@ blacklist = {
     'ffv': [
         # a42bb0a94a6a - 7667789886
         0xc7cd05f47d7ce0988a2168ba784612547462022b0199d246bc51ceedd7a6ea6a,
+        # 60e327be30c8 - PEN-Cursdorfer-Str
+        0xe83dc870bc96954d6f7c203b455e4fcc2c037d46f654eba8b4db4ad70d367b43,
     ],
     'ffv_a': [
         # a42bb0a94a6a - 7667789886
