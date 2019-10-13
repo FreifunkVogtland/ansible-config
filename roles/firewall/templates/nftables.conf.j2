@@ -11,15 +11,16 @@ table ip filter {
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
-		{% for peer in (groups['vpns'] | sort()) %}
-		{% if hostvars[peer]['WANIP'] is defined %}
-		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 log prefix "fastdinfastd" drop
-		{% endif %}
-		{% endfor %}
+		iifname "bat*" ip daddr {
+			{% for peer in (groups['vpns'] | sort()) -%}
+			{%- if hostvars[peer]['WANIP'] is defined %}
+				{{ hostvars[peer]['WANIP'] }},
+			{% endif -%}
+			{%- endfor %}
+		} udp dport 10000-10099 log prefix "fastdinfastd" drop
 
-		{% if inventory_hostname == "vpn01" %}
-		iifname "{{ gateway_if }}" tcp dport rsync ct state new accept
-		iifname "{{ gateway_if }}" tcp dport ssh ct state new accept
+		{% if inventory_hostname == "vpn01" -%}
+		iifname "{{ gateway_if }}" tcp dport { rsync, ssh } ct state new accept
 		iifname "eth0" oifname "{{ gateway_if }}" accept
 		iifname "{{ gateway_if }}" oifname "eth0" ct state established,related accept
 		iifname "{{ gateway_if }}" oifname "eth0" drop
@@ -31,11 +32,13 @@ table ip filter {
 	}
 
 	chain vxlan-drop {
-		{% for peer in (groups['vpns'] | sort()) %}
-		{% if hostvars[peer]['WANIP'] is defined %}
-		ip daddr {{ hostvars[peer]['WANIP'] }} return
-		{% endif %}
-		{% endfor %}
+		ip daddr {
+			{% for peer in (groups['vpns'] | sort()) -%}
+			{%- if hostvars[peer]['WANIP'] is defined %}
+				{{ hostvars[peer]['WANIP'] }},
+			{% endif -%}
+			{%- endfor %}
+		} return
 		log prefix "invalidvxlan" drop
 	}
 }
@@ -99,16 +102,20 @@ table ip nat {
 table ip6 nat {
 	chain PREROUTING {
 		type nat hook prerouting priority -100; policy accept;
-		ip6 daddr 2a03:2260:200f:1337::2 tcp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::2 udp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::7 tcp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::7 udp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::8 tcp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::8 udp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::9 tcp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::9 udp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::a tcp dport domain redirect to :domain
-		ip6 daddr 2a03:2260:200f:1337::a udp dport domain redirect to :domain
+		ip6 daddr {
+			2a03:2260:200f:1337::2,
+			2a03:2260:200f:1337::7,
+			2a03:2260:200f:1337::8,
+			2a03:2260:200f:1337::9,
+			2a03:2260:200f:1337::a,
+		} udp dport domain redirect to :domain
+		ip6 daddr {
+			2a03:2260:200f:1337::2,
+			2a03:2260:200f:1337::7,
+			2a03:2260:200f:1337::8,
+			2a03:2260:200f:1337::9,
+			2a03:2260:200f:1337::a,
+		} tcp dport domain redirect to :domain
 	}
 
 	chain INPUT {
@@ -132,11 +139,13 @@ table ip6 filter {
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
-		{% for peer in (groups['vpns'] | sort()) %}
-		{% if hostvars[peer]['WANIP6'] is defined %}
-		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 log prefix "fastdinfastd" drop
-		{% endif %}
-		{% endfor %}
+		iifname "bat*" ip6 daddr {
+			{% for peer in (groups['vpns'] | sort()) -%}
+			{%- if hostvars[peer]['WANIP6'] is defined %}
+				{{ hostvars[peer]['WANIP6'] }},
+			{% endif -%}
+			{%- endfor %}
+		} udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
 	chain OUTPUT {
@@ -144,11 +153,13 @@ table ip6 filter {
 	}
 
 	chain vxlan-drop {
-		{% for peer in (groups['vpns'] | sort()) %}
-		{% if hostvars[peer]['WANIP'] is defined %}
-		ip6 daddr {{ hostvars[peer]['WANIP6'] }} return
-		{% endif %}
-		{% endfor %}
+		ip6 daddr {
+			{% for peer in (groups['vpns'] | sort()) -%}
+			{%- if hostvars[peer]['WANIP'] is defined %}
+				{{ hostvars[peer]['WANIP6'] }},
+			{% endif -%}
+			{%- endfor %}
+		} return
 		log prefix "invalidvxlan" drop
 	}
 }
