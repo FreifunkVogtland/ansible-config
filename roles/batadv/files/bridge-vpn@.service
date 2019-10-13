@@ -11,8 +11,7 @@ After=systemd-networkd.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/ip link set vpn-%i promisc on
-ExecStart=/bin/ip link set dev "vpn-%i" master bat-%i
+ExecStart=/bin/ip link set dev "vpn-%i" promisc on master bat-%i
 ExecStop=/bin/ip link set dev "vpn-%i" nomaster
 
 [Install]

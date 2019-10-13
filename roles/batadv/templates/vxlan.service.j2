@@ -8,8 +8,7 @@ After=batadv-bat-{{ mesh_name }}.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/ip link add vxlan-{{ mesh_name }} type vxlan id "{{ mesh[mesh_name]['vxlan']['id'] }}" dev "{{gateway_if}}" dstport 4789 nolearning
-ExecStart=/bin/ip link set dev vxlan-{{ mesh_name }} address {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }}
-ExecStart=/bin/ip link set mtu 1426 up dev vxlan-{{ mesh_name }}
+ExecStart=/bin/ip link set dev vxlan-{{ mesh_name }} mtu 1426 up address {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }} master bat-{{ mesh_name }}
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 {% if hostvars[peer]['WANIP'] is defined %}
@@ -19,7 +18,6 @@ ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(hostvars[
 {% endfor %}
 ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }} dst 127.0.0.1 dev vxlan-{{ mesh_name }}
 
-ExecStart=/bin/ip link set dev "vxlan-{{ mesh_name }}" master bat-{{ mesh_name }}
 ExecStart=-/bin/sh -c 'echo 1 > /sys/class/net/vxlan-{{ mesh_name }}/batman_adv/no_rebroadcast'
 
 ExecStop=/bin/ip link del dev "vxlan-{{ mesh_name }}"

@@ -9,9 +9,8 @@ After=systemd-networkd.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/ip link set up dummy-bat-{{ mesh_name }}
 ExecStart=/bin/ip link add dev bat-{{ mesh_name }} type batadv
-ExecStart=/bin/ip link set dev dummy-bat-{{ mesh_name }} master bat-{{ mesh_name }}
+ExecStart=/bin/ip link set dev dummy-bat-{{ mesh_name }} up master bat-{{ mesh_name }}
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} gw {{ dnsmasq | ternary('server', 'off') }}
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bonding 1
 ExecStart=/usr/sbin/batctl -m bat-{{ mesh_name }} bridge_loop_avoidance 1
