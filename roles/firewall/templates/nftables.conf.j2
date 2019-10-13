@@ -6,16 +6,14 @@ table ip filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
 		udp dport 4789 jump vxlan-drop
-		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd"
-		iifname "bat*" udp dport 10000-10099 drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP'] is defined %}
-		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 log prefix "fastdinfastd"
-		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 drop
+		iifname "bat*" ip daddr {{ hostvars[peer]['WANIP'] }} udp dport 10000-10099 log prefix "fastdinfastd" drop
 		{% endif %}
 		{% endfor %}
 
@@ -38,8 +36,7 @@ table ip filter {
 		ip daddr {{ hostvars[peer]['WANIP'] }} return
 		{% endif %}
 		{% endfor %}
-		log prefix "invalidvxlan"
-		drop
+		log prefix "invalidvxlan" drop
 	}
 }
 table ip mangle {
@@ -130,16 +127,14 @@ table ip6 filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
 		udp dport 4789 jump vxlan-drop
-		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd"
-		iifname "bat*" udp dport 10000-10099 drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
 		{% for peer in (groups['vpns'] | sort()) %}
 		{% if hostvars[peer]['WANIP6'] is defined %}
-		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 log prefix "fastdinfastd"
-		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 drop
+		iifname "bat*" ip6 daddr {{ hostvars[peer]['WANIP6'] }} udp dport 10000-10099 log prefix "fastdinfastd" drop
 		{% endif %}
 		{% endfor %}
 	}
@@ -154,8 +149,7 @@ table ip6 filter {
 		ip6 daddr {{ hostvars[peer]['WANIP6'] }} return
 		{% endif %}
 		{% endfor %}
-		log prefix "invalidvxlan"
-		drop
+		log prefix "invalidvxlan" drop
 	}
 }
 table ip6 mangle {
