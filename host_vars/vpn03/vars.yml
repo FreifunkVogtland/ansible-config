@@ -13,7 +13,6 @@ BACKBONE_IPV4: "185.66.195.43/32"
 USE_RADVD: "1"
 DIRECT: "0"
 
-fastd_peer_limit: 1
 fastd_client_cost: 5
 
 ffrl_bb_links:
