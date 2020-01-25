@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8; mode: python -*-
 # pylint: disable=C0330, R0903, R0912
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2018, Markus Heiser <markus.heiser@darmarit.de
 
 u"""
     flat-table

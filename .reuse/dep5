@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name:  ansible-config
+Upstream-Contact: Sven Eckelmann <sven@narfation.org>
+Source: https://github.com/FreifunkVogtland/ansible-config
+
+Files: *_vars/*/vault.yml
+ vault_passphrase.gpg
+Copyright: 2017-2019, Sven Eckelmann <sven@narfation.org>
+License: CC0-1.0

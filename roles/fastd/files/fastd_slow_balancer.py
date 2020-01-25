@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2019, Sven Eckelmann <sven@narfation.org>
 
 import json
 import socket

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+
 {% for name in (ffrl_bb_links.keys() |sort()) %}
 auto {{ name | regex_replace('_', '-') }}
 allow-bb {{ name | regex_replace('_', '-') }}

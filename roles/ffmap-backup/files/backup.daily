@@ -1,4 +1,6 @@
 #! /bin/bash
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
 export HOME=/root
 
