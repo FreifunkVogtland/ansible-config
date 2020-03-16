@@ -7,6 +7,8 @@
   roles:
     - role: common
       tags: "common"
+    - role: journald
+      tags: "journald"
     - role: ssh
       tags: "ssh"
     - role: server-statistics

@@ -1,0 +1,21 @@
+---
+- name: remove rsyslog
+  apt:
+    pkg:
+    - rsyslog
+    state: absent
+
+- name: add journald configuration folder
+  file:
+    path: "/etc/systemd/journald.conf.d/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: add journald persistant configuration
+  copy:
+    src: 00_persistant.conf
+    dest: /etc/systemd/journald.conf.d/00_persistant.conf
+  notify:
+  - restart journald
