@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-SSLStaplingCache shmcb:/var/run/ocsp(128000)
+SSLStaplingCache "shmcb:logs/ssl_stapling(32768)"
 
 <VirtualHost *:80>
 	ServerName {{ inventory_hostname }}.freifunk-vogtland.net
@@ -27,7 +27,7 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 	SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
 
 	Include /etc/letsencrypt/options-ssl.conf
-	Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
+	Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
 	#SSLCARevocationCheck chain no_crl_for_cert_ok
 	SSLVerifyClient         optional
