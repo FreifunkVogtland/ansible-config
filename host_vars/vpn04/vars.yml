@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
-gateway_if: eth0
+gateway_if: enp1s0
 meshviewer: 0
 icvpn: yes
 dnsmasq: yes
 vpnid: 4
 
-WANIP: "88.99.151.81"
-WANGW: "88.99.151.65"
-WANIP6: "2a01:4f8:10a:2f8f::2"
-WANGW6: "::1"
+WANIP: "94.130.152.121"
+WANGW: "88.99.151.81"
+WANIP6: "2a01:4f8:10a:2f8f:5c9e:54ff:fe12:3872"
+WANGW6: "2a01:4f8:10a:2f8f::2"
 BACKBONE_IPV4: "185.66.194.70/32"
 USE_RADVD: "1"
 DIRECT: "0"
