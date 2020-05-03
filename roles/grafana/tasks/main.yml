@@ -44,6 +44,13 @@
   notify:
   - restart apache2
 
+- name: enable apache proxy_http
+  apache2_module:
+    state: present
+    name: proxy_http
+  notify:
+  - restart apache2
+
 - name: add grafana dashboard provisioning configuration
   copy:
     src: ffv.yaml
