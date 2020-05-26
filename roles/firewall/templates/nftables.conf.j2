@@ -191,6 +191,7 @@ table ip6 mangle {
 	chain POSTROUTING {
 		type filter hook postrouting priority -150; policy accept;
 		oifname "bat*" mark set 0x00000000
+		oifname "vxlan0" mark set 0x00000000
 	}
 }
 
