@@ -9,9 +9,9 @@
     name: grafana-server.service
     state: restarted
 
-- name: restart apache2
+- name: restart nginx
   systemd:
-    name: apache2.service
+    name: nginx.service
     state: restarted
 
 - name: restart influxdb

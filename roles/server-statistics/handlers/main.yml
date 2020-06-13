@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
-- name: restart apache2
+- name: restart nginx
   systemd:
-    name: apache2.service
+    name: nginx.service
     state: restarted

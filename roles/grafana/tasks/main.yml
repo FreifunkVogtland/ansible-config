@@ -30,26 +30,11 @@
 - name: install grafana dependencies
   apt:
     pkg:
-    - apache2
+    - nginx-light
     - grafana
-    - libapache2-mod-wsgi
     - influxdb
     - sqlite3
     state: present
-
-- name: enable apache rewrite
-  apache2_module:
-    state: present
-    name: rewrite
-  notify:
-  - restart apache2
-
-- name: enable apache proxy_http
-  apache2_module:
-    state: present
-    name: proxy_http
-  notify:
-  - restart apache2
 
 - name: add grafana dashboard provisioning configuration
   copy:
@@ -76,32 +61,9 @@
   notify:
   - restart influxdb
 
-- name: enable port 8080 for apache2
-  lineinfile:
-    destfile: '/etc/apache2/ports.conf'
-    state: present
-    regexp: '^Listen\s+8080$'
-    line: 'Listen 8080'
-  notify:
-  - restart apache2
-
-- name: enable apache2 http2
-  apache2_module:
-    name: http2
-    state: present
-  notify:
-  - restart apache2
-
-- name: enable apache2 mod_wsgi
-  apache2_module:
-    name: wsgi
-    state: present
-  notify:
-  - restart apache2
-
-- name: add apache2 stats site
+- name: add nginx stats site
   copy:
-    src: apache2-stats.conf
-    dest: /etc/apache2/sites-enabled/apache2-stats.conf
+    src: stats
+    dest: /etc/nginx/sites-enabled/stats
   notify:
-  - restart apache2
+  - restart nginx

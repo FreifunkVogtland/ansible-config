@@ -5,4 +5,4 @@
 letsencrypt renew > /dev/null 2>&1
 chown :ssl-cert /etc/letsencrypt/archive /etc/letsencrypt/live
 chmod g+x /etc/letsencrypt/archive /etc/letsencrypt/live
-/etc/init.d/apache2 reload > /dev/null
+systemctl reload nginx > /dev/null

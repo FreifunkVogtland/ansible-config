@@ -4,19 +4,13 @@
 - name: install mapdata dependencies
   apt:
     pkg:
-    - apache2
+    - nginx-light
+    - libnginx-mod-http-fancyindex
     state: present
 
-- name: enable apache2 http2
-  apache2_module:
-    name: http2
-    state: present
-  notify:
-  - restart apache2
-
-- name: add apache2 mapdata site
+- name: add nginx mapdata site
   copy:
-    src: apache2-mapdata.conf
-    dest: /etc/apache2/sites-enabled/apache2-mapdata.conf
+    src: mapdata
+    dest: /etc/nginx/sites-enabled/mapdata
   notify:
-  - restart apache2
+  - restart nginx

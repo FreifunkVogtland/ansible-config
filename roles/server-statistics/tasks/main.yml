@@ -9,43 +9,10 @@
 - name: install server-statistics dependencies
   apt:
     pkg:
-    - apache2
+    - nginx-light
     - vnstati
     - php-fpm
     state: present
-
-- name: drop libapache2-mod-php
-  apt:
-    pkg:
-    - libapache2-mod-php7.3
-    state: absent
-
-- name: enable event mpm
-  apache2_module:
-    name: mpm_event
-    state: present
-  notify:
-  - restart apache2
-
-- name: enable apache2 modules
-  apache2_module:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - http2
-  - headers
-  - setenvif
-  - proxy_fcgi
-  - ssl
-  notify:
-  - restart apache2
-
-- name: Activate configuration
-  command:
-    a2enconf php7.3-fpm.conf
-    creates=/etc/apache2/conf-enabled/php7.3-fpm.conf
-  notify:
-  - restart apache2
 
 - name: add letsencrypt folder
   file:
@@ -79,32 +46,26 @@
     group: root
     mode: 0755
 
-- name: add letsencrypt http ssl default options
+- name: add mozilla's recommended dhparam ffdhe2048
   copy:
-    src: options-ssl.conf
-    dest: /etc/letsencrypt/options-ssl.conf
-  notify: restart apache2
-
-- name: add letsencrypt well-known
-  copy:
-    src: letsencrypt.conf
-    dest: /etc/apache2/conf-enabled/letsencrypt.conf
-  notify: restart apache2
+    src: dhparam
+    dest: /etc/letsencrypt/dhparam
+  notify: restart nginx
 
 - name: disable default site
   file:
-    path: /etc/apache2/sites-enabled/000-default.conf
+    path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: restart apache2
+  notify: restart nginx
 
 - name: add default site
   template:
-    src: 00-default.conf.j2
-    dest: /etc/apache2/sites-enabled/00-default.conf
+    src: 00-default.j2
+    dest: /etc/nginx/sites-enabled/00-default
     owner: root
     group: root
     mode: 0644
-  notify: restart apache2
+  notify: restart nginx
 
 - name: Install server statistics
   git:
