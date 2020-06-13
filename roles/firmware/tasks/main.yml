@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+---
+- name: install firmware synchronization tools
+  apt:
+    pkg:
+    - rsync
+    state: present
+
+- name: add firmware folder
+  file:
+    path: "/var/www/firmware/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: firmware_server == "replica" or firmware_server == "primary"
+
+- name: add firmware sync cron
+  template:
+    src: firmware-sync.j2
+    dest: /etc/cron.hourly/firmware-sync
+    owner: root
+    group: root
+    mode: 0755
+  when: firmware_server == "replica"
+
+- name: install firmware links
+  file:
+    src: firmware
+    dest: /var/www/firmware/firmware-{{ item }}
+    state: link
+    force: yes
+  with_items: "{{ ffv_domains }}"
+  when: firmware_server == "replica" or firmware_server == "primary"
+
+- name: add firmware sync cron
+  copy:
+    src: robots.txt
+    dest: /var/www/firmware/robots.txt
+    owner: root
+    group: root
+    mode: 0644
+  when: firmware_server == "replica" or firmware_server == "primary"
+
+- name: install rsyncd server
+  copy:
+    src: rsyncd.conf
+    dest: /etc/rsyncd.conf
+  when: firmware_server == "replica" or firmware_server == "primary"
+  notify: restart rsync
+
+- name: start rsync
+  systemd:
+    name: rsync.service
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  when: firmware_server == "replica" or firmware_server == "primary"

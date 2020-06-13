@@ -83,6 +83,8 @@
       tags: "firewall"
     - role: mesh-announce
       tags: "mesh-announce"
+    - role: firmware
+      tags: "firmware"
 
 - hosts: vpn04
   gather_facts: false

@@ -30,6 +30,8 @@ ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
 OLDRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, 19) }}"
 ROUTERIDV6: "{{ OLDRANGEV6|ipsubnet(64, 55) | ipaddr(vpnid|int) }}"
 
+firmware_server: ""
+
 mesh_meta:
   ffv:
     id: 0

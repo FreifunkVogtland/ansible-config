@@ -71,4 +71,14 @@ server {
 			fastcgi_param  SCRIPT_FILENAME   $request_filename;
 		}
 	}
+
+	{% if firmware_server == "replica" or firmware_server == "primary" %}
+	location ~ ^/firmware {
+		root /var/www/firmware/;
+	}
+
+	location ~ ^/modules/ {
+		root /var/www/firmware/;
+	}
+	{% endif %}
 }

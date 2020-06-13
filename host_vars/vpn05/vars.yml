@@ -21,6 +21,9 @@ icvpn_ipv6: fec0::a:cf:0:4
 
 fastd_client_cost: 2
 
+firmware_server: "replica"
+firmware_sync_server: "vpn04.freifunk-vogtland.net"
+
 ffrl_bb_links:
   bb_a_ak_ber:
     ipv4:

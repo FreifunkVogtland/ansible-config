@@ -13,5 +13,7 @@
       tags: "ssh"
     - role: firmwares_motd
       tags: "firmwares_motd"
+    - role: firmware
+      tags: "firmware"
     - role: gluon_dependencies
       tags: "gluon_dependencies"

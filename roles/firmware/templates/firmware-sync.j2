@@ -1,0 +1,4 @@
+#! /bin/sh
+
+rsync -aP --delete {{ firmware_sync_server }}::firmware/ /var/www/firmware/firmware/
+rsync -aP --delete {{ firmware_sync_server }}::modules/ /var/www/firmware/modules/

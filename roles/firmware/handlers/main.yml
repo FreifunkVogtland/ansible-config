@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+---
+- name: restart rsync
+  systemd:
+    name: rsync.service
+    state: restarted
+ 
