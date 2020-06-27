@@ -7,6 +7,11 @@
     - rsync
     state: present
 
+- name: Install fancyindex theme
+  git:
+    repo: 'https://github.com/FreifunkVogtland/Nginx-Fancyindex-Theme.git'
+    dest: /var/www/fancyindex
+
 - name: add firmware folder
   file:
     path: "/var/www/firmware/"

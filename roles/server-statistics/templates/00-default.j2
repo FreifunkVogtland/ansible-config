@@ -75,10 +75,34 @@ server {
 	{% if firmware_server == "replica" or firmware_server == "primary" %}
 	location ~ ^/firmware {
 		root /var/www/firmware/;
+
+                fancyindex on;
+                fancyindex_exact_size off;
+                fancyindex_ignore ^firmware\-.*;
+                fancyindex_ignore "^robots.txt$";
+                fancyindex_localtime on;
+                fancyindex_name_length 255;
+
+                fancyindex_header "/fancyindex/header.html";
+                fancyindex_footer "/fancyindex/footer.html";
 	}
 
 	location ~ ^/modules/ {
 		root /var/www/firmware/;
+
+                fancyindex on;
+                fancyindex_exact_size off;
+                fancyindex_ignore ^firmware\-.*;
+                fancyindex_ignore "^robots.txt$";
+                fancyindex_localtime on;
+                fancyindex_name_length 255;
+
+                fancyindex_header "/fancyindex/header.html";
+                fancyindex_footer "/fancyindex/footer.html";
+	}
+
+	location /fancyindex {
+		alias /var/www/fancyindex;
 	}
 	{% elif inventory_hostname == "vpn01" %}
 	location ~ ^/firmware {
