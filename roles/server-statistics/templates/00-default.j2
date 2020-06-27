@@ -104,13 +104,5 @@ server {
 	location /fancyindex {
 		alias /var/www/fancyindex;
 	}
-	{% elif inventory_hostname == "vpn01" %}
-	location ~ ^/firmware {
-		proxy_pass http://192.168.248.200;
-	}
-
-	location ~ ^/modules/ {
-		proxy_pass http://192.168.248.200;
-	}
 	{% endif %}
 }

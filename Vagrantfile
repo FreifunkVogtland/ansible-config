@@ -17,9 +17,7 @@ Vagrant.configure(2) do |config|
       "gk-vpns" => ["vpn01"],
       "hetzner-vpns" => ["vpn03", "vpn04", "vpn06"],
       "linevast-vpns" => ["vpn05"],
-      "vpns:children" => ["gk-vpns", "hetzner-vpns", "linevast-vpns"],
-      "gk-firmwares" => ["build01"],
-      "firmwares:children" => ["gk-firmwares"]
+      "vpns:children" => ["gk-vpns", "hetzner-vpns", "linevast-vpns"]
     }
 
     ansible.playbook = "site.yml"
@@ -62,13 +60,6 @@ Vagrant.configure(2) do |config|
     machine.vm.box = "debian/buster64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:06"
-    end
-  end
-
-  config.vm.define "build01" do |machine|
-    machine.vm.box = "debian/buster64"
-    machine.vm.provider :libvirt do |domain|
-      domain.management_network_mac = "52:54:00:00:01:00"
     end
   end
 end

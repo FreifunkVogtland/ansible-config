@@ -6,3 +6,7 @@
     name: rsync.service
     state: restarted
  
+- name: restart nginx
+  systemd:
+    name: nginx.service
+    state: restarted

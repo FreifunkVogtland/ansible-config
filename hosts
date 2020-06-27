@@ -16,9 +16,3 @@ vpn05 ansible_host=vpn05.freifunk-vogtland.net
 gk-vpns
 hetzner-vpns
 linevast-vpns
-
-[gk-firmwares]
-build01 ansible_host=firmware.freifunk-vogtland.net
-
-[firmwares:children]
-gk-firmwares

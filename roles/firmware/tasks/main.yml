@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
-- name: install firmware synchronization tools
+- name: install firmware server dependencies
   apt:
     pkg:
+    - nginx-light
+    - libnginx-mod-http-fancyindex
     - rsync
     state: present
 
@@ -62,3 +64,13 @@
     daemon_reload: yes
     enabled: yes
   when: firmware_server == "replica" or firmware_server == "primary"
+
+- name: add firmware site
+  copy:
+    src: firmware.conf
+    dest: /etc/nginx/sites-enabled/firmware
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+  when: inventory_hostname == "vpn01"

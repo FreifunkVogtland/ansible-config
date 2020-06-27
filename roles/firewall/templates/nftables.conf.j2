@@ -20,13 +20,6 @@ table ip filter {
 			{% endif -%}
 			{%- endfor %}
 		} udp dport 10000-10099 log prefix "fastdinfastd" drop
-
-		{% if inventory_hostname == "vpn01" -%}
-		iifname "{{ gateway_if }}" tcp dport { rsync, ssh } ct state new accept
-		iifname "eth0" oifname "{{ gateway_if }}" accept
-		iifname "{{ gateway_if }}" oifname "eth0" ct state established,related accept
-		iifname "{{ gateway_if }}" oifname "eth0" drop
-		{% endif %}
 	}
 
 	chain OUTPUT {
@@ -76,10 +69,6 @@ table ip mangle {
 table ip nat {
 	chain PREROUTING {
 		type nat hook prerouting priority -100; policy accept;
-		{% if inventory_hostname == "vpn01" %}
-		iifname "{{ gateway_if }}" tcp dport rsync ct state new dnat to 192.168.248.200
-		iifname "{{ gateway_if }}" tcp dport 2222 ct state new dnat to 192.168.248.200:ssh
-		{% endif %}
 	}
 
 	chain INPUT {
@@ -91,9 +80,6 @@ table ip nat {
 		oifname "{{ gateway_if }}" ip saddr {{ vogtland_ipv4 }} masquerade
 		{% if BACKBONE_IPV4 is defined %}
 		oifname "bb-*" snat to {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
-		{% endif %}
-		{% if inventory_hostname == "vpn01" %}
-		oifname "{{ gateway_if }}" ip saddr 192.168.248.0/24 masquerade
 		{% endif %}
 	}
 
@@ -118,6 +104,15 @@ table ip6 nat {
 			2a03:2260:200f:1337::9,
 			2a03:2260:200f:1337::a,
 		} tcp dport domain redirect to :domain
+
+		{% if inventory_hostname == "vpn01" -%}
+		ip6 daddr {
+			2003:49:a051:9000::42,
+		} tcp dport http redirect to :http
+		ip6 daddr {
+			2003:49:a051:9000::42,
+		} tcp dport https redirect to :https
+		{% endif %}
 	}
 
 	chain INPUT {

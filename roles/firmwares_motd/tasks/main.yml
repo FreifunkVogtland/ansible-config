@@ -1,6 +1,0 @@
-# SPDX-License-Identifier: MIT
-# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
----
-- name: install build01 motd
-  copy: src=build01/motd dest=/etc/motd
-  when: (inventory_hostname == "build01")
