@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+
+[Match]
+Name=br-{{ mesh_name }}
+
+[Network]
+Address={{ mesh[mesh_name]['ipv4']['ip'] }}/{{ mesh[mesh_name]['ipv4']['subnet'] | ipaddr('prefix') }}
+Address={{ mesh[mesh_name]['ipv6']['ip'] }}
+{% if mesh_name == 'ffv' %}
+Address={{ ROUTERIDV6 }}
+{% endif %}
+IPv6AcceptRA=no

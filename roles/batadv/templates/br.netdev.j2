@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-[Match]
-Name=bat-{{ mesh_name }}
-
-[Network]
-IPv6AcceptRA=no
-Bridge=br-{{ mesh_name }}
+[NetDev]
+Name=br-{{ mesh_name }}
+Kind=bridge
+MACAddress={{ mesh[mesh_name]['batadv']['mac'] }}
+MTUBytes=1500
