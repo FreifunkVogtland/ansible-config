@@ -13,9 +13,16 @@
     group: root
     mode: 0755
 
-- name: add journald persistant configuration
+- name: drop invalid persistant file
+  file:
+    path: /etc/systemd/journald.conf.d/00_persistant.conf
+    state: absent
+  notify:
+  - restart journald
+
+- name: add journald persistent configuration
   copy:
-    src: 00_persistant.conf
-    dest: /etc/systemd/journald.conf.d/00_persistant.conf
+    src: 00_persistent.conf
+    dest: /etc/systemd/journald.conf.d/00_persistent.conf
   notify:
   - restart journald
