@@ -15,9 +15,6 @@ After=systemd-networkd.service
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/sh -c '/bin/echo 2 > /sys/class/net/bat-%i/brport/multicast_router'
-ExecStart=/bin/sh -c '/bin/echo 1 > /sys/class/net/br-%i/bridge/multicast_querier'
-ExecStart=/bin/sh -c '/bin/echo 18250 > /sys/class/net/br-%i/bridge/multicast_querier_interval'
-ExecStart=/bin/sh -c '/bin/echo 512 > /sys/class/net/br-%i/bridge/hash_max'
 
 [Install]
 WantedBy=multi-user.target
