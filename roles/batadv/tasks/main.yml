@@ -108,35 +108,3 @@
     daemon_reload: yes
     enabled: yes
     state: started
-
-
-
-- name: install br-{{ mesh_name }} netdev
-  template:
-    src: br.netdev.j2
-    dest: /etc/systemd/network/25-br-{{ mesh_name }}.netdev
-  notify:
-  - restart networkd
-
-- name: install br-{{ mesh_name }} network
-  template:
-    src: br.network.j2
-    dest: /etc/systemd/network/25-br-{{ mesh_name }}.network
-  notify:
-  - restart networkd
-
-- meta: flush_handlers
-
-- name: install br bridge service
-  copy:
-    src: bridge-br@.service
-    dest: /etc/systemd/system/bridge-br@.service
-  notify:
-  - restart bridge-br
-
-- name: start br-{{ mesh_name }} bridge
-  systemd:
-    name: bridge-br@{{ mesh_name }}.service
-    daemon_reload: yes
-    enabled: yes
-    state: started

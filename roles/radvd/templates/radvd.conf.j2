@@ -3,7 +3,7 @@
 
 {% for mesh_name in (mesh.keys() |sort()) %}
 
-interface br-{{ mesh_name }} {
+interface bat-{{ mesh_name }} {
   AdvSendAdvert on;
   IgnoreIfMissing on;
 

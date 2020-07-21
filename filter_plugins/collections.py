@@ -26,7 +26,6 @@ def mesh_fill(env, collection, vpnid, ROUTERRANGEV6):
 
         mesh['batadv'] = {}
         mesh['batadv']['mac'] = env.from_string("{{ '02:ba:7a:df:%02x:%02x'|format(vpnid|int, mesh_meta['id']|int) }}").render(jinja_vars)
-        mesh['batadv']['brmac'] = env.from_string("{{ '06:ba:7a:df:%02x:%02x'|format(vpnid|int, mesh_meta['id']|int) }}").render(jinja_vars)
         mesh['batadv']['lladdr'] = env.from_string("{{ 'fe80::ba:7aff:fedf:%02x%02x'|format(vpnid|int, mesh_meta['id']|int) }}").render(jinja_vars)
         mesh['batadv']['primary'] = env.from_string("{{ '02:62:e7:ab:%02x:%02x'|format(vpnid|int, mesh_meta['id']|int) }}").render(jinja_vars)
 

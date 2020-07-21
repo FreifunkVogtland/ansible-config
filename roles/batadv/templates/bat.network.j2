@@ -5,5 +5,9 @@
 Name=bat-{{ mesh_name }}
 
 [Network]
+Address={{ mesh[mesh_name]['ipv4']['ip'] }}/{{ mesh[mesh_name]['ipv4']['subnet'] | ipaddr('prefix') }}
+Address={{ mesh[mesh_name]['ipv6']['ip'] }}
+{% if mesh_name == 'ffv' %}
+Address={{ ROUTERIDV6 }}
+{% endif %}
 IPv6AcceptRA=no
-Bridge=br-{{ mesh_name }}

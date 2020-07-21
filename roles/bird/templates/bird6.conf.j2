@@ -159,8 +159,8 @@ protocol static {
 	export all;
 
 {% for mesh_name in (mesh.keys() |sort()) %}
-	route {{ mesh[mesh_name]['ipv6']['subnet'] }} via "br-{{ mesh_name }}";
+	route {{ mesh[mesh_name]['ipv6']['subnet'] }} via "bat-{{ mesh_name }}";
 {% endfor %}
-	route {{ OLDRANGEV6 }} via "br-ffv";
+	route {{ OLDRANGEV6 }} via "bat-ffv";
 	route {{ ROUTERRANGEV6 }} via "bb_ipv4";
 }

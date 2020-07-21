@@ -16,7 +16,7 @@ BindTo=sys-subsystem-net-devices-bat\x2d{{ mesh_name }}.device
 [Service]
 ExecStart=/opt/freifunk/ffnord-alfred-announce/respondd.py -d /opt/freifunk/ffnord-alfred-announce/ -g ff05::2:1001
 {%- for mesh_name in (mesh.keys() |sort())  %}
- -b bat-{{ mesh_name }} -i br-{{ mesh_name }} -i vxlan-{{ mesh_name }} -i vpn-{{ mesh_name }}
+ -b bat-{{ mesh_name }} -i bat-{{ mesh_name }} -i vxlan-{{ mesh_name }} -i vpn-{{ mesh_name }}
 {%- endfor %}
 
 Restart=always

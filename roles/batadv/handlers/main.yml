@@ -20,8 +20,3 @@
   systemd:
     name: "bridge-vpn@{{ mesh_name }}.service"
     state: restarted
-
-- name: restart bridge-br
-  systemd:
-    name: "bridge-br@{{ mesh_name }}.service"
-    state: restarted

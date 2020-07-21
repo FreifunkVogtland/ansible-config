@@ -8,12 +8,12 @@ table ip filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
 		udp dport 4789 jump vxlan-drop
-		iifname "br*" udp dport 10000-10099 log prefix "fastdinfastd" drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
-		iifname "br*" ip daddr {
+		iifname "bat*" ip daddr {
 			{% for peer in (groups['vpns'] | sort()) -%}
 			{%- if hostvars[peer]['WANIP'] is defined %}
 				{{ hostvars[peer]['WANIP'] }},
@@ -40,7 +40,7 @@ table ip filter {
 table ip mangle {
 	chain PREROUTING {
 		type filter hook prerouting priority -150; policy accept;
-		iifname "br*" mark set 0x00000001
+		iifname "bat*" mark set 0x00000001
 		iifname "icvpn" mark set 0x00000001
 	}
 
@@ -50,7 +50,7 @@ table ip mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "br*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
 		{% if BACKBONE_IPV4 is defined %}
 		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
 		{% endif %}
@@ -62,7 +62,7 @@ table ip mangle {
 
 	chain POSTROUTING {
 		type filter hook postrouting priority -150; policy accept;
-		oifname "br*" mark set 0x00000000
+		oifname "bat*" mark set 0x00000000
 		oifname "vxlan0" mark set 0x00000000
 	}
 }
@@ -131,12 +131,12 @@ table ip6 filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
 		udp sport 4789 jump vxlan-drop
-		iifname "br*" udp dport 10000-10099 log prefix "fastdinfastd" drop
+		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
 	chain FORWARD {
 		type filter hook forward priority 0; policy accept;
-		iifname "br*" ip6 daddr {
+		iifname "bat*" ip6 daddr {
 			{% for peer in (groups['vpns'] | sort()) -%}
 			{%- if hostvars[peer]['WANIP6'] is defined %}
 				{{ hostvars[peer]['WANIP6'] }},
@@ -163,7 +163,7 @@ table ip6 filter {
 table ip6 mangle {
 	chain PREROUTING {
 		type filter hook prerouting priority -150; policy accept;
-		iifname "br*" mark set 0x00000001
+		iifname "bat*" mark set 0x00000001
 		iifname "icvpn" mark set 0x00000001
 	}
 
@@ -173,7 +173,7 @@ table ip6 mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "br*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
 		{% if ffrl_bb_links %}
 		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
 		{% endif %}
@@ -185,7 +185,7 @@ table ip6 mangle {
 
 	chain POSTROUTING {
 		type filter hook postrouting priority -150; policy accept;
-		oifname "br*" mark set 0x00000000
+		oifname "bat*" mark set 0x00000000
 		oifname "vxlan0" mark set 0x00000000
 	}
 }
