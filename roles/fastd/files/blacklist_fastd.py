@@ -11,6 +11,8 @@ blacklist = {
         0xc7cd05f47d7ce0988a2168ba784612547462022b0199d246bc51ceedd7a6ea6a,
         # 60e327be30c8 - PEN-Cursdorfer-Str
         0xe83dc870bc96954d6f7c203b455e4fcc2c037d46f654eba8b4db4ad70d367b43,
+        # ffv-9483c4005801 - 119.236.200.204 from HK?
+        0x769a35419b90eda83f5f5dc23b4fab3c88b9d5a777e261395a6b6c876b49664b,
     ],
     'ffv_a': [
         # a42bb0a94a6a - 7667789886
