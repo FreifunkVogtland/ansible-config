@@ -16,7 +16,7 @@ for backup in "${!backups[@]}"; do
 (
   set -e
 
-  export BORG_REPO=ssh://ffvbackup@office.simonwunderlich.de:23890/~/"${backup}"
+  export BORG_REPO=ssh://ffvbackup@devel.office.simonwunderlich.net:23890/~/"${backup}"
   export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
 
   borg create                       \
