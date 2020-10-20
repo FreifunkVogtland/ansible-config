@@ -152,7 +152,7 @@ table ip6 filter {
 	chain vxlan-drop {
 		ip6 daddr {
 			{% for peer in (groups['vpns'] | sort()) -%}
-			{%- if hostvars[peer]['WANIP'] is defined %}
+			{%- if hostvars[peer]['WANIP6'] is defined %}
 				{{ hostvars[peer]['WANIP6'] }},
 			{% endif -%}
 			{%- endfor %}
