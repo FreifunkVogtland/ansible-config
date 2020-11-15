@@ -67,3 +67,6 @@
     dest: /etc/nginx/sites-enabled/stats
   notify:
   - restart nginx
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

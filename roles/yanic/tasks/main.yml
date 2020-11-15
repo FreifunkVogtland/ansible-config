@@ -132,3 +132,6 @@
     state: started
     daemon_reload: yes
     enabled: yes
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

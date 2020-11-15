@@ -11,3 +11,6 @@
   copy:
     src: rsyslog
     dest: /etc/logrotate.d/rsyslog
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

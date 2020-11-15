@@ -109,3 +109,6 @@
     daemon_reload: yes
     enabled: "{{ icvpn | ternary('yes', 'no') }}"
     state: "{{ icvpn | ternary('started', 'stopped') }}"
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

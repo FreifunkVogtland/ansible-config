@@ -22,3 +22,6 @@
   - restart bb-ifupdown
 
 # TODO fine a method to remove old entries from running system
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

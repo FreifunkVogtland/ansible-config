@@ -4,3 +4,6 @@
 - import_tasks: hostname.yml
 - import_tasks: software.yml
 - import_tasks: users.yml
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

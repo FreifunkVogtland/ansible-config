@@ -22,3 +22,6 @@
     regexp: '^#?PasswordAuthentication\s'
     line: 'PasswordAuthentication no'
   notify: restart sshd
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

@@ -110,3 +110,6 @@
     sysctl_file: /etc/sysctl.d/local.conf
   with_dict:
     kernel.panic: 5
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

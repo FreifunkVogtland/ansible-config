@@ -26,3 +26,6 @@
     dest: /etc/systemd/journald.conf.d/00_persistent.conf
   notify:
   - restart journald
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers

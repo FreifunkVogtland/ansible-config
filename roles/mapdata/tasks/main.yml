@@ -14,3 +14,6 @@
     dest: /etc/nginx/sites-enabled/mapdata
   notify:
   - restart nginx
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers
