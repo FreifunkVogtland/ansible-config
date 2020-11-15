@@ -15,9 +15,10 @@ Vagrant.configure(2) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.groups = {
       "gk-vpns" => ["vpn01"],
+      "gbeine-vpns" => ["vpn02"],
       "hetzner-vpns" => ["vpn03", "vpn04", "vpn06"],
       "linevast-vpns" => ["vpn05"],
-      "vpns:children" => ["gk-vpns", "hetzner-vpns", "linevast-vpns"]
+      "vpns:children" => ["gk-vpns", "gbeine-vpns", "hetzner-vpns", "linevast-vpns"]
     }
 
     ansible.playbook = "site.yml"
@@ -32,6 +33,13 @@ Vagrant.configure(2) do |config|
     machine.vm.box = "debian/buster64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:01"
+    end
+  end
+
+  config.vm.define "vpn02" do |machine|
+    machine.vm.box = "debian/buster64"
+    machine.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "52:54:00:00:00:02"
     end
   end
 
