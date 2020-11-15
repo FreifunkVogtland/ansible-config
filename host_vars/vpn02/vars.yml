@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
 gateway_if: enp1s0
-meshviewer: 0
 icvpn: no
 dnsmasq: yes
 vpnid: 2
