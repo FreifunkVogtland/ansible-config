@@ -20,7 +20,7 @@ ExecStart=/usr/sbin/batctl meshif bat-{{ mesh_name }} bridge_loop_avoidance 1
 ExecStart=/usr/sbin/batctl meshif bat-{{ mesh_name }} orig_interval 5000
 ExecStart=/usr/sbin/batctl meshif bat-{{ mesh_name }} hop_penalty 60
 ExecStart=-/usr/sbin/batctl meshif bat-{{ mesh_name }} nc disable
-ExecStart=-/usr/sbin/batctl meshif bat-{{ mesh_name }} mff disable
+ExecStart=-/usr/sbin/batctl meshif bat-{{ mesh_name }} mff enable
 ExecStart=-/usr/sbin/batctl meshif bat-{{ mesh_name }} mo 500
 ExecStop=/bin/ip link del dev bat-{{ mesh_name }}
 
