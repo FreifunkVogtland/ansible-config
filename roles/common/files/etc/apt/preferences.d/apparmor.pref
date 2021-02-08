@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+
+# breaks bind at the moment when interacting with the icvpn scripts
+# must be installed when the problem was fixed
+Package: apparmor
+Pin: release o=Debian,l=Debian
+Pin-Priority: -1

@@ -44,6 +44,12 @@
     dest: /etc/apt/trusted.gpg.d/ffv.gpg
   notify: update apt-cache
 
+- name: add apparmor apt preferences
+  copy:
+    src: etc/apt/preferences.d/apparmor.pref
+    dest: /etc/apt/preferences.d/apparmor.pref
+  notify: update apt-cache
+
 - meta: flush_handlers
 
 - name: install common packages
