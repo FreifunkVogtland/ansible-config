@@ -38,10 +38,18 @@
     dest: /etc/apt/sources.list.d/ffv.list
   notify: update apt-cache
 
+- name: add apt keyrings directory
+  file:
+    path: "/etc/apt/keyrings/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: enable ffv apt key
   copy:
-    src: etc/apt/trusted.gpg.d/ffv.gpg
-    dest: /etc/apt/trusted.gpg.d/ffv.gpg
+    src: etc/apt/keyrings/ffv.gpg
+    dest: /etc/apt/keyrings/ffv.gpg
   notify: update apt-cache
 
 - name: add apparmor apt preferences
