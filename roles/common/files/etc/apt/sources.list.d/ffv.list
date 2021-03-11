@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-deb [arch=amd64] https://vogtland.freifunk.net/apt/ buster main contrib non-free
+deb [arch=amd64,Signed-By=/etc/apt/trusted.gpg.d/ffv.gpg] https://vogtland.freifunk.net/apt/ buster main contrib non-free
