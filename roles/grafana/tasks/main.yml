@@ -7,11 +7,19 @@
     - apt-transport-https
     state: present
 
+- name: add apt keyrings directory
+  file:
+    path: "/etc/apt/keyrings/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: enable grafana apt key
   apt_key:
     data: "{{ lookup('file', 'grafana.asc') }}"
     state: present 
-    keyring: /etc/apt/trusted.gpg.d/grafana.gpg
+    keyring: /etc/apt/keyrings/grafana.gpg
 
 - name: add grafana apt sources
   copy:
