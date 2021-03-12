@@ -6,7 +6,10 @@ listen bgp v6only;
 table igp_t;
 
 protocol direct {
-	interface "*";  # Restrict network interfaces it works with
+	interface "bat-*";
+	interface "bb-*";
+	interface "vxlan0";
+	interface "icvpn";
 }
 
 protocol kernel {

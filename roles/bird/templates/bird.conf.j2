@@ -6,7 +6,11 @@ table kernelcopy;
 table igp_t;
 
 protocol direct {
-	interface "*";
+	interface "bat-*";
+	interface "bb-*";
+	interface "bb_ipv4";
+	interface "vxlan0";
+	interface "icvpn";
 };
 
 protocol kernel {
