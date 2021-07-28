@@ -42,6 +42,11 @@ table ip mangle {
 		type filter hook prerouting priority -150; policy accept;
 		iifname "bat*" mark set 0x00000001
 		iifname "icvpn" mark set 0x00000001
+
+		iifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
+		{% if BACKBONE_IPV4 is defined %}
+		iifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
+		{% endif %}
 	}
 
 	chain INPUT {
@@ -50,10 +55,6 @@ table ip mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
-		{% if BACKBONE_IPV4 is defined %}
-		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
-		{% endif %}
 	}
 
 	chain OUTPUT {
@@ -64,6 +65,11 @@ table ip mangle {
 		type filter hook postrouting priority -150; policy accept;
 		oifname "bat*" mark set 0x00000000
 		oifname "vxlan0" mark set 0x00000000
+
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
+		{% if BACKBONE_IPV4 is defined %}
+		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1240
+		{% endif %}
 	}
 }
 table ip nat {
@@ -165,6 +171,11 @@ table ip6 mangle {
 		type filter hook prerouting priority -150; policy accept;
 		iifname "bat*" mark set 0x00000001
 		iifname "icvpn" mark set 0x00000001
+
+		iifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
+		{% if ffrl_bb_links %}
+		iifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
+		{% endif %}
 	}
 
 	chain INPUT {
@@ -173,10 +184,6 @@ table ip6 mangle {
 
 	chain FORWARD {
 		type filter hook forward priority -150; policy accept;
-		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
-		{% if ffrl_bb_links %}
-		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
-		{% endif %}
 	}
 
 	chain OUTPUT {
@@ -187,6 +194,11 @@ table ip6 mangle {
 		type filter hook postrouting priority -150; policy accept;
 		oifname "bat*" mark set 0x00000000
 		oifname "vxlan0" mark set 0x00000000
+
+		oifname "bat*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
+		{% if ffrl_bb_links %}
+		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
+		{% endif %}
 	}
 }
 
