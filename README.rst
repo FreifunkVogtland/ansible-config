@@ -15,7 +15,7 @@ Requirements on Ansible Host
 Requirements on Gateway
 =======================
 
-Debian Buster, plus:
+Debian Bullseye, plus:
 
 * openssh-server
 * python3

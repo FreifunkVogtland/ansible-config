@@ -55,7 +55,7 @@
     - python3-fastkml
     - python3-shapely
     - python3-tz
-    - python-lxml
+    - python3-lxml
     - python3-feed
     state: present
 
