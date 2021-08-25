@@ -70,6 +70,7 @@
     - bmon
     - jitterentropy-rngd
     - mtr-tiny
+    - needrestart
     - iotop
     - vim
     - apticron
