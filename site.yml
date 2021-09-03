@@ -7,6 +7,8 @@
   roles:
     - role: common
       tags: "common"
+    - role: fstrim
+      tags: "fstrim"
     - role: journald
       tags: "journald"
     - role: ssh

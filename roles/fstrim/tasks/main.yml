@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+---
+- name: start fstrim timer
+  systemd:
+    name: fstrim.timer
+    state: started
+    daemon_reload: yes
+    enabled: yes
+
+# ensure that all services run with the correct config before continuing
+- meta: flush_handlers
