@@ -1,6 +1,2 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
-
-Package: fastd
-Pin: release o=ffv,a=bullseye-ffv,n=bullseye
-Pin-Priority: 900
