@@ -4,7 +4,3 @@
 Package: batctl alfred golang-go golang-src borgbackup
 Pin: release o=Debian Backports,a=bullseye-backports,n=bullseye-backports
 Pin-Priority: 900
-
-Package: fastd
-Pin: release o=ffv,a=bullseye,n=bullseye
-Pin-Priority: 900
