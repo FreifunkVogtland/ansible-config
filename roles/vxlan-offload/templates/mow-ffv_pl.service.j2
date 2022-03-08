@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+
+[Unit]
+Description=Mesh-on-WAN mow-ffv_pl setup
+Wants=network.target
+BindsTo=batadv-bat-pl.service
+After=batadv-bat-pl.service
+BindsTo=sys-subsystem-net-devices-vpn\x2dpl.device
+After=sys-subsystem-net-devices-vpn\x2dpl.device
+Requires=systemd-networkd.service
+After=systemd-networkd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# WARNING hardcoded IPv6 link local address for vpn02
+# assume that this is already set: ip addr add fe80::d65d:64ff:fe40:e24c/64 dev "{{gateway_if}}"
+ExecStart=/bin/ip -6 link add mow-ffv_pl type vxlan id 12094920 dstport 4789 local fe80::d65d:64ff:fe40:e24c group ff02::15c dev "{{gateway_if}}" udp6zerocsumtx udp6zerocsumrx ttl 1
+ExecStart=/bin/ip link set up master bat-pl dev mow-ffv_pl
+
+ExecStop=/bin/ip link del dev "mow-ffv_pl"
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=batadv-bat-pl.service
+WantedBy=sys-subsystem-net-devices-vpn\x2dpl.device

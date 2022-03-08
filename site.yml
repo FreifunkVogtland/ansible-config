@@ -100,3 +100,11 @@
       tags: "grafana"
     - role: mapdata
       tags: "mapdata"
+      
+
+- hosts: vpn02
+  gather_facts: false
+  become: yes
+  roles:
+    - role: vxlan-offload
+      tags: "vxlan-offload"
