@@ -15,8 +15,8 @@ After=systemd-networkd.service
 Type=oneshot
 RemainAfterExit=yes
 # WARNING hardcoded IPv6 link local address for vpn02
-# assume that this is already set: ip addr add fe80::d65d:64ff:fe40:e24c/64 dev "{{gateway_if}}"
-ExecStart=/bin/ip -6 link add mow-ffv_pl type vxlan id 12094920 dstport 4789 local fe80::d65d:64ff:fe40:e24c group ff02::15c dev "{{gateway_if}}" udp6zerocsumtx udp6zerocsumrx ttl 1
+# assume that this is already set: ip addr add fe80::d65d:64ff:fe40:e24d/64 dev "enp2s0"
+ExecStart=/bin/ip -6 link add mow-ffv_pl type vxlan id 12094920 dstport 4789 local fe80::d65d:64ff:fe40:e24d group ff02::15c dev "enp2s0" udp6zerocsumtx udp6zerocsumrx ttl 1
 ExecStart=/bin/ip link set up master bat-pl dev mow-ffv_pl
 
 ExecStop=/bin/ip link del dev "mow-ffv_pl"
