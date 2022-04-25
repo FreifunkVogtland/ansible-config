@@ -188,6 +188,13 @@ table ip6 mangle {
 
 	chain OUTPUT {
 		type route hook output priority -150; policy accept;
+		{% if ffrl_bb_links %}
+		ip6 saddr {
+			{% for name in (ffrl_bb_links.keys() |sort()) %}
+			{{ ffrl_bb_links[name]['ipv6']['src'] }},
+			{% endfor %}
+		} mark set 0x1
+		{% endif %}
 	}
 
 	chain POSTROUTING {
