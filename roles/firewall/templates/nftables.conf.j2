@@ -206,6 +206,15 @@ table ip6 mangle {
 		{% if ffrl_bb_links %}
 		oifname "bb-*" tcp flags & (syn | rst) == syn tcp option maxseg size set 1220
 		{% endif %}
+		jump no_native_routing
+	}
+
+	chain no_native_routing {
+		oifname != {{ gateway_if }} return
+		ip6 saddr fe80::/16 return
+		ip6 saddr {{ WANIP6 }} return
+		# log prefix "wrong_output_ip6"
+		drop
 	}
 }
 
