@@ -8,19 +8,19 @@ Wants=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/ip link add vxlan0 type vxlan id "{{ bgp_vxlanid }}" dev "{{gateway_if}}" dstport 4789 nolearning
+ExecStart=/bin/ip -6 link add vxlan0 type vxlan id "{{ bgp_vxlanid }}" dev "{{gateway_if}}" dstport 4790 nolearning
 ExecStart=/bin/ip link set dev vxlan0 address {{ '02:47:89:01:%02x:00'|format(vpnid|int) }}
 ExecStart=/bin/ip link set up dev vxlan0
 ExecStart=/bin/ip addr add {{ bgp_ipv4 }} dev vxlan0
 ExecStart=/bin/ip addr add {{ bgp_ipv6 }} dev vxlan0
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
-{% if hostvars[peer]['WANIP'] is defined %}
-ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP'] }} dev vxlan0
-ExecStart=/sbin/bridge fdb append to {{ '02:47:89:01:%02x:00'|format(hostvars[peer]['vpnid']|int) }} dst {{ hostvars[peer]['WANIP'] }} dev vxlan0
+{% if hostvars[peer]['WANIP6'] is defined %}
+ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP6'] }} dev vxlan0
+ExecStart=/sbin/bridge fdb append to {{ '02:47:89:01:%02x:00'|format(hostvars[peer]['vpnid']|int) }} dst {{ hostvars[peer]['WANIP6'] }} dev vxlan0
 {% endif %}
 {% endfor %}
-ExecStart=/sbin/bridge fdb append to {{ '02:47:89:01:%02x:00'|format(vpnid|int) }} dst 127.0.0.1 dev vxlan0
+ExecStart=/sbin/bridge fdb append to {{ '02:47:89:01:%02x:00'|format(vpnid|int) }} dst ::1 dev vxlan0
 
 ExecStop=/bin/ip link del dev "vxlan0"
 

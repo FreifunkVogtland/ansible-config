@@ -7,7 +7,7 @@ flush ruleset
 table ip filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
-		udp dport 4789 jump vxlan-drop
+		udp dport 4790 jump vxlan-drop
 		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 
@@ -136,7 +136,7 @@ table ip6 nat {
 table ip6 filter {
 	chain INPUT {
 		type filter hook input priority 0; policy accept;
-		udp sport 4789 jump vxlan-drop
+		udp sport 4790 jump vxlan-drop
 		iifname "bat*" udp dport 10000-10099 log prefix "fastdinfastd" drop
 	}
 

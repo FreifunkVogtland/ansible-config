@@ -10,16 +10,16 @@ After=batadv-bat-{{ mesh_name }}.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/ip link add vxlan-{{ mesh_name }} type vxlan id "{{ mesh[mesh_name]['vxlan']['id'] }}" dev "{{gateway_if}}" dstport 4789 nolearning
+ExecStart=/bin/ip -6 link add vxlan-{{ mesh_name }} type vxlan id "{{ mesh[mesh_name]['vxlan']['id'] }}" dev "{{gateway_if}}" dstport 4790 nolearning
 ExecStart=/bin/ip link set dev vxlan-{{ mesh_name }} mtu 1426 up address {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }} master bat-{{ mesh_name }}
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
-{% if hostvars[peer]['WANIP'] is defined %}
-ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP'] }} dev vxlan-{{ mesh_name }}
-ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(hostvars[peer]['vpnid']|int, mesh_meta[mesh_name]['id']|int) }} dst {{ hostvars[peer]['WANIP'] }} dev vxlan-{{ mesh_name }}
+{% if hostvars[peer]['WANIP6'] is defined %}
+ExecStart=/sbin/bridge fdb append to 00:00:00:00:00:00 dst {{ hostvars[peer]['WANIP6'] }} dev vxlan-{{ mesh_name }}
+ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(hostvars[peer]['vpnid']|int, mesh_meta[mesh_name]['id']|int) }} dst {{ hostvars[peer]['WANIP6'] }} dev vxlan-{{ mesh_name }}
 {% endif %}
 {% endfor %}
-ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }} dst 127.0.0.1 dev vxlan-{{ mesh_name }}
+ExecStart=/sbin/bridge fdb append to {{ '02:47:89:00:%02x:%02x'|format(vpnid|int, mesh_meta[mesh_name]['id']|int) }} dst ::1 dev vxlan-{{ mesh_name }}
 
 ExecStart=-/bin/sh -c 'echo 1 > /sys/class/net/vxlan-{{ mesh_name }}/batman_adv/no_rebroadcast'
 
