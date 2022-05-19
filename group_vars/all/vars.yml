@@ -14,6 +14,7 @@ OWNASN: "64857"
 USE_RADVD: "0"
 DIRECT: "0"
 
+fastd_enable: yes
 fastd_peer_limit: -1
 fastd_client_cost: 1
 

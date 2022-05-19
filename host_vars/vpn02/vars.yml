@@ -15,5 +15,6 @@ WANGW6: "2a00:1ca0:542:3c00:2e3a:fdff:fe4e:67ba"
 USE_RADVD: "0"
 DIRECT: "0"
 
+fastd_enable: no
 fastd_client_cost: 2
 
