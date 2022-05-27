@@ -15,6 +15,8 @@ USE_RADVD: "1"
 SHAPE_LIMIT: ""
 DIRECT: "0"
 
+fastd_enable: no
+
 icvpn_name: vogtland6
 icvpn_ipv4: 10.207.0.7
 icvpn_bcast: 10.207.255
