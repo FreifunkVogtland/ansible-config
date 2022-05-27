@@ -60,8 +60,8 @@
   systemd:
     name: "{{ item }}.service"
     daemon_reload: yes
-    enabled: yes
-    state: started
+    enabled: "{{ bird_enable | ternary('yes', 'no') }}"
+    state: "{{ bird_enable | ternary('started', 'stopped') }}"
   with_items:
   - bird
   - bird6

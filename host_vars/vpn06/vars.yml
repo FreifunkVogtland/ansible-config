@@ -17,6 +17,7 @@ DIRECT: "0"
 
 fastd_enable: no
 vxlan_enable: no
+bird_enable: no
 
 icvpn_name: vogtland6
 icvpn_ipv4: 10.207.0.7

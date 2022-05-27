@@ -19,6 +19,7 @@ fastd_peer_limit: -1
 fastd_client_cost: 1
 
 vxlan_enable: yes
+bird_enable: yes
 
 bgp_vxlanid: 15066820
 bgp_ipv4: "{{ '169.254.0.0/16' | ipaddr(vpnid|int) }}"
