@@ -28,9 +28,9 @@
 - name: start respondd
   systemd:
     name: respondd.service
-    state: started
+    state: "{{ vxlan_enable | ternary('started', 'stopped') }}"
     daemon_reload: yes
-    enabled: yes
+    enabled: "{{ vxlan_enable | ternary('yes', 'no') }}"
 
 # ensure that all services run with the correct config before continuing
 - meta: flush_handlers

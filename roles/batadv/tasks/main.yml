@@ -69,8 +69,8 @@
   systemd:
     name: vxlan-{{ mesh_name }}.service
     daemon_reload: yes
-    enabled: yes
-    state: started
+    enabled: "{{ vxlan_enable | ternary('yes', 'no') }}"
+    state: "{{ vxlan_enable | ternary('started', 'stopped') }}"
 
 - name: install vpn-{{ mesh_name }} netdev
   template:
