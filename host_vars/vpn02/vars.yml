@@ -6,8 +6,6 @@ icvpn: no
 dnsmasq: yes
 vpnid: 2
 
-https: no
-
 WANIP: "83.221.241.138"
 WANGW: "192.168.178.1"
 WANIP6: "2a00:1ca0:542:3c00:d65d:64ff:fe40:e24c"
