@@ -10,7 +10,7 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   config.vm.provision "shell",
-    inline: "apt-get install sudo python"
+    inline: "apt-get install sudo python3"
 
   config.vm.provision "ansible" do |ansible|
     ansible.groups = {
