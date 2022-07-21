@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
 
     ansible.playbook = "site.yml"
     ansible.extra_vars = {
-        ansible_python_interpreter: "/usr/bin/env python2",
+        ansible_python_interpreter: "/usr/bin/env python3",
         gateway_if: "ens5",
     }
     ansible.skip_tags=["icvpn", "ffmap-backup"]
