@@ -17,6 +17,4 @@
     state: "restarted"
 
 - name: restart bridge-vpn
-  systemd:
-    name: "bridge-vpn@{{ mesh_name }}.service"
-    state: restarted
+  command: systemctl restart bridge-vpn@*.service
