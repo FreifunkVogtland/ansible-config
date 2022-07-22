@@ -25,6 +25,7 @@ Vagrant.configure(2) do |config|
     ansible.extra_vars = {
         ansible_python_interpreter: "/usr/bin/env python3",
         gateway_if: "ens5",
+        https: "no",
     }
     ansible.skip_tags=["icvpn", "ffmap-backup"]
   end
