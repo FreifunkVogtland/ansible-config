@@ -66,8 +66,8 @@
   when: firmware_server == "replica" or firmware_server == "primary"
 
 - name: add firmware site
-  copy:
-    src: firmware.conf
+  template:
+    src: firmware.conf.j2
     dest: /etc/nginx/sites-enabled/firmware
     owner: root
     group: root
