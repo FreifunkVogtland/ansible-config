@@ -26,7 +26,6 @@ dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['subnet'] | ipaddr(1) | ipadd
 {% endfor %}
 
 dhcp-option=119,ffv
-dhcp-option=26,1394
 except-interface=lo
 
 read-ethers
