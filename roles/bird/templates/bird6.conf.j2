@@ -58,6 +58,16 @@ filter hostroute {
 	reject;
 }
 
+function reject_remote_peer_subnet()
+{
+	{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) -%}
+		{% for mesh_name in (hostvars[peer]['mesh'].keys() |sort()) %}
+		if net ~ {{ hostvars[peer]['mesh'][mesh_name]['ipv6']['subnet'] }} then
+			reject;
+		{% endfor %}
+	{%- endfor %}
+}
+
 roa table icvpn_roa {
 {% if icvpn %}
 	include "/var/tmp/bird6-icvpn-roa.conf";
@@ -75,6 +85,7 @@ filter icvpn_in {
 }
 
 filter icvpn_out {
+	reject_remote_peer_subnet();
 	if is_self_net() then accept;
 	if source = RTS_BGP then {
 		if is_freifunk() then accept;
@@ -113,6 +124,7 @@ template bgp internal {
 		accept;
 	};
 	export filter {
+		reject_remote_peer_subnet();
 		if source = RTS_BGP then accept;
 		if net ~ {{ ffrl_ipv6_subnet }} then accept;
 		reject;
@@ -160,9 +172,12 @@ protocol static {
 	import all;
 	export all;
 
-{% for mesh_name in (mesh.keys() |sort()) %}
-	route {{ mesh[mesh_name]['ipv6']['subnet'] }} via "bat-{{ mesh_name }}";
-{% endfor %}
+	{% for peer in (groups['vpns'] | sort()) -%}
+		{% for mesh_name in (hostvars[peer]['mesh'].keys() |sort()) %}
+		route {{ hostvars[peer]['mesh'][mesh_name]['ipv6']['subnet'] }} via "bat-{{ mesh_name }}";
+		{% endfor %}
+	{%- endfor %}
+
 	route {{ OLDRANGEV6 }} via "bat-ffv";
 	route {{ ROUTERRANGEV6 }} via "bb_ipv4";
 }
