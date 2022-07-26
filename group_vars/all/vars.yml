@@ -36,6 +36,9 @@ OLDRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, 19) }}"
 ROUTERIDV6: "{{ OLDRANGEV6|ipsubnet(64, 55) | ipaddr(vpnid|int) }}"
 
 firmware_server: ""
+stats_domain: "stats.freifunk-vogtland.net"
+firmware_domain: "firmware.freifunk-vogtland.net"
+mapdata_domain: "mapdata.freifunk-vogtland.net"
 
 mesh_meta:
   ffv:
