@@ -9,8 +9,8 @@
     state: present
 
 - name: add nginx mapdata site
-  copy:
-    src: mapdata
+  template:
+    src: mapdata.j2
     dest: /etc/nginx/sites-enabled/mapdata
   notify:
   - restart nginx
