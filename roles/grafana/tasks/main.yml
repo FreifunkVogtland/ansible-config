@@ -70,8 +70,8 @@
   - restart influxdb
 
 - name: add nginx stats site
-  copy:
-    src: stats
+  template:
+    src: stats.j2
     dest: /etc/nginx/sites-enabled/stats
   notify:
   - restart nginx
