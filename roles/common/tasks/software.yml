@@ -76,6 +76,7 @@
     - apticron
     - netcat
     - ntp
+    - gnupg
     state: present
 
 - name: remove legacy packages
