@@ -13,6 +13,7 @@ WANGW6: "::1"
 OWNASN: "64857"
 USE_RADVD: "0"
 DIRECT: "0"
+DIRECTV6: "0"
 
 fastd_enable: yes
 fastd_peer_limit: -1
