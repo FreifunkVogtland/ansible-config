@@ -31,7 +31,8 @@ protocol static unreachable_default {
 
 {% if DIRECT == "1" %}
 protocol static direct_default {
-	route 0.0.0.0/0 via {{ WANGW }};
+	route {{ WANGW }}/32 via "{{ gatewayif }}";
+	route 0.0.0.0/0 recursive {{ WANGW }};
 }
 {% endif %}
 
