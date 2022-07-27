@@ -213,6 +213,9 @@ table ip6 mangle {
 		oifname != {{ gateway_if }} return
 		ip6 saddr fe80::/16 return
 		ip6 saddr {{ WANIP6 }} return
+		{% if DIRECTV6 == "1" %}
+		ip6 saddr {{ ROUTERRANGEV6 }} return
+		{% endif %}
 		{% if inventory_hostname == "vpn01" -%}
 		ip6 saddr 2003:49:a051::8888/64 return
 		ip6 saddr 2003:49:a051:9000::1337/52 return
