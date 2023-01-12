@@ -4,13 +4,13 @@
 - name: restart fastd
   systemd:
     name: "fastd@{{ item }}.service"
-    state: restarted
+    state: "{{ fastd_enable | ternary('restarted', 'stopped') }}"
   with_items: "{{ ffv_domains }}"
 
 - name: restart fastd_slow_balancer
   systemd:
     name: "fastd_slow_balancer.service"
-    state: restarted
+    state: "{{ fastd_enable | ternary('restarted', 'stopped') }}"
 
 - name: reload fastd peers
   shell: killall -SIGHUP fastd || true
