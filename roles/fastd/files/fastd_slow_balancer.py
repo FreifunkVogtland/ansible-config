@@ -203,13 +203,12 @@ def recalculate_buffer_limits():
 
             min_costs = min(min_costs, remote_stats['costs'])
 
-        local_cost_limit = (local_stats['clients'] + client_buffer)
-        local_cost_limit *= config['client_cost']
-
         if not found:
-            cost_limit = local_cost_limit
+            cost_limit = local_stats['clients']
         else:
-            cost_limit = min_costs + client_buffer * config['client_cost']
+            cost_limit = min_costs
+
+        cost_limit += client_buffer * config['client_cost']
 
         if domain_max_costs >= 0:
             local_stats['costs_limit'] = min(cost_limit, domain_max_costs)
