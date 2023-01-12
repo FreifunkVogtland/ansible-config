@@ -205,6 +205,8 @@ def recalculate_buffer_limits():
 
         if not found:
             cost_limit = local_stats['clients']
+            cost_align = cost_limit % config['client_cost']
+            cost_limit += cost_limit
         else:
             cost_limit = min_costs
 
