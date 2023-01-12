@@ -13,7 +13,7 @@ import threading
 import time
 import urllib.parse
 
-client_buffer = 3
+client_buffer = 10
 
 config = {}
 dataset = {}
@@ -29,10 +29,7 @@ def allocate_client(domain_id):
     if config['id'] not in dataset:
         return False
 
-    if domain_id not in dataset[config['id']]:
-        return False
-
-    local_stats = dataset[config['id']][domain_id]
+    local_stats = dataset[config['id']]
     if 'costs_limit' not in local_stats:
         return True
 
@@ -160,62 +157,53 @@ def recalculate_buffer_limits():
     else:
         domain_max_costs = -1
 
-    for domain in config['domains']:
-        domain_id = domain['id']
+    local_stats = dataset[config['id']]
 
-        if domain_id not in dataset[config['id']]:
+    found = False
+    min_costs = 0
+
+    for peer in config['peers']:
+        peer_id = peer['id']
+
+        if peer_id == config['id']:
             continue
 
-        local_stats = dataset[config['id']][domain_id]
+        if peer_id not in dataset:
+            continue
 
-        found = False
-        min_costs = 0
+        remote_stats = dataset[peer_id]
 
-        for peer in config['peers']:
-            peer_id = peer['id']
+        if 'max_clients' not in remote_stats:
+            continue
 
-            if peer_id == config['id']:
-                continue
+        if 'clients' not in remote_stats:
+            continue
 
-            if peer_id not in dataset:
-                continue
+        if remote_stats['max_clients'] >= 0 and remote_stats['clients'] >= remote_stats['max_clients']:
+            continue
 
-            if domain_id not in dataset[peer_id]:
-                continue
-
-            remote_stats = dataset[peer_id][domain_id]
-
-            if 'max_clients' not in remote_stats:
-                continue
-
-            if 'clients' not in remote_stats:
-                continue
-
-            if remote_stats['max_clients'] >= 0 and remote_stats['clients'] >= remote_stats['max_clients']:
-                continue
-
-            if 'costs' not in remote_stats:
-                continue
-
-            if not found:
-                found = True
-                min_costs = remote_stats['costs']
-
-            min_costs = min(min_costs, remote_stats['costs'])
+        if 'costs' not in remote_stats:
+            continue
 
         if not found:
-            cost_limit = local_stats['clients']
-            cost_align = cost_limit % config['client_cost']
-            cost_limit += cost_limit
-        else:
-            cost_limit = min_costs
+            found = True
+            min_costs = remote_stats['costs']
 
-        cost_limit += client_buffer * config['client_cost']
+        min_costs = min(min_costs, remote_stats['costs'])
 
-        if domain_max_costs >= 0:
-            local_stats['costs_limit'] = min(cost_limit, domain_max_costs)
-        else:
-            local_stats['costs_limit'] = cost_limit
+    if not found:
+        cost_limit = local_stats['clients']
+        cost_align = cost_limit % config['client_cost']
+        cost_limit += cost_limit
+    else:
+        cost_limit = min_costs
+
+    cost_limit += client_buffer * config['client_cost']
+
+    if domain_max_costs >= 0:
+        local_stats['costs_limit'] = min(cost_limit, domain_max_costs)
+    else:
+        local_stats['costs_limit'] = cost_limit
 
 
 def gather_fastd_stats():
@@ -226,13 +214,16 @@ def gather_fastd_stats():
     while True:
         dataset_local = {}
 
+        total_clients = 0
         for domain in config['domains']:
             num_clients = read_fastd_peer_num(domain['path'])
-            dataset_local[domain['id']] = {
-                'clients': num_clients,
-                'max_clients': config['client_limit'],
-                'costs': num_clients * config['client_cost'],
-            }
+            total_clients += num_clients
+
+        dataset_local = {
+            'clients': total_clients,
+            'max_clients': config['client_limit'],
+            'costs': total_clients * config['client_cost'],
+        }
 
         dataset_lock.acquire()
         dataset[config['id']] = dataset_local
