@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://packages.grafana.com/oss/deb stable main
+deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main
