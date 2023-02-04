@@ -75,7 +75,7 @@
     - vim
     - apticron
     - netcat
-    - ntp
+    - chrony
     - gnupg
     state: present
 
