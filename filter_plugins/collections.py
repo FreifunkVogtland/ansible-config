@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2018-2019, Sven Eckelmann <sven@narfation.org>
 
-from jinja2.filters import environmentfilter
+from jinja2.filters import pass_environment
 
 
-@environmentfilter
+@pass_environment
 def mesh_fill(env, collection, vpnid, ROUTERRANGEV6):
     meshes = {}
 
