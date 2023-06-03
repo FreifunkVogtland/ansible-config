@@ -31,42 +31,42 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "vpn01" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:01"
     end
   end
 
   config.vm.define "vpn02" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:02"
     end
   end
 
   config.vm.define "vpn03" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:03"
     end
   end
 
   config.vm.define "vpn04" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:04"
     end
   end
 
   config.vm.define "vpn05" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:05"
     end
   end
 
   config.vm.define "vpn06" do |machine|
-    machine.vm.box = "debian/bullseye64"
+    machine.vm.box = "debian/bookworm64"
     machine.vm.provider :libvirt do |domain|
       domain.management_network_mac = "52:54:00:00:00:06"
     end

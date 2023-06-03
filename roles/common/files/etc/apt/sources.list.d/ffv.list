@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-deb [arch=amd64 signed-by=/etc/apt/keyrings/ffv.gpg] https://vogtland.freifunk.net/apt/ bullseye main contrib non-free
+deb [arch=amd64 signed-by=/etc/apt/keyrings/ffv.gpg] https://vogtland.freifunk.net/apt/ bookworm-ffv main contrib non-free

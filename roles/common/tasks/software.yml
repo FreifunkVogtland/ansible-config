@@ -74,7 +74,7 @@
     - iotop
     - vim
     - apticron
-    - netcat
+    - netcat-openbsd
     - chrony
     - gnupg
     state: present

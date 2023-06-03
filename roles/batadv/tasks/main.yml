@@ -88,6 +88,13 @@
 
 - meta: flush_handlers
 
+- name: Disable foreign route cleanup in systemd-networkd
+  copy:
+    src: networkd.conf
+    dest: /etc/systemd/networkd.conf
+  notify:
+  - restart networkd
+
 - name: start systemd-networkd
   systemd:
     name: systemd-networkd.service

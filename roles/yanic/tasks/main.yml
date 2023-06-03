@@ -50,7 +50,7 @@
     - python3
     - python3-networkx
     - python3-dateutil
-    - netcat
+    - netcat-openbsd
     - pandoc
     - python3-fastkml
     - python3-shapely

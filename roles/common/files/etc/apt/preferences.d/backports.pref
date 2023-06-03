@@ -2,5 +2,5 @@
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
 Package: batctl alfred golang-go golang-src borgbackup fastd
-Pin: release o=Debian Backports,a=bullseye-backports,n=bullseye-backports
+Pin: release o=Debian Backports,a=bookworm-backports,n=bookworm-backports
 Pin-Priority: 900
