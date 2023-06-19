@@ -8,8 +8,8 @@ vpnid: 2
 
 WANIP: "83.221.241.138"
 WANGW: "192.168.178.1"
-WANIP6: "2a00:1ca0:542:3c00:d65d:64ff:fe40:e24c"
-WANGW6: "2a00:1ca0:542:3c00:2e3a:fdff:fe4e:67ba"
+WANIP6: "2a00:1ca0:542:3c00::3"
+WANGW6: "2a00:1ca0:542:3c00::1"
 USE_RADVD: "0"
 DIRECT: "0"
 
