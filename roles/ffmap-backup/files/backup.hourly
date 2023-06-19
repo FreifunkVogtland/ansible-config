@@ -32,7 +32,7 @@ for backup in "${!backups[@]}"; do
 
   borg prune                        \
     --list                          \
-    --prefix '{hostname}-'          \
+    --glob-archives '{hostname}-*'  \
     --show-rc                       \
     --keep-hourly   24              \
     --keep-daily    7               \
