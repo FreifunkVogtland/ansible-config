@@ -15,5 +15,3 @@ DIRECT: "0"
 
 fastd_enable: no
 
-# the certificate is currently not installed
-https: false
