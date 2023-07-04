@@ -84,3 +84,4 @@
     pkg:
     - haveged
     state: absent
+    purge: true

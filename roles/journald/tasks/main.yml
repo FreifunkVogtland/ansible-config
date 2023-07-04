@@ -4,6 +4,7 @@
     pkg:
     - rsyslog
     state: absent
+    purge: true
 
 - name: add journald configuration folder
   file:

@@ -12,6 +12,7 @@
     pkg:
     - apparmor
     state: absent
+    purge: true
 
 - name: install bind named.conf.options
   copy:
