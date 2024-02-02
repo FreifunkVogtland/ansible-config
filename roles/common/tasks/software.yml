@@ -8,16 +8,10 @@
     state: present
   notify: update apt-cache
 
-- name: add default apt sources
+- name: add debian apt sources
   copy:
-    src: etc/apt/sources.list
-    dest: /etc/apt/sources.list
-  notify: update apt-cache
-
-- name: add backports apt sources
-  copy:
-    src: etc/apt/sources.list.d/backports.list
-    dest: /etc/apt/sources.list.d/backports.list
+    src: etc/apt/sources.list.d/debian.sources
+    dest: /etc/apt/sources.list.d/debian.sources
   notify: update apt-cache
 
 - name: add backports apt preferences
@@ -34,9 +28,24 @@
 
 - name: add ffv apt sources
   copy:
-    src: etc/apt/sources.list.d/ffv.list
-    dest: /etc/apt/sources.list.d/ffv.list
+    src: etc/apt/sources.list.d/ffv.sources
+    dest: /etc/apt/sources.list.d/ffv.sources
   notify: update apt-cache
+
+- name: Remove legacy sources.list
+  ansible.builtin.file:
+    path: /etc/apt/sources.list
+    state: absent
+
+- name: Remove legacy backports.list
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/backports.list
+    state: absent
+
+- name: Remove legacy ffv.list
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/ffv.list
+    state: absent
 
 - name: add apt keyrings directory
   file:

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+
+Types: deb deb-src
+X-Repolib-Name: ffv's Packages
+Enabled: yes
+URIs: https://vogtland.freifunk.net/apt/
+Suites: bookworm-ffv
+Components: main contrib non-free
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/ffv.gpg
