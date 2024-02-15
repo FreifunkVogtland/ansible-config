@@ -35,5 +35,6 @@ for backup in "${!backups[@]}"; do
     --keep-weekly   4               \
     --keep-monthly  6               \
 
+  borg compact
 )
 done
