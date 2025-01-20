@@ -1,6 +1,20 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
+- name: drop resolvconf
+  apt:
+    pkg:
+    - resolvconf
+    state: absent
+
+- name: sanitize DNS resolv configuration
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+    group: root
+    owner: root
+    mode: 0644
+
 - name: install dnsmasq dependencies
   apt:
     pkg:
