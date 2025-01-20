@@ -16,15 +16,15 @@
     mode: 0755
 
 - name: enable grafana apt key
-  apt_key:
-    data: "{{ lookup('file', 'grafana.asc') }}"
-    state: present 
-    keyring: /etc/apt/keyrings/grafana.gpg
+  copy:
+    src: grafana.asc
+    dest: /etc/apt/keyrings/grafana.asc
+    mode: 0644
 
 - name: add grafana apt sources
   copy:
-    src: grafana.list
-    dest: /etc/apt/sources.list.d/grafana.list
+    src: grafana.sources
+    dest: /etc/apt/sources.list.d/grafana.sources
   notify: update apt-cache
 
 - name: add grafana apt preferences
