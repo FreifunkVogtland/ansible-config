@@ -73,7 +73,7 @@
     group: root
     mode: 0644
   notify: restart nginx
-  when: inventory_hostname == "vpn01"
+  when: inventory_hostname == "vpn04"
 
 # ensure that all services run with the correct config before continuing
 - meta: flush_handlers

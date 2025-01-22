@@ -110,15 +110,6 @@ table ip6 nat {
 			2a03:2260:200f:1337::9,
 			2a03:2260:200f:1337::a,
 		} tcp dport domain redirect to :domain
-
-		{% if inventory_hostname == "vpn01" -%}
-		ip6 daddr {
-			2003:49:a051:9000::42,
-		} tcp dport http redirect to :http
-		ip6 daddr {
-			2003:49:a051:9000::42,
-		} tcp dport https redirect to :https
-		{% endif %}
 	}
 
 	chain INPUT {
@@ -215,10 +206,6 @@ table ip6 mangle {
 		ip6 saddr {{ WANIP6 }} return
 		{% if DIRECTV6 == "1" %}
 		ip6 saddr {{ ROUTERRANGEV6 }} return
-		{% endif %}
-		{% if inventory_hostname == "vpn01" -%}
-		ip6 saddr 2003:49:a051::8888/64 return
-		ip6 saddr 2003:49:a051:9000::1337/52 return
 		{% endif %}
 		# log prefix "wrong_output_ip6"
 		drop
