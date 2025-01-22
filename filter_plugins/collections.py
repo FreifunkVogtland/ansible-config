@@ -34,16 +34,16 @@ def mesh_fill(env, collection, vpnid, ROUTERRANGEV6):
         mesh['ipv4']['vpn_start'] = env.from_string("{{ mesh_meta['ipv4']['vpn_start'] }}").render(jinja_vars)
         mesh['ipv4']['client_start'] = env.from_string("{{ mesh_meta['ipv4']['client_start'] }}").render(jinja_vars)
         mesh['ipv4']['per_vpn'] = env.from_string("{{ mesh_meta['ipv4']['per_vpn'] }}").render(jinja_vars)
-        mesh['ipv4']['ip'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ipaddr(vpnid|int - 1 + mesh_meta['ipv4']['vpn_start']) | ipaddr('address') }}").render(jinja_vars)
+        mesh['ipv4']['ip'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ansible.utils.ipaddr(vpnid|int - 1 + mesh_meta['ipv4']['vpn_start']) | ansible.utils.ipaddr('address') }}").render(jinja_vars)
 
         mesh['ipv6'] = {}
         mesh['ipv6']['prefix_64'] = env.from_string("{{ mesh_meta['ipv6']['prefix_64'] }}").render(jinja_vars)
-        mesh['ipv6']['subnet'] = env.from_string("{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ipv6']['prefix_64']) }}").render(jinja_vars)
-        mesh['ipv6']['ip'] = env.from_string("{{ ROUTERRANGEV6 | ipsubnet(64, mesh_meta['ipv6']['prefix_64']) | ipaddr(1) }}").render(jinja_vars)
+        mesh['ipv6']['subnet'] = env.from_string("{{ ROUTERRANGEV6 | ansible.utils.ipsubnet(64, mesh_meta['ipv6']['prefix_64']) }}").render(jinja_vars)
+        mesh['ipv6']['ip'] = env.from_string("{{ ROUTERRANGEV6 | ansible.utils.ipsubnet(64, mesh_meta['ipv6']['prefix_64']) | ansible.utils.ipaddr(1) }}").render(jinja_vars)
 
         mesh['dnsmasq'] = {}
-        mesh['dnsmasq']['start'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ipaddr((vpnid|int - 1) * mesh_meta['ipv4']['per_vpn'] + mesh_meta['ipv4']['client_start']) | ipaddr('address') }}").render(jinja_vars)
-        mesh['dnsmasq']['end'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ipaddr((vpnid|int) * mesh_meta['ipv4']['per_vpn'] - 1 + mesh_meta['ipv4']['client_start']) | ipaddr('address') }}").render(jinja_vars)
+        mesh['dnsmasq']['start'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ansible.utils.ipaddr((vpnid|int - 1) * mesh_meta['ipv4']['per_vpn'] + mesh_meta['ipv4']['client_start']) | ansible.utils.ipaddr('address') }}").render(jinja_vars)
+        mesh['dnsmasq']['end'] = env.from_string("{{ mesh_meta['ipv4']['subnet'] | ansible.utils.ipaddr((vpnid|int) * mesh_meta['ipv4']['per_vpn'] - 1 + mesh_meta['ipv4']['client_start']) | ansible.utils.ipaddr('address') }}").render(jinja_vars)
 
     return meshes
 

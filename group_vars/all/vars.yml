@@ -23,18 +23,18 @@ vxlan_enable: yes
 bird_enable: yes
 
 bgp_vxlanid: 15066820
-bgp_ipv4: "{{ '169.254.0.0/16' | ipaddr(vpnid|int) }}"
-bgp_ipv6: "{{ 'fd00::/8' | ipsubnet(16, 1) | ipaddr(vpnid|int) }}"
+bgp_ipv4: "{{ '169.254.0.0/16' | ansible.utils.ipaddr(vpnid|int) }}"
+bgp_ipv6: "{{ 'fd00::/8' | ansible.utils.ipsubnet(16, 1) | ansible.utils.ipaddr(vpnid|int) }}"
 
 ffrl_ipv6_subnet: 2a03:2260:200f::/48
 
 BGPID: "{{ WANIP }}"
-ROUTERID: "{{ vogtland_ipv4 | ipaddr(vpnid|int - 1 + 2) | ipaddr('address') }}"
-ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, vpnid|int) }}"
+ROUTERID: "{{ vogtland_ipv4 | ansible.utils.ipaddr(vpnid|int - 1 + 2) | ansible.utils.ipaddr('address') }}"
+ROUTERRANGEV6: "{{ ffrl_ipv6_subnet|ansible.utils.ipsubnet(56, vpnid|int) }}"
 
 # FFV legacy 2a03:2260:200f:1337:: ranges
-OLDRANGEV6: "{{ ffrl_ipv6_subnet|ipsubnet(56, 19) }}"
-ROUTERIDV6: "{{ OLDRANGEV6|ipsubnet(64, 55) | ipaddr(vpnid|int) }}"
+OLDRANGEV6: "{{ ffrl_ipv6_subnet|ansible.utils.ipsubnet(56, 19) }}"
+ROUTERIDV6: "{{ OLDRANGEV6|ansible.utils.ipsubnet(64, 55) | ansible.utils.ipaddr(vpnid|int) }}"
 
 firmware_server: ""
 stats_domain: "stats.freifunk-vogtland.net"
@@ -47,7 +47,7 @@ mesh_meta:
     vxlan:
       id: 4184373
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(19, 0) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(19, 0) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 818
@@ -58,7 +58,7 @@ mesh_meta:
     vxlan:
       id: 3699144
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 2) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 2) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -69,7 +69,7 @@ mesh_meta:
     vxlan:
       id: 13947320
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 3) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 3) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -80,7 +80,7 @@ mesh_meta:
     vxlan:
       id: 11488563
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 4) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 4) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -91,7 +91,7 @@ mesh_meta:
     vxlan:
       id: 2329586
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 5) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 5) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -102,7 +102,7 @@ mesh_meta:
     vxlan:
       id: 2802234
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 6) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 6) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -113,7 +113,7 @@ mesh_meta:
     vxlan:
       id: 8104281
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 7) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 7) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408
@@ -124,7 +124,7 @@ mesh_meta:
     vxlan:
       id: 3708219
     ipv4:
-      subnet: "{{ vogtland_ipv4 | ipsubnet(20, 8) }}"
+      subnet: "{{ vogtland_ipv4 | ansible.utils.ipsubnet(20, 8) }}"
       vpn_start: 2
       client_start: 12
       per_vpn: 408

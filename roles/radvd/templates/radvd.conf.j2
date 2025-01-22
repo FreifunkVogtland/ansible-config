@@ -22,7 +22,7 @@ interface bat-{{ mesh_name }} {
 
 
 {% if mesh_name == 'ffv' %}
-  RDNSS {{ mesh[mesh_name]['ipv6']['ip'] | ipaddr('address') }} {
+  RDNSS {{ mesh[mesh_name]['ipv6']['ip'] | ansible.utils.ipaddr('address') }} {
   };
 {% endif %}
 

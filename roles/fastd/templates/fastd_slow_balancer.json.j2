@@ -1,6 +1,6 @@
 {
 	"id": "{{ inventory_hostname }}",
-	"listenip": "{{ bgp_ipv4 | ipaddr('address') }}",
+	"listenip": "{{ bgp_ipv4 | ansible.utils.ipaddr('address') }}",
 	"listenport": 26725,
 	"client_cost": {{ fastd_client_cost }},
 	"client_limit": {{ fastd_peer_limit }},
@@ -19,7 +19,7 @@
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 		{
 			"id": "{{ peer }}",
-			"url": "http://{{ hostvars[peer]['bgp_ipv4'] | ipaddr('address') }}:26725/stats_local"
+			"url": "http://{{ hostvars[peer]['bgp_ipv4'] | ansible.utils.ipaddr('address') }}:26725/stats_local"
 		}
 {% if not loop.last %}
 		,

@@ -14,13 +14,13 @@ bind-dynamic
 dhcp-authoritative
 
 {% for name in (mesh.keys() |sort()) %}
-dhcp-range=bat-{{ name }},{{ mesh[name]['dnsmasq']['start'] }},{{ mesh[name]['dnsmasq']['end'] }},{{ mesh[name]['ipv4']['subnet'] | ipaddr('netmask') }},30m
+dhcp-range=bat-{{ name }},{{ mesh[name]['dnsmasq']['start'] }},{{ mesh[name]['dnsmasq']['end'] }},{{ mesh[name]['ipv4']['subnet'] | ansible.utils.ipaddr('netmask') }},30m
 dhcp-option=bat-{{ name }},3,{{ mesh[name]['ipv4']['ip'] }}
 
 {% if name == 'ffv' %}
 dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['ip'] }}
 {% else %}
-dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['subnet'] | ipaddr(1) | ipaddr('address') }}
+dhcp-option=bat-{{ name }},6,{{ mesh[name]['ipv4']['subnet'] | ansible.utils.ipaddr(1) | ansible.utils.ipaddr('address') }}
 {% endif %}
 
 {% endfor %}

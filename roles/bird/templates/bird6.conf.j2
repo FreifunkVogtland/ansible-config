@@ -114,7 +114,7 @@ protocol ospf o_mesh {
 			type nonbroadcast;
 			neighbors {
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
-				{{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} eligible;
+				{{ hostvars[peer]['bgp_ipv6'] | ansible.utils.ipaddr('address') }} eligible;
 {% endfor %}
 			};
 		};
@@ -140,7 +140,7 @@ template bgp internal {
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
 protocol bgp {{ peer }} from internal {
-	neighbor {{ hostvars[peer]['bgp_ipv6'] | ipaddr('address') }} as {{ OWNASN }};
+	neighbor {{ hostvars[peer]['bgp_ipv6'] | ansible.utils.ipaddr('address') }} as {{ OWNASN }};
 }
 {% endfor %}
 
