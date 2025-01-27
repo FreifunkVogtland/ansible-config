@@ -32,7 +32,7 @@ GRE-Tunnel
    :header-rows: 1
 
    * - :cspan:`1` FFRL-Server
-     - vogtl-ffv01 (194.25.105.16)
+     - vogtl-ffv02 (83.221.241.138)
      - vogtl-ffv03 (46.4.245.141)
      - vogtl-ffv04 (94.130.152.121)
      - vogtl-ffv05 (185.185.26.86)
