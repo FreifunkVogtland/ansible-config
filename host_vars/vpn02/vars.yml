@@ -7,6 +7,7 @@ dnsmasq: yes
 vpnid: 2
 
 WANIP: "83.221.241.138"
+LOCALIP: "192.168.178.3"
 WANGW: "192.168.178.1"
 WANIP6: "2a00:1ca0:542:3c00::3"
 WANGW6: "2a00:1ca0:542:3c00::1"

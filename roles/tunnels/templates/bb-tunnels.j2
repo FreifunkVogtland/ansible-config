@@ -10,7 +10,7 @@ iface {{ name | regex_replace('_', '-') }} inet tunnel
 	netmask 255.255.255.255
 	address {{ ffrl_bb_links[name]['ipv4']['src'] }}
 	dstaddr {{ ffrl_bb_links[name]['ipv4']['dst'] }}
-	local {{ WANIP }}
+	local {{ LOCALIP | default(WANIP) }}
 	endpoint {{ ffrl_bb_servers[name] }}
 	ttl 64
 	mtu 1400
