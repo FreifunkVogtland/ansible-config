@@ -10,52 +10,7 @@ WANIP: "46.4.245.141"
 WANGW: "46.4.245.140"
 WANIP6: "2a01:4f8:10b:2a5f:8000::ff:1"
 WANGW6: "fe80::1"
-BACKBONE_IPV4: "185.66.195.43/32"
-USE_RADVD: "1"
+USE_RADVD: "0"
 DIRECT: "0"
 
-fastd_client_cost: 5
-
-ffrl_bb_links:
-  bb_a_ak_ber:
-    ipv4:
-      src: 100.64.7.241
-      dst: 100.64.7.240
-    ipv6:
-      src: 2a03:2260:0:41a::2
-      dst: 2a03:2260:0:41a::1
-  bb_a_fra2_fra:
-    ipv4:
-      src: 100.64.7.243
-      dst: 100.64.7.242
-    ipv6:
-      src: 2a03:2260:0:41b::2
-      dst: 2a03:2260:0:41b::1
-  bb_a_ix_dus:
-    ipv4:
-      src: 100.64.7.245
-      dst: 100.64.7.244
-    ipv6:
-      src: 2a03:2260:0:41c::2
-      dst: 2a03:2260:0:41c::1
-  bb_b_ak_ber:
-    ipv4:
-      src: 100.64.7.247
-      dst: 100.64.7.246
-    ipv6:
-      src: 2a03:2260:0:41d::2
-      dst: 2a03:2260:0:41d::1
-  bb_b_fra2_fra:
-    ipv4:
-      src: 100.64.7.249
-      dst: 100.64.7.248
-    ipv6:
-      src: 2a03:2260:0:41e::2
-      dst: 2a03:2260:0:41e::1
-  bb_b_ix_dus:
-    ipv4:
-      src: 100.64.7.251
-      dst: 100.64.7.250
-    ipv6:
-      src: 2a03:2260:0:41f::2
-      dst: 2a03:2260:0:41f::1
+fastd_enable: no
