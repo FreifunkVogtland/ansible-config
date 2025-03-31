@@ -1,0 +1,67 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
+---
+gateway_if: enp0s31f6
+icvpn: yes
+dnsmasq: yes
+vpnid: 1
+
+WANIP: "195.201.105.50"
+WANGW: "195.201.105.1"
+WANIP6: "2a01:4f8:13a:14d::2"
+BACKBONE_IPV4: "185.66.195.43/32"
+WANGW6: "fe80::1"
+USE_RADVD: "1"
+DIRECT: "0"
+
+icvpn_name: vogtland1
+icvpn_ipv4: 10.207.0.29
+icvpn_bcast: 10.207.255
+icvpn_ipv6: fec0::a:cf:0:1d
+
+firmware_server: "replica"
+firmware_sync_server: "vpn04.freifunk-vogtland.net"
+
+ffrl_bb_links:
+  bb_a_ak_ber:
+    ipv4:
+      src: 100.64.7.241
+      dst: 100.64.7.240
+    ipv6:
+      src: 2a03:2260:0:41a::2
+      dst: 2a03:2260:0:41a::1
+  bb_a_fra2_fra:
+    ipv4:
+      src: 100.64.7.243
+      dst: 100.64.7.242
+    ipv6:
+      src: 2a03:2260:0:41b::2
+      dst: 2a03:2260:0:41b::1
+  bb_a_ix_dus:
+    ipv4:
+      src: 100.64.7.245
+      dst: 100.64.7.244
+    ipv6:
+      src: 2a03:2260:0:41c::2
+      dst: 2a03:2260:0:41c::1
+  bb_b_ak_ber:
+    ipv4:
+      src: 100.64.7.247
+      dst: 100.64.7.246
+    ipv6:
+      src: 2a03:2260:0:41d::2
+      dst: 2a03:2260:0:41d::1
+  bb_b_fra2_fra:
+    ipv4:
+      src: 100.64.7.249
+      dst: 100.64.7.248
+    ipv6:
+      src: 2a03:2260:0:41e::2
+      dst: 2a03:2260:0:41e::1
+  bb_b_ix_dus:
+    ipv4:
+      src: 100.64.7.251
+      dst: 100.64.7.250
+    ipv6:
+      src: 2a03:2260:0:41f::2
+      dst: 2a03:2260:0:41f::1
