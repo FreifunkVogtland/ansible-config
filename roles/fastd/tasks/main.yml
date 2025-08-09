@@ -34,13 +34,13 @@
   file:
     state: directory
     path: /etc/fastd/{{ item }}/
-  with_items: "{{ ffv_domains }}"
+  with_items: "{{ ffv_domains.keys() }}"
 
 - name: install fastd config
   template:
     src: fastd.conf.j2
     dest: /etc/fastd/{{ item }}/fastd.conf
-  with_items: "{{ ffv_domains }}"
+  with_items: "{{ ffv_domains.keys() }}"
   notify:
   - restart fastd
 
@@ -69,7 +69,7 @@
     daemon_reload: yes
     enabled: "{{ fastd_enable | ternary('yes', 'no') }}"
     state: "{{ fastd_enable | ternary('started', 'stopped') }}"
-  with_items: "{{ ffv_domains }}"
+  with_items: "{{ ffv_domains.keys() }}"
 
 - name: install fastd_slow_balancer dependencies
   apt:

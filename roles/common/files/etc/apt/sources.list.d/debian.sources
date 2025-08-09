@@ -3,18 +3,18 @@
 
 Types: deb deb-src
 URIs: http://deb.debian.org/debian
-Suites: bookworm bookworm-updates bookworm-backports
+Suites: trixie trixie-updates trixie-backports
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
 Types: deb deb-src
 URIs: http://deb.debian.org/debian-security
-Suites: bookworm-security
+Suites: trixie-security
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
 Types: deb
 URIs: http://deb.debian.org/debian-debug/
-Suites: bookworm-debug
+Suites: trixie-debug
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg

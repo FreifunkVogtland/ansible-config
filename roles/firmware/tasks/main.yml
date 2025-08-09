@@ -38,7 +38,7 @@
     dest: /var/www/firmware/firmware-{{ item }}
     state: link
     force: yes
-  with_items: "{{ ffv_domains }}"
+  with_items: "{{ ffv_domains.keys() }}"
   when: firmware_server == "replica" or firmware_server == "primary"
 
 - name: add firmware sync cron

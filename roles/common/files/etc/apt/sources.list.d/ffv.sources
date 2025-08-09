@@ -5,7 +5,7 @@ Types: deb deb-src
 X-Repolib-Name: ffv's Packages
 Enabled: yes
 URIs: https://vogtland.freifunk.net/apt/
-Suites: bookworm-ffv
+Suites: trixie-ffv
 Components: main contrib non-free
 Architectures: amd64
 Signed-By: /etc/apt/keyrings/ffv.gpg
