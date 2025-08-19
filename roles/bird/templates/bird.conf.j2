@@ -2,10 +2,17 @@
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
 router id {{ BGPID }};
-table kernelcopy;
-table igp_t;
+ipv4 table kernelcopy4;
+ipv4 table igp_t4;
+ipv6 table igp_t6;
+
+# Log configuration
+log syslog all;
 
 protocol direct {
+	ipv4;
+	ipv6;
+
 	interface "bat-*";
 	interface "bb-*";
 	interface "bb_ipv4";
@@ -13,10 +20,21 @@ protocol direct {
 	interface "icvpn";
 };
 
-protocol kernel {
-	device routes;
-	import all;
-	export all;
+protocol kernel kernel4 {
+	learn;
+	ipv4 {
+		import all;
+		export all;
+	};
+	kernel table 100;
+};
+
+protocol kernel kernel6 {
+	learn;
+	ipv6 {
+		import all;
+		export all;
+	};
 	kernel table 100;
 };
 
@@ -24,94 +42,192 @@ protocol device {
 	scan time 10;
 };
 
-protocol static unreachable_default {
-	preference 0;
+protocol static unreachable_default4 {
+	ipv4 {
+		preference 0;
+	};
+
 	route 0.0.0.0/0 reject;
 }
 
+protocol static unreachable_default6 {
+	ipv6 {
+		preference 0;
+	};
+
+	route ::/0 reject;
+}
+
 {% if DIRECT == "1" %}
-protocol static direct_default {
+protocol static direct_default4 {
+	ipv4;
+
 	route {{ WANGW }}/32 via "{{ gateway_if }}";
 	route 0.0.0.0/0 recursive {{ WANGW }};
 }
 {% endif %}
 
-function is_default() {
+
+{% if DIRECTV6 == "1" %}
+protocol static direct_default6 {
+	ipv6;
+
+	route ::/0 via {{ WANGW6 }}%{{ gateway_if }};
+}
+{% endif %}
+
+function is_default4() {
 	return (net ~ [0.0.0.0/0]);
 };
 
 # own network
-function is_self_net() {
+function is_self_net4() {
 	return (net ~ [ {{ vogtland_ipv4 }}+ ]);
 }
 
 # freifunk ip ranges in general
-function is_freifunk() {
-	return net ~ [ 10.0.0.0/8+,
+function is_freifunk4() {
+	return net ~ [
+		10.0.0.0/8+,
 		172.16.0.0/12+,
 		104.0.0.0/8+
 	];
 }
 
 # transition networks
-function is_transition() {
+function is_transition4() {
 	return (net ~ [
 		10.207.0.0/16+
 	]);
 }
 
-protocol kernel {
-	table kernelcopy;
-	device routes;
-	import none;
-	export filter {
-		if is_freifunk() then { krt_prefsrc = {{ ROUTERID }}; accept ; }
-		reject;
+function is_default6() {
+	return (net ~ [::/0]);
+}
+
+# own networks
+function is_self_net6() {
+	return net ~ [ {{ ffrl_ipv6_subnet }}+ ];
+}
+
+# freifunk ip ranges in general
+function is_freifunk6() {
+	return net ~ [
+		fc00::/7{48,64},
+		2001:bf7::/32+
+	];
+}
+
+# transition networks
+function is_transition6() {
+	return (net ~ [
+		fec0::a:cf:0:0/96+
+	]);
+}
+
+filter hostroute6 {
+	if net.len > 56 then reject;
+	if net ~ {{ ffrl_ipv6_subnet }} then accept;
+	reject;
+}
+
+function reject_remote_peer_subnet6()
+{
+	{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) -%}
+		{% for mesh_name in (hostvars[peer]['mesh'].keys() |sort()) %}
+		if net ~ {{ hostvars[peer]['mesh'][mesh_name]['ipv6']['subnet'] }} then
+			reject;
+		{% endfor %}
+	{%- endfor %}
+}
+
+protocol kernel kernelcopy4_kernel {
+        ipv4 {
+                table kernelcopy4;
+		import none;
+		export filter {
+			if is_freifunk4() then {
+				krt_prefsrc = {{ ROUTERID }};
+				accept;
+			}
+			reject;
+		};
 	};
+	kernel table 100;
 };
 
-protocol pipe {
-	peer table kernelcopy;
+protocol pipe kernelcopy4_pipe {
+	table kernelcopy4;
+	peer table master4;
 	import none;
 	export all;
 }
 
-filter hostroute {
+filter hostroute4 {
 	{% if BACKBONE_IPV4 is defined %}
 	if net ~ {{ BACKBONE_IPV4 }} then accept;
 	{% endif %}
 	reject;
 };
 
-roa table icvpn_roa {
+# ROA table for ICVPN
+roa4 table icvpn_roa4 {
+	{% if icvpn %}
+#	include "/var/tmp/bird-icvpn-roa.conf";
+	{% endif %}
+};
+
+roa6 table icvpn_roa6 {
 {% if icvpn %}
-	include "/var/tmp/bird-icvpn-roa.conf";
+#	include "/var/tmp/bird6-icvpn-roa.conf";
 {% endif %}
 }
 
-filter icvpn_in {
-	if !is_freifunk() then reject;
-	if is_self_net() then reject;
-	if roa_check(icvpn_roa, net, bgp_path.last) = ROA_INVALID then {
+filter icvpn_in4 {
+	if !is_freifunk4() then reject;
+	if is_self_net4() then reject;
+	if roa_check(icvpn_roa4, net, bgp_path.last) = ROA_INVALID then {
 		print "ROA check failed for ", net, " ASN ", bgp_path.last;
 		reject;
 	}
 	accept;
 }
 
-filter icvpn_out {
-	if is_self_net() then accept;
+filter icvpn_out4 {
+	if is_self_net4() then accept;
 	if source = RTS_BGP then {
-		if is_freifunk() then accept;
+		if is_freifunk4() then accept;
 	}
 	reject;
 }
 
-protocol ospf o_mesh {
-	table igp_t;
-	preference 90;
-	import where is_default() || is_self_net() || is_transition();
-	export where is_self_net() || is_transition();
+filter icvpn_in6 {
+	if !is_freifunk6() then reject;
+	if is_self_net6() then reject;
+	if roa_check(icvpn_roa6, net, bgp_path.last) = ROA_INVALID then {
+		print "ROA check failed for ", net, " ASN ", bgp_path.last;
+		reject;
+	}
+	accept;
+}
+
+filter icvpn_out6 {
+	reject_remote_peer_subnet6();
+	if is_self_net6() then accept;
+	if source = RTS_BGP then {
+		if is_freifunk6() then accept;
+	}
+	reject;
+}
+
+protocol ospf v2 o_mesh4 {
+	ipv4 {
+		table igp_t4;
+		preference 90;
+		import where is_default4() || is_self_net4() || is_transition4();
+		export where is_self_net4() || is_transition4();
+	};
+
 	area 0 {
 {% if icvpn %}
 		networks {
@@ -131,54 +247,130 @@ protocol ospf o_mesh {
 	};
 };
 
-# ibgp zwischen den gateways
-template bgp internal {
-	igp table igp_t;
-	local as {{ OWNASN }};
-	import filter {
-		preference = 99;
-		accept;
+protocol ospf v3 o_mesh6 {
+	ipv6 {
+		table igp_t6;
+		preference 90;
+		import where is_default6() || is_self_net6() || is_transition6();
+		export where is_self_net6() || is_transition6();
 	};
-	export where source = RTS_BGP;
-	direct;
+
+	area 0 {
+{% if icvpn %}
+		networks {
+			fec0::a:cf:0:0/96;
+		};
+{% endif %}
+		interface "vxlan0" {
+			type nonbroadcast;
+			neighbors {
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
+				{{ hostvars[peer]['bgp_ipv6'] | ansible.utils.ipaddr('address') }} eligible;
+{% endfor %}
+			};
+		};
+	};
+};
+
+# ibgp zwischen den gateways
+template bgp internal_t4 {
+	local as {{ OWNASN }};
+        ipv4 {
+                table igp_t4;
+                import filter {
+                        preference = 99;
+                        accept;
+                };
+                export where source = RTS_BGP;
+        };
+        direct;
 };
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
-protocol bgp {{ peer }} from internal {
+protocol bgp {{ peer }}_v4 from internal_t4 {
   neighbor {{ hostvars[peer]['bgp_ipv4'] | ansible.utils.ipaddr('address') }} as {{ OWNASN }};
 }
 {% endfor %}
 
-# Uplink ueber ff Rheinland
-template bgp uplink {
+# ibgp zwischen den gateways
+template bgp internal_t6 {
 	local as {{ OWNASN }};
-{% if BACKBONE_IPV4 is defined %}
-	import where is_default();
-{% else %}
-	import filter {
-		reject;
+        ipv6 {
+		igp table igp_t6;
+		import filter {
+			preference = 99;
+			accept;
+		};
+		export filter {
+			reject_remote_peer_subnet6();
+			if source = RTS_BGP then accept;
+			if net ~ {{ ffrl_ipv6_subnet }} then accept;
+			reject;
+		};
 	};
-{% endif %}
-	export filter hostroute;
-	next hop self;
+	direct;
+};
+
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
+protocol bgp {{ peer }}_v6 from internal_t6 {
+	neighbor {{ hostvars[peer]['bgp_ipv6'] | ansible.utils.ipaddr('address') }} as {{ OWNASN }};
+}
+{% endfor %}
+
+# Uplink ueber ff Rheinland
+template bgp uplink4 {
+	local as {{ OWNASN }};
+	ipv4 {
+		{% if BACKBONE_IPV4 is defined %}
+			import where is_default4();
+		{% else %}
+			import filter {
+				reject;
+			};
+		{% endif %}
+
+		export filter hostroute4;
+		next hop self;
+	};
+
 	multihop 64;
 	default bgp_local_pref 200;
 };
 
 {% for name in (ffrl_bb_links.keys() |sort()) %}
-protocol bgp {{ name }} from uplink {
+protocol bgp {{ name }}_v4 from uplink4 {
 	source address {{ ffrl_bb_links[name].ipv4.src }};
 	neighbor {{ ffrl_bb_links[name].ipv4.dst }} as {{ ffrl_bb_asn }};
 };
 {% endfor %}
 
-# template for icvpn gateways of other cities
-template bgp icvpn {
+# Uplink zum FF Rheinland
+template bgp uplink6 {
 	local as {{ OWNASN }};
-	# ignore routes for our own network
-	import filter icvpn_in;
-	export filter icvpn_out;
-	route limit 10000;
+	ipv6 {
+		import where is_default6();
+		export filter hostroute6;
+		gateway recursive;
+	};
+}
+
+{% for name in (ffrl_bb_links.keys() |sort()) %}
+protocol bgp {{ name }}_v6 from uplink6 {
+	source address {{ ffrl_bb_links[name].ipv6.src }};
+	neighbor {{ ffrl_bb_links[name].ipv6.dst }} as {{ ffrl_bb_asn }};
+};
+{% endfor %}
+
+# template for icvpn gateways of other cities
+template bgp icvpn4 {
+	local as {{ OWNASN }};
+	ipv4 {
+		# ignore routes for our own network
+		import filter icvpn_in4;
+		export filter icvpn_out4;
+		import limit 10000;
+	};
+
 	direct;
 };
 
@@ -186,7 +378,42 @@ template bgp icvpn {
 include "/var/tmp/bird-icvpn.conf";
 {% endif %}
 
-protocol static {
-	import all;
-	export all;
+protocol static ffv4 {
+	ipv4 {
+		import all;
+		export all;
+	};
+}
+
+# template for icvpn gateways of other cities
+template bgp icvpn6 {
+	local as {{ OWNASN }};
+	ipv6 {
+		# ignore routes for our own network
+		import filter icvpn_in6;
+		export filter icvpn_out6;
+		import limit 10000;
+	};
+	direct;
+};
+
+{% if icvpn %}
+# aus ICVPN Meta erzeugte konfiguration
+include "/var/tmp/bird6-icvpn.conf";
+{% endif %}
+
+protocol static ffv6 {
+	ipv6 {
+		import all;
+		export all;
+	};
+
+	{% for peer in (groups['vpns'] | sort()) -%}
+		{% for mesh_name in (hostvars[peer]['mesh'].keys() |sort()) %}
+		route {{ hostvars[peer]['mesh'][mesh_name]['ipv6']['subnet'] }} via "bat-{{ mesh_name }}";
+		{% endfor %}
+	{%- endfor %}
+
+	route {{ OLDRANGEV6 }} via "bat-ffv";
+	route {{ ROUTERRANGEV6 }} via "bb_ipv4";
 }

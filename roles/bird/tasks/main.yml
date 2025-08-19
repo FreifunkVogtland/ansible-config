@@ -1,10 +1,16 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
-- name: install bird dependencies
+- name: remove bird1
   apt:
     pkg:
     - bird
+    state: absent
+
+- name: install bird dependencies
+  apt:
+    pkg:
+    - bird3
     - iproute2
     state: present
 
@@ -54,6 +60,12 @@
   - "restart {{ item }}"
   with_items:
   - bird
+
+- name: Remove file (delete file)
+  ansible.builtin.file:
+    path: "/etc/bird/{{ item }}.conf"
+    state: absent
+  with_items:
   - bird6
 
 - name: enable/disable bird
@@ -64,7 +76,6 @@
     state: "{{ bird_enable | ternary('started', 'stopped') }}"
   with_items:
   - bird
-  - bird6
 
 - name: install bb_ipv4 service
   template:

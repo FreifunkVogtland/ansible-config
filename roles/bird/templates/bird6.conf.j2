@@ -1,109 +1,35 @@
-# SPDX-License-Identifier: CC0-1.0
-# SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
-router id {{ BGPID }};
-listen bgp v6only;
-table igp_t;
 
-protocol direct {
-	interface "bat-*";
-	interface "bb-*";
-	interface "vxlan0";
-	interface "icvpn";
-}
-
-protocol kernel {
-	device routes;
-	import all;
-	export all;
-	kernel table 100;
-}
-
-protocol device {
-	scan time 10;
-}
-
-protocol static unreachable_default {
-	preference 0;
-	route ::/0 reject;
-}
-
-{% if DIRECTV6 == "1" %}
-protocol static direct_default {
-	route ::/0 via {{ WANGW6 }}%{{ gateway_if }};
-}
-{% endif %}
-
-function is_default() {
-	return (net ~ [::/0]);
-}
-
-# own networks
-function is_self_net() {
-	return net ~ [ {{ ffrl_ipv6_subnet }}+ ];
-}
-
-# freifunk ip ranges in general
-function is_freifunk() {
-	return net ~ [
-		fc00::/7{48,64},
-		2001:bf7::/32+
-	];
-}
-
-# transition networks
-function is_transition() {
-	return (net ~ [
-		fec0::a:cf:0:0/96+
-	]);
-}
-
-filter hostroute {
-	if net.len > 56 then reject;
-	if net ~ {{ ffrl_ipv6_subnet }} then accept;
-	reject;
-}
-
-function reject_remote_peer_subnet()
-{
-	{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) -%}
-		{% for mesh_name in (hostvars[peer]['mesh'].keys() |sort()) %}
-		if net ~ {{ hostvars[peer]['mesh'][mesh_name]['ipv6']['subnet'] }} then
-			reject;
-		{% endfor %}
-	{%- endfor %}
-}
-
-roa table icvpn_roa {
+roa6 table icvpn_roa {
 {% if icvpn %}
-	include "/var/tmp/bird6-icvpn-roa.conf";
+#	include "/var/tmp/bird6-icvpn-roa.conf";
 {% endif %}
 }
 
-filter icvpn_in {
-	if !is_freifunk() then reject;
-	if is_self_net() then reject;
-	if roa_check(icvpn_roa, net, bgp_path.last) = ROA_INVALID then {
+filter icvpn_in6 {
+	if !is_freifunk6() then reject;
+	if is_self_net6() then reject;
+	if roa_check(icvpn_roa6, net, bgp_path.last) = ROA_INVALID then {
 		print "ROA check failed for ", net, " ASN ", bgp_path.last;
 		reject;
 	}
 	accept;
 }
 
-filter icvpn_out {
-	reject_remote_peer_subnet();
-	if is_self_net() then accept;
+filter icvpn_out6 {
+	reject_remote_peer_subnet6();
+	if is_self_net6() then accept;
 	if source = RTS_BGP then {
-		if is_freifunk() then accept;
+		if is_freifunk6() then accept;
 	}
 	reject;
 }
 
-protocol ospf o_mesh {
-	table igp_t;
+protocol ospf v3 o_mesh6 {
+	table igp_t6;
 	preference 90;
-	import where is_default() || is_self_net() || is_transition();
-	export where is_self_net() || is_transition();
+	import where is_default6() || is_self_net6() || is_transition6();
+	export where is_self_net6() || is_transition6();
 	area 0 {
 {% if icvpn %}
 		networks {
@@ -122,15 +48,15 @@ protocol ospf o_mesh {
 };
 
 # ibgp zwischen den gateways
-template bgp internal {
-	igp table igp_t;
+template bgp internal_t6 {
+	igp table igp_t6;
 	local as {{ OWNASN }};
 	import filter {
 		preference = 99;
 		accept;
 	};
 	export filter {
-		reject_remote_peer_subnet();
+		reject_remote_peer_subnet6();
 		if source = RTS_BGP then accept;
 		if net ~ {{ ffrl_ipv6_subnet }} then accept;
 		reject;
@@ -139,21 +65,21 @@ template bgp internal {
 };
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
-protocol bgp {{ peer }} from internal {
+protocol bgp {{ peer }} from internal_t6 {
 	neighbor {{ hostvars[peer]['bgp_ipv6'] | ansible.utils.ipaddr('address') }} as {{ OWNASN }};
 }
 {% endfor %}
 
 # Uplink zum FF Rheinland
-template bgp uplink {
+template bgp uplink6 {
 	local as {{ OWNASN }};
-	import where is_default();
-	export filter hostroute;
+	import where is_default6();
+	export filter hostroute6;
 	gateway recursive;
 }
 
 {% for name in (ffrl_bb_links.keys() |sort()) %}
-protocol bgp {{ name }} from uplink {
+protocol bgp {{ name }} from uplink6 {
 	source address {{ ffrl_bb_links[name].ipv6.src }};
 	neighbor {{ ffrl_bb_links[name].ipv6.dst }} as {{ ffrl_bb_asn }};
 };
@@ -163,8 +89,8 @@ protocol bgp {{ name }} from uplink {
 template bgp icvpn {
 	local as {{ OWNASN }};
 	# ignore routes for our own network
-	import filter icvpn_in;
-	export filter icvpn_out;
+	import filter icvpn_in6;
+	export filter icvpn_out6;
 	route limit 10000;
 	direct;
 };
