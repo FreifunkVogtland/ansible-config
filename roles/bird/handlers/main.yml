@@ -11,11 +11,6 @@
     name: bird.service
     state: restarted
 
-- name: restart bird6
-  systemd:
-    name: bird6.service
-    state: restarted
-
 - name: restart bb_ipv4
   systemd:
     name: bb_ipv4.service
