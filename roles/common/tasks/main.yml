@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 ---
-- import_tasks: hostname.yml
-- import_tasks: software.yml
-- import_tasks: users.yml
+- ansible.builtin.debug:
+    var: ansible_facts
 
 # ensure that all services run with the correct config before continuing
 - meta: flush_handlers
