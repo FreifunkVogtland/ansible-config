@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2017-2020, Sven Eckelmann <sven@narfation.org>
 
 router id {{ BGPID }};
-ipv4 table kernelcopy4;
 
 # Log configuration
 log syslog all;
@@ -18,12 +17,27 @@ protocol direct direct1 {
 	interface "icvpn";
 };
 
+# freifunk ip ranges in general
+function is_freifunk4() {
+	return net ~ [
+		10.0.0.0/8+,
+		172.16.0.0/12+,
+		104.0.0.0/8+
+	];
+}
+
 # export routing table to 100/freifunk
 protocol kernel kernel4 {
 	learn;
 	ipv4 {
 		import none;
-		export all;
+		export filter {
+			if is_freifunk4() then {
+				krt_prefsrc = {{ ROUTERID }};
+				accept;
+			}
+			accept;
+		};
 	};
 	kernel table 100;
 };
@@ -84,15 +98,6 @@ function is_self_net4() {
 	return (net ~ [ {{ vogtland_ipv4 }}+ ]);
 }
 
-# freifunk ip ranges in general
-function is_freifunk4() {
-	return net ~ [
-		10.0.0.0/8+,
-		172.16.0.0/12+,
-		104.0.0.0/8+
-	];
-}
-
 # transition networks
 function is_transition4() {
 	return (net ~ [
@@ -138,28 +143,6 @@ function reject_remote_peer_subnet6()
 			reject;
 		{% endfor %}
 	{%- endfor %}
-}
-
-protocol kernel kernelcopy4_kernel {
-        ipv4 {
-                table kernelcopy4;
-		import none;
-		export filter {
-			if is_freifunk4() then {
-				krt_prefsrc = {{ ROUTERID }};
-				accept;
-			}
-			reject;
-		};
-	};
-	kernel table 100;
-};
-
-protocol pipe kernelcopy4_pipe {
-	table master4;
-	peer table kernelcopy4;
-	import none;
-	export all;
 }
 
 filter hostroute4 {
