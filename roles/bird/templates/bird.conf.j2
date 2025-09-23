@@ -157,8 +157,8 @@ protocol kernel kernelcopy4_kernel {
 };
 
 protocol pipe kernelcopy4_pipe {
-	table kernelcopy4;
-	peer table master4;
+	table master4;
+	peer table kernelcopy4;
 	import none;
 	export all;
 }
