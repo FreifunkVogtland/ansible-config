@@ -51,9 +51,11 @@
     owner: bird
     mode: 0640
   notify:
-  - "restart {{ item }}"
+  - "restart bird"
   with_items:
   - bird
+  - bird4
+  - bird6
 
 - name: enable/disable bird
   systemd:

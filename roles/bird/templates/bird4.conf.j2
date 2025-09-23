@@ -1,0 +1,163 @@
+# freifunk ip ranges in general
+function is_freifunk4() {
+	return net ~ [
+		10.0.0.0/8+,
+		172.16.0.0/12+,
+		104.0.0.0/8+
+	];
+}
+
+# export routing table to 100/freifunk
+protocol kernel kernel4 {
+	learn;
+	ipv4 {
+		import none;
+		export filter {
+			if is_freifunk4() then {
+				krt_prefsrc = {{ ROUTERID }};
+				accept;
+			}
+			accept;
+		};
+	};
+	kernel table 100;
+};
+
+protocol static unreachable_default4 {
+	ipv4 {
+		preference 0;
+	};
+
+	route 0.0.0.0/0 reject;
+}
+
+{% if DIRECT == "1" %}
+protocol static direct_default4 {
+	ipv4;
+
+	route {{ WANGW }}/32 via "{{ gateway_if }}";
+	route 0.0.0.0/0 recursive {{ WANGW }};
+}
+{% endif %}
+
+function is_default4() {
+	return (net ~ [0.0.0.0/0]);
+};
+
+# own network
+function is_self_net4() {
+	return (net ~ [ {{ vogtland_ipv4 }}+ ]);
+}
+
+# transition networks
+function is_transition4() {
+	return (net ~ [
+		10.207.0.0/16+
+	]);
+}
+
+filter hostroute4 {
+	{% if BACKBONE_IPV4 is defined %}
+	if net ~ {{ BACKBONE_IPV4 }} then accept;
+	{% endif %}
+	reject;
+};
+
+# ROA table for ICVPN
+roa4 table icvpn_roa4 {
+	{% if icvpn %}
+#	include "/var/tmp/bird-icvpn-roa.conf";
+	{% endif %}
+};
+
+filter icvpn_in4 {
+	if !is_freifunk4() then reject;
+	if is_self_net4() then reject;
+	if roa_check(icvpn_roa4, net, bgp_path.last) = ROA_INVALID then {
+		print "ROA check failed for ", net, " ASN ", bgp_path.last;
+		reject;
+	}
+	accept;
+}
+
+filter icvpn_out4 {
+	if is_self_net4() then accept;
+	if source = RTS_BGP then {
+		if is_freifunk4() then accept;
+	}
+	reject;
+}
+
+# template for icvpn gateways of other cities
+template bgp icvpn4 {
+	local as {{ OWNASN }};
+	ipv4 {
+		# ignore routes for our own network
+		import filter icvpn_in4;
+		export filter icvpn_out4;
+		import limit 10000;
+	};
+
+	direct;
+};
+
+{% if icvpn %}
+include "/var/tmp/bird-icvpn.conf";
+{% endif %}
+
+protocol static ffv4 {
+	ipv4 {
+		import all;
+		export all;
+	};
+}
+
+# ibgp zwischen den gateways
+template bgp internal_t4 {
+	local as {{ OWNASN }};
+	ipv4 {
+		import filter {
+			preference = 99;
+			accept;
+		};
+		next hop self;
+		export filter {
+			if source = RTS_BGP then accept;
+			reject;
+		};
+	};
+	direct;
+};
+
+{% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
+protocol bgp {{ peer }}_v4 from internal_t4 {
+  neighbor {{ hostvars[peer]['bgp_ipv4'] | ansible.utils.ipaddr('address') }} as {{ OWNASN }};
+}
+{% endfor %}
+
+# Uplink ueber ff Rheinland
+template bgp uplink4 {
+	local as {{ OWNASN }};
+	ipv4 {
+		{% if BACKBONE_IPV4 is defined %}
+			import where is_default4();
+		{% else %}
+			import filter {
+				reject;
+			};
+		{% endif %}
+
+		export filter hostroute4;
+		next hop self;
+	};
+
+	multihop 64;
+	default bgp_local_pref 200;
+};
+
+{% for name in (ffrl_bb_links.keys() |sort()) %}
+protocol bgp {{ name }}_v4 from uplink4 {
+	source address {{ ffrl_bb_links[name].ipv4.src }};
+	neighbor {{ ffrl_bb_links[name].ipv4.dst }} as {{ ffrl_bb_asn }};
+};
+{% endfor %}
