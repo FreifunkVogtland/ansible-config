@@ -275,15 +275,19 @@ protocol ospf v3 o_mesh6 {
 # ibgp zwischen den gateways
 template bgp internal_t4 {
 	local as {{ OWNASN }};
-        ipv4 {
-                table igp_t4;
-                import filter {
-                        preference = 99;
-                        accept;
-                };
-                export where source = RTS_BGP;
-        };
-        direct;
+	ipv4 {
+		#table igp_t4;
+		import filter {
+			preference = 99;
+			accept;
+		};
+		next hop self;
+		export filter {
+			if source = RTS_BGP then accept;
+			reject;
+		};
+	};
+	direct;
 };
 
 {% for peer in (groups['vpns'] | difference([inventory_hostname]) | sort()) %}
