@@ -18,10 +18,11 @@ protocol direct direct1 {
 	interface "icvpn";
 };
 
+# export routing table to 100/freifunk
 protocol kernel kernel4 {
 	learn;
 	ipv4 {
-		import all;
+		import none;
 		export all;
 	};
 	kernel table 100;
