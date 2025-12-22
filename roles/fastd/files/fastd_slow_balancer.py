@@ -20,7 +20,7 @@ dataset = {}
 dataset_lock = threading.Semaphore()
 
 
-def allocate_client(domain_id):
+def allocate_client():
     global config
     global dataset
 
@@ -81,14 +81,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET_allowed(self, querystring):
         global dataset_lock
 
-        query = urllib.parse.parse_qs(querystring)
-        if 'domain' not in query:
-            self.send_response(404)
-            self.end_headers()
-            return
-
         dataset_lock.acquire()
-        allocated = allocate_client(query['domain'][0])
+        allocated = allocate_client()
         dataset_lock.release()
 
         self.send_response(200)
@@ -153,9 +147,9 @@ def recalculate_buffer_limits():
         return
 
     if config['client_limit'] >= 0:
-        domain_max_costs = config['client_limit'] * config['client_cost']
+        max_costs = config['client_limit'] * config['client_cost']
     else:
-        domain_max_costs = -1
+        max_costs = -1
 
     local_stats = dataset[config['id']]
 
@@ -193,15 +187,14 @@ def recalculate_buffer_limits():
 
     if not found:
         cost_limit = local_stats['clients']
-        cost_align = cost_limit % config['client_cost']
         cost_limit += cost_limit
     else:
         cost_limit = min_costs
 
     cost_limit += client_buffer * config['client_cost']
 
-    if domain_max_costs >= 0:
-        local_stats['costs_limit'] = min(cost_limit, domain_max_costs)
+    if max_costs >= 0:
+        local_stats['costs_limit'] = min(cost_limit, max_costs)
     else:
         local_stats['costs_limit'] = cost_limit
 
