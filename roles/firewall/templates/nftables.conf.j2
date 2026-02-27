@@ -83,7 +83,11 @@ table ip nat {
 
 	chain POSTROUTING {
 		type nat hook postrouting priority 100; policy accept;
+{% if DIRECTV6 == "1" %}
 		oifname "{{ gateway_if }}" ip saddr {{ vogtland_ipv4 }} masquerade
+{% else %}
+		oifname "{{ gateway_if }}" ip saddr {{ vogtland_ipv4 }} log prefix "direct_inet_access" drop
+{% endif %}
 		{% if BACKBONE_IPV4 is defined %}
 		oifname "bb-*" snat to {{ BACKBONE_IPV4 | regex_replace('/.*$', '') }}
 		{% endif %}
