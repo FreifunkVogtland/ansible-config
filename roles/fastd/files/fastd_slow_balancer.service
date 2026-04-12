@@ -7,7 +7,7 @@ Wants=vxlan0.service
 
 [Service]
 Type=simple
-ExecStart=/opt/freifunk/server-scripts/fastd_slow_balancer.py /etc/fastd_slow_balancer.json
+ExecStart=/usr/bin/fastd-slow-balancer -c /etc/fastd_slow_balancer.json
 Restart=always
 RestartSec=5s
 
