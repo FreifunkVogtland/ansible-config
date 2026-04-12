@@ -1,5 +1,6 @@
 {
 	"id": "{{ inventory_hostname }}",
+	"bind": "{{ bgp_ipv4 | ansible.utils.ipaddr('address') }}:26725",
 	"listenip": "{{ bgp_ipv4 | ansible.utils.ipaddr('address') }}",
 	"listenport": 26725,
 	"client_cost": {{ fastd_client_cost }},
