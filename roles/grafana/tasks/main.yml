@@ -27,12 +27,6 @@
     dest: /etc/apt/sources.list.d/grafana.sources
   notify: update apt-cache
 
-- name: add grafana apt preferences
-  copy:
-    src: grafana.pref
-    dest: /etc/apt/preferences.d/grafana.pref
-  notify: update apt-cache
-
 - meta: flush_handlers
 
 - name: install grafana dependencies
