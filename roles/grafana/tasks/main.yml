@@ -36,7 +36,6 @@
     - grafana
     - influxdb
     - sqlite3
-    - chromium
     state: present
 
 - name: add grafana dashboard provisioning configuration
