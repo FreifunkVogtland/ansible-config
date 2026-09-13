@@ -13,6 +13,10 @@ blacklist = {
         0xe83dc870bc96954d6f7c203b455e4fcc2c037d46f654eba8b4db4ad70d367b43,
         # ffv-9483c4005801 - 119.236.200.204 from HK?
         0x769a35419b90eda83f5f5dc23b4fab3c88b9d5a777e261395a6b6c876b49664b,
+        # ffv-bc24114fc065 - 80.141.138.216 aus Auerbach
+        0x8ac72c09ae4042afae0b38efcd89d0af8b7726172fc9a02152ae9a29afdaa500,
+        # ffv02 - 87.155.137.47 aus Schoeneck
+        0xaa402d27f94b7ee4db7dfed7d3ddb25bea69c7f5a5b0a617ba5a4ba349a00d6d,
     ],
     'ffv_a': [
         # a42bb0a94a6a - 7667789886
