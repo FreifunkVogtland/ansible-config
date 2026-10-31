@@ -22,6 +22,10 @@ fastd_client_cost: 1
 vxlan_enable: yes
 bird_enable: yes
 
+# VPN servers which should only be used as fallback when another VPN server
+# selects its IPv4 default route via iBGP (servers without BACKBONE_IPV4).
+ibgp_deprioritized_default4_peers: []
+
 bgp_vxlanid: 15066820
 bgp_ipv4: "{{ '169.254.0.0/16' | ansible.utils.ipaddr(vpnid|int) }}"
 bgp_ipv6: "{{ 'fd00::/8' | ansible.utils.ipsubnet(16, 1) | ansible.utils.ipaddr(vpnid|int) }}"
