@@ -15,6 +15,8 @@ BACKBONE_IPV4: "185.66.195.42/32"
 USE_RADVD: "1"
 DIRECT: "0"
 
+fastd_client_cost: 4
+
 ffrl_bb_links:
   bb_a_ak_ber:
     ipv4:
